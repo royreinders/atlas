@@ -1,0 +1,12 @@
+<clr-datagrid [(clrDgSelected)]="selected" [clDgRowSelection]="true">
+
+
+  
+  <clr-dg-column>Name</clr-dg-column>
+  <clr-dg-column>Serial #</clr-dg-column>
+  
+  <clr-dg-row *clrDgItems="let networkSystem of findings"  [clrDgItem]="networkSystem">
+      <clr-dg-cell>{{networkSystem.name}}</clr-dg-cell>
+      <clr-dg-cell>{{networkSystem.serial_number}}</clr-dg-cell>
+  </clr-dg-row>
+</clr-datagrid>

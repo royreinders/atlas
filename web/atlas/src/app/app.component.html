@@ -1,0 +1,41 @@
+<div class="main-container">
+    <header class="header">
+        <div class="branding">
+            <a href="#" class="nav-link">
+                <span class="title">ATLAS</span>
+            </a>
+        </div>
+    </header>
+    <div class="content-container">
+        <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed">
+            <a clrVerticalNavLink routerLink="home" routerLinkActive="active">
+                <clr-icon clrVerticalNavIcon shape="dashboard"></clr-icon>
+                Dashboard
+            </a>
+            <a clrVerticalNavLink routerLink="overview" routerLinkActive="active">
+                <clr-icon clrVerticalNavIcon shape="view-list"></clr-icon>
+                Overview
+            </a>
+            <a clrVerticalNavLink routerLink="hosts" routerLinkActive="active">
+                <clr-icon clrVerticalNavIcon shape="devices"></clr-icon>
+                Hosts
+            </a>
+            <a clrVerticalNavLink routerLink="import" routerLinkActive="active">
+                <clr-icon clrVerticalNavIcon shape="upload"></clr-icon>
+                Import
+            </a>
+            <a clrVerticalNavLink routerLink="tools" routerLinkActive="active">
+                <clr-icon clrVerticalNavIcon shape="wrench"></clr-icon>
+                Tools
+            </a>
+            <a clrVerticalNavLink routerLink="test" routerLinkActive="active">
+                <clr-icon clrVerticalNavIcon shape="flag"></clr-icon>
+                Test
+            </a>
+        </clr-vertical-nav>
+        <div class="content-area">
+            <router-outlet></router-outlet>
+        </div>
+
+    </div>
+</div>

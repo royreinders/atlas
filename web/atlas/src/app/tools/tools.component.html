@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-xs">
+    <button class="btn" (click)="lgOpen = true; newtool = true">
+      <clr-icon shape="plus"></clr-icon> Add Tool</button>
+    <button class="btn" [disabled]="! selected_tool" (click)="lgOpen = true; newtool = true">
+      <clr-icon shape="pencil"></clr-icon> Edit Tool</button>
+    <button class="btn" [disabled]="! selected_tool" (click)="deleteToolModal = true">
+      <clr-icon shape="trash"></clr-icon> Delete Tool</button>
+    <clr-datagrid [(clrDgSingleSelected)]="selected_tool" [clDgRowSelection]="true">
+      <clr-dg-placeholder>No tools found!</clr-dg-placeholder>
+      <clr-dg-column [clrDgField]="'name'">Name
+        <clr-dg-string-filter [clrDgStringFilter]="toolFilter"></clr-dg-string-filter>
+      </clr-dg-column>
+      <clr-dg-row *clrDgItems="let tool of tools" [clrDgItem]="tool">
+        <clr-dg-cell>{{tool.name}}</clr-dg-cell>
+      </clr-dg-row>
+      <clr-dg-footer>
+        <clr-dg-pagination #tool_pagination [clrDgPageSize]="20">
+          {{tool_pagination.firstItem + 1}} - {{tool_pagination.lastItem + 1}} of {{tool_pagination.totalItems}} tools
+        </clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </div>
+  <div class="col-xs">
+    <h3>Info</h3>
+    <p *ngIf="selected_tool">
+      <b>Name: </b>{{selected_tool.name}} <br>
+      <b>Execution string: </b>{{selected_tool.executionstring}} <br>
+      <b>Expected good: </b>{{selected_tool.expectedgood}} <br>
+      <b>Expected bad: </b>{{selected_tool.expectedbad}} <br>
+      <b>Timeout: </b>{{selected_tool.timeout}} <br>
+    </p>
+  </div>
+</div>
+
+<clr-wizard #wizardlg [(clrWizardOpen)]="lgOpen" clrWizardSize="lg">
+  <clr-wizard-title>
+    <div *ngIf="new_tool;else edit_tool">Add Tool</div>
+    <ng-template #edit_tool>Edit tool</ng-template>
+  </clr-wizard-title>
+
+  <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+  <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+  <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+  <clr-wizard-button [type]="'finish'" (click)="AddTool(form_tool)">Finish</clr-wizard-button>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Tool settings</ng-template>
+    <form>
+      <section class="form-block">
+        <div class="form-group">
+          <label>Name</label>
+          <input ng-model="form_tool" type="text" id="formFields_1" size="45">
+        </div>
+        <div class="form-group">
+          <label>Command string</label>
+          <input type="text" id="formFields_2" placeholder="nmap <host> -p <port>" size="45">
+        </div>
+        <div class="form-group">
+          <label>Expected good</label>
+          <input type="text" id="formFields_3" size="45">
+        </div>
+        <div class="form-group">
+          <label>Expected bad</label>
+          <input type="text" id="formFields_4" size="45">
+        </div>
+        <div class="form-group">
+          <label>Timout</label>
+          <input type="text" id="formFields_5" size="45">
+        </div>
+      </section>
+    </form>
+  </clr-wizard-page>
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Test settings</ng-template>
+    <form>
+      <section class="form-block">
+        <!-- Test options here -->
+      </section>
+    </form>
+  </clr-wizard-page>
+</clr-wizard>
+
+<clr-modal [(clrModalOpen)]="deleteToolModal">
+  <h3 class="modal-title">Delete tool?</h3>
+  <div class="modal-body">
+    <p *ngIf="selected_tool">Are you sure you want to delete tool "
+      <b>{{selected_tool.name}}</b>"?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="deleteToolModal = false">Cancel</button>
+    <button type="button" class="btn btn-warning" (click)="deleteToolModal = false">Delete</button>
+  </div>
+</clr-modal>

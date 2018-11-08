@@ -1,0 +1,23 @@
+<div class="container">
+    <h1>Overview</h1>
+    <table class="table table-striped rounded-0">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">IP</th>
+          <th scope="col">FQDN</th>
+          <th scope="col">MAC</th>
+          <th scope="col">Services</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let host of hosts">
+          <th scope="row">{{ host.id }}</th>
+          <td>{{ host.ip }}</td>
+          <td>{{ host.fqdn }}</td>
+          <td>{{ host.mac }}</td>
+          <td><div style="display: inline" *ngFor="let service of host.services ? hosts.services(0,1): []">{{ service.name }}, </div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>

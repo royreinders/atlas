@@ -1,0 +1,29 @@
+<div class="container">
+<h1>Hosts</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th scope="col">#</th>
+      <th scope="col">IP</th>
+      <th scope="col">FQDN</th>
+      <th scope="col">MAC</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let host of hosts">
+      <th><div class="fa fa-plus-square" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"></div></th>
+      <th scope="row">{{ host.id }}</th>
+      <td>{{ host.ip }}</td>
+      <td>{{ host.fqdn }}</td>
+      <td>{{ host.mac }}</td>
+      <td><div id="collapseExample" [ngbCollapse]="isCollapsed">
+          <div class="card">
+            <div class="card-body">
+              You can collapse this card by clicking Toggle
+            </div>
+          </div>
+        </div></td>
+    </tr>
+  </tbody>
+</table>

@@ -8,17 +8,21 @@ class Executioncontroller:
     # Execute parse command and handle threading
     def execute(self, task):
         queue = Queue()
+        task.running = 1
+        task.completed = 0
+        task.save()
         for poc in task.pocs.all():
             queue.put_nowait(poc)
         for _ in range(task.threads):
-            Worker(queue, task.tool).start()
+            Worker(queue, task).start()
         # queue.join()  # blocks until the queue is empty.
 
 
 class Worker(Thread):
-    def __init__(self, queue, tool, *args, **kwargs):
+    def __init__(self, queue, task, *args, **kwargs):
         self.queue = queue
-        self.tool = tool
+        self.tool = task.tool
+        self.task = task
         super().__init__(*args, **kwargs)
 
     # ToDo: Some "smarter" error catching and thread monitoring?
@@ -29,13 +33,21 @@ class Worker(Thread):
             try:
                 poc = self.queue.get()
             except Empty:
-                # ToDo: Complete task... (update database values)
+                self.task.running = 0
+                self.task.completed = 1
+                self.task.save()
                 return
             poc_output = self.shell_execute(poc, self.tool)
+            if poc.haspoc == 1:
+                poc.pk = None   # Clone object and insert as new POC # ToDo: Wil ik dit wel, is het in de frontend handig om meerdere POCS te hebben?
             poc.poc = poc_output
-            poc.hashpoc = 1
+            poc.haspoc = 1
             poc.save()
             self.queue.task_done()
+            if self.queue.empty():
+                self.task.running = 0
+                self.task.completed = 1
+                self.task.save()
 
     # Execute command and return STDOUT and STDERR
     def shell_execute(self, poc, tool):

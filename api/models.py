@@ -52,4 +52,5 @@ class Task(models.Model):
     pocs = models.ManyToManyField(ProofOfConcept)
     threads = models.IntegerField(default=5)
     running = models.IntegerField(default=0)
+    completed = models.IntegerField(default=0)
     targets_completed = models.IntegerField(default=0)

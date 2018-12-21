@@ -55,3 +55,5 @@ class Datacontroller():
                     ProofOfConcept.objects.create(finding=finding, service=service)
         print("[+] Nessus findings succesfully imported to DB...")
 
+
+

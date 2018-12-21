@@ -44,3 +44,12 @@ class Tool(models.Model):
     expected_good = models.TextField(null=True, blank=True)
     expected_bad = models.TextField(null=True, blank=True)
     timeout = models.IntegerField(default=60)
+
+
+class Task(models.Model):
+    __tablename__ = 'tasks'
+    tool = models.ForeignKey(Tool, on_delete=models.CASCADE)
+    pocs = models.ManyToManyField(ProofOfConcept)
+    threads = models.IntegerField(default=5)
+    running = models.IntegerField(default=0)
+    targets_completed = models.IntegerField(default=0)

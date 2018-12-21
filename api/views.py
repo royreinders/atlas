@@ -16,6 +16,8 @@ from .serializers import *
 #    filter_backends = (DjangoFilterBackend,)
 #    filter_fields = ('id', 'fqdn')
 
+#Business logic goes here
+
 
 class FindingViewSet(viewsets.ModelViewSet):
     queryset = Finding.objects.all()
@@ -33,42 +35,6 @@ class ToolViewSet(viewsets.ModelViewSet):
     queryset = Tool.objects.all()
     filter_fields = ('id', 'name')
 
-    #ToDo: Kan dit cleaner? && Check op invalide data
-    @action(detail=True)
-    def execute(self, request, pk=None):
-        executioncontroller = Executioncontroller()
-        tool = self.get_object()
-
-        targets = []
-        target = {}
-        for item in request.data:
-            target['pocid'] = item.get('id')
-            target['host'] = item.get('service').get('host')
-            target['port'] = item.get('service').get('port')
-            print(target)
-            targets.append(target)
-
-        #pocs = []
-        #if serializer.is_valid():
-        #    for item in serializer.validated_data:
-        #        service = item.pop('service')
-        #        service = Service(**service)
-        #        poc = ProofOfConcept(**item)
-        #        poc.service = service
-        #        pocs.append(poc)
-        executioncontroller.execute(tool, targets)
-
-        return Response({"success":True})
-
-class ExecutionView(views.APIView):
-
-    def post(self, request):
-        file = request.FILES['file']
-        datacontroller = Datacontroller()
-        datacontroller.import_nessusfile(file)
-        # print(file.read())
-        return Response({"success": True})
-
 
 class ImportNessus(views.APIView):
     parser_classes = (MultiPartParser,)
@@ -79,4 +45,20 @@ class ImportNessus(views.APIView):
         datacontroller = Datacontroller()
         datacontroller.import_nessusfile(file)
         # print(file.read())
+        return Response({"success": True})
+
+
+class TaskViewSet(viewsets.ModelViewSet):
+    serializer_class = TaskSerializer
+    queryset = Task.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('tool', 'running')
+
+    @action(detail=True)
+    def start(self, request, pk=None):
+        executioncontroller = Executioncontroller()
+        task = self.get_object()
+        tool = task.tool
+        pocs = task.pocs.all()
+        executioncontroller.execute(tool, pocs, task.threads)
         return Response({"success": True})

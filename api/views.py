@@ -10,13 +10,13 @@ from .serializers import *
 
 
 # API endpoint for viewing/editing hosts
-#class HostViewSet(viewsets.ModelViewSet):
+# class HostViewSet(viewsets.ModelViewSet):
 #    queryset = Host.objects.all()
 #    serializer_class = HostSerializer
 #    filter_backends = (DjangoFilterBackend,)
 #    filter_fields = ('id', 'fqdn')
 
-#Business logic goes here
+# Business logic goes here
 
 
 class FindingViewSet(viewsets.ModelViewSet):
@@ -29,6 +29,7 @@ class ProofOfConceptViewSet(viewsets.ModelViewSet):
     queryset = ProofOfConcept.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('finding', 'haspoc', 'service')
+
 
 class ToolViewSet(viewsets.ModelViewSet):
     serializer_class = ToolSerializer
@@ -58,7 +59,5 @@ class TaskViewSet(viewsets.ModelViewSet):
     def start(self, request, pk=None):
         executioncontroller = Executioncontroller()
         task = self.get_object()
-        tool = task.tool
-        pocs = task.pocs.all()
-        executioncontroller.execute(tool, pocs, task.threads)
+        executioncontroller.execute(task)
         return Response({"success": True})

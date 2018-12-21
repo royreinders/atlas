@@ -1,2 +1,3 @@
 api/migrations
 .idea
+api/__pycache__

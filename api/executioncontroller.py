@@ -6,17 +6,47 @@ from queue import Queue, Empty
 class Executioncontroller:
 
     # Execute parse command and handle threading
-    def execute(self, tool, pocs, threads):
+    def execute(self, task):
         queue = Queue()
+        for poc in task.pocs.all():
+            queue.put_nowait(poc)
+        for _ in range(task.threads):
+            Worker(queue, task.tool).start()
+        # queue.join()  # blocks until the queue is empty.
 
-        for poc in pocs:
+
+class Worker(Thread):
+    def __init__(self, queue, tool, *args, **kwargs):
+        self.queue = queue
+        self.tool = tool
+        super().__init__(*args, **kwargs)
+
+    # ToDo: Some "smarter" error catching and thread monitoring?
+    # ToDo: If POC alreadt exists, insert new POC
+    # Get task (command) from queue and execute a shell command in a new thread
+    def run(self):
+        while True:
+            try:
+                poc = self.queue.get()
+            except Empty:
+                # ToDo: Complete task... (update database values)
+                return
+            poc_output = self.shell_execute(poc, self.tool)
+            poc.poc = poc_output
+            poc.hashpoc = 1
+            poc.save()
+            self.queue.task_done()
+
+    # Execute command and return STDOUT and STDERR
+    def shell_execute(self, poc, tool):
+        try:
             command = self.parse_command(tool.executionstring, poc.service.host.ip, poc.service.port)
             print(command)
-            queue.put_nowait(command)
-            # ToDo get value from thread (or put from worker)
-        for _ in range(threads):
-            Worker(queue, tool.timeout).start()
-        # queue.join()  # blocks until the queue is empty.
+            tool_output = run(command, shell=True, check=True, timeout=tool.timeout, stdout=PIPE, stderr=STDOUT)
+            return tool_output.stdout
+        except Exception as ex:
+            print(ex)
+            print("Command execution failed")
 
     # Parse command string to include host and port parameters
     def parse_command(self, commandstring, host, port):
@@ -26,30 +56,3 @@ class Executioncontroller:
         if port:
             command = command.replace("<port>", str(port))
         return command
-
-
-class Worker(Thread):
-    def __init__(self, queue, timeout, *args, **kwargs):
-        self.queue = queue
-        self.timeout = timeout
-        super().__init__(*args, **kwargs)
-
-    # Get task (command) from queue and execute a shell command in a new thread
-    def run(self):
-        while True:
-            try:
-                command = self.queue.get(timeout=(self.timeout + 2))
-            except Empty:
-                return
-            poc_output = self.shell_execute(command, self.timeout)
-            self.queue.task_done()
-            return poc_output
-
-    # Execute command and return STDOUT and STDERR
-    def shell_execute(self, command, timeout):
-        try:
-            tool_output = run(command, shell=True, check=True, timeout=timeout, stdout=PIPE, stderr=STDOUT)
-            return tool_output.stdout
-        except Exception as ex:
-            print(ex)
-            print("Command execution failed")

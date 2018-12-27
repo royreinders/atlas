@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService } from '../data.service';
+import { Component, ViewChild, OnInit } from "@angular/core";
+import { ClrWizard } from "@clr/angular";
+import { FormsModule }   from '@angular/forms';
 
 @Component({
   selector: 'app-test',
@@ -8,19 +9,37 @@ import { DataService } from '../data.service';
 })
 export class TestComponent implements OnInit {
 
-  findings : Object;
-  constructor(private data: DataService) { }
-
   ngOnInit() {
-    this.data.GetFindings().subscribe(
-      data => this.findings = data
-    );
+    
   }
 
-  selected = [];
-  networkSystems = [
-    {name: 'System 1', serial_number: 'abc'},
-    {name: 'System 2', serial_number: 'def'},
-    {name: 'System 3', serial_number: 'ghi'},
-  ]
+  @ViewChild("wizard") wizard: ClrWizard;
+  @ViewChild("myForm") formData: any;
+
+    loadingFlag: boolean = false;
+    errorFlag: boolean = false;
+
+    // have to define doCancel because page will prevent doCancel from working
+    // if the page had a previous button, you would need to call 
+    // this.wizard.previous() manually as well...
+    doCancel(): void {
+        this.wizard.close();
+    }
+
+    onCommit(): void {
+        let value: any = this.formData.value;
+        this.loadingFlag = true;
+        this.errorFlag = false;
+
+        setTimeout(() => {
+            if (value.answer === "42") {
+                this.wizard.forceNext();
+            } else {
+                this.errorFlag = true;
+            }
+            this.loadingFlag = false;
+        }, 1000);
+    }
+
+    
 }

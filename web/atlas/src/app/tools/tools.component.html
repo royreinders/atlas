@@ -25,9 +25,9 @@
     <h3>Info</h3>
     <p *ngIf="selected_tool">
       <b>Name: </b>{{selected_tool.name}} <br>
-      <b>Execution string: </b>{{selected_tool.executionstring}} <br>
-      <b>Expected good: </b>{{selected_tool.expectedgood}} <br>
-      <b>Expected bad: </b>{{selected_tool.expectedbad}} <br>
+      <b>Execution string: </b>{{selected_tool.commandstring}} <br>
+      <b>Expected good: </b>{{selected_tool.expected_good}} <br>
+      <b>Expected bad: </b>{{selected_tool.expected_bad}} <br>
       <b>Timeout: </b>{{selected_tool.timeout}} <br>
     </p>
   </div>
@@ -46,27 +46,31 @@
 
   <clr-wizard-page>
     <ng-template clrPageTitle>Tool settings</ng-template>
-    <form>
+    <form #toolForm="ngForm">
       <section class="form-block">
-        <div class="form-group">
+        <div class="form-group">  
           <label>Name</label>
-          <input ng-model="form_tool" type="text" id="formFields_1" size="45">
+          <input [(ngModel)]="form_tool.name" name="name" type="text" id="name" size="45">
+        </div>
+        <div class="form-group">
+          <label>Path</label>
+          <input [(ngModel)]="form_tool.path" name="path" type="text" id="path" placeholder="/usr/bin/" size="45">
         </div>
         <div class="form-group">
           <label>Command string</label>
-          <input type="text" id="formFields_2" placeholder="nmap <host> -p <port>" size="45">
+          <input [(ngModel)]="form_tool.commandstring" name="commandstring" type="text" id="commandstring" placeholder="nmap <host> -p <port>" size="45">
         </div>
         <div class="form-group">
           <label>Expected good</label>
-          <input type="text" id="formFields_3" size="45">
+          <input [(ngModel)]="form_tool.expected_good" name="expected_good" type="text" id="expected_good" size="45">
         </div>
         <div class="form-group">
           <label>Expected bad</label>
-          <input type="text" id="formFields_4" size="45">
+          <input [(ngModel)]="form_tool.expected_bad" name="expected_bad" type="text" id="expected_bad" size="45">
         </div>
         <div class="form-group">
           <label>Timout</label>
-          <input type="text" id="formFields_5" size="45">
+          <input [(ngModel)]="form_tool.timeout" name="timeout" type="text" id="timeout" size="45">
         </div>
       </section>
     </form>

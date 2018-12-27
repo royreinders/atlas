@@ -29,7 +29,8 @@ export class DataService {
     return this.http.get('http://localhost:8000/api/tools/')
   }
 
-  InsertTool(tool):Observable<any>{
+  AddTool(tool):Observable<any>{
+    console.log("DINGDINGDING");
     return this.http.post('http://127.0.0.1:8000/api/tools/', tool)
   }
 

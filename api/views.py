@@ -48,6 +48,13 @@ class ImportNessus(views.APIView):
         # print(file.read())
         return Response({"success": True})
 
+class Execute(views.APIView):
+
+    def post(self, request):
+        commandstring = request.data["commandstring"]
+        output = Executioncontroller.execute_test(commandstring) #ToDo: Sanitize input
+        return Response({"output": output})
+
 
 class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer

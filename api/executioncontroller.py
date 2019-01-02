@@ -18,6 +18,19 @@ class Executioncontroller:
             Worker(queue, task).start()
         # queue.join()  # blocks until the queue is empty.
 
+    # Execute a single command and return output (for testing purposes)
+    @staticmethod
+    def execute_test(command):
+        try:
+            print(command)
+            tool_output = run(command, shell=True, check=True, timeout=60, stdout=PIPE, stderr=STDOUT)
+            return tool_output.stdout
+        except Exception as ex:
+            print(ex)
+            print("Command execution failed")
+            return "Command execution failed"
+
+
 
 class Worker(Thread):
     def __init__(self, queue, task, *args, **kwargs):

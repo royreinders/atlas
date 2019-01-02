@@ -1,11 +1,14 @@
 <div class="row">
   <div class="col-xs">
-    <button class="btn" (click)="lgOpen = true; newtool = true">
-      <clr-icon shape="plus"></clr-icon> Add Tool</button>
-    <button class="btn" [disabled]="! selected_tool" (click)="lgOpen = true; newtool = true">
-      <clr-icon shape="pencil"></clr-icon> Edit Tool</button>
+    <button class="btn" (click)="form_tool = {}; wizardLarge.reset(); lgOpen = true; new_tool = true;">
+      <clr-icon shape="plus"></clr-icon> Add Tool
+    </button>
+    <button class="btn" [disabled]="! selected_tool" (click)="wizardLarge.reset(); test_target=''; test_port=''; lgOpen = true; new_tool = false; form_tool = selected_tool;  ParseCommand()">
+      <clr-icon shape="pencil"></clr-icon> Edit Tool
+    </button>
     <button class="btn" [disabled]="! selected_tool" (click)="deleteToolModal = true">
-      <clr-icon shape="trash"></clr-icon> Delete Tool</button>
+      <clr-icon shape="trash"></clr-icon> Delete Tool
+    </button>
     <clr-datagrid [(clrDgSingleSelected)]="selected_tool" [clDgRowSelection]="true">
       <clr-dg-placeholder>No tools found!</clr-dg-placeholder>
       <clr-dg-column [clrDgField]="'name'">Name
@@ -33,7 +36,7 @@
   </div>
 </div>
 
-<clr-wizard #wizardlg [(clrWizardOpen)]="lgOpen" clrWizardSize="lg">
+<clr-wizard #wizardlg [(clrWizardOpen)]="lgOpen" clrWizardSize="xl">
   <clr-wizard-title>
     <div *ngIf="new_tool;else edit_tool">Add Tool</div>
     <ng-template #edit_tool>Edit tool</ng-template>
@@ -42,35 +45,47 @@
   <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
   <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
   <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
-  <clr-wizard-button [type]="'finish'" (click)="AddTool(form_tool)">Finish</clr-wizard-button>
-
-  <clr-wizard-page>
+  <clr-wizard-button [type]="'finish'" (click)="FinishWizard(form_tool);">Finish</clr-wizard-button>
+  <clr-wizard-page [clrWizardPageNextDisabled]="(name.pristine || commandstring.pristine|| !toolForm.valid) && new_tool ">
     <ng-template clrPageTitle>Tool settings</ng-template>
-    <form #toolForm="ngForm">
+    <form clrForm #toolForm="ngForm">
       <section class="form-block">
-        <div class="form-group">  
+
+        <div class="form-group">
           <label>Name</label>
-          <input [(ngModel)]="form_tool.name" name="name" type="text" id="name" size="45">
+          <label for="nameInput" aria-haspopup="true" role="tooltip" [class.invalid]="name.touched && !name.valid"
+            class="tooltip tooltip-validation tooltip-md tooltip-bottom-right">
+            <input type="text" id="nameInput" required [(ngModel)]="form_tool.name" name="name" #name="ngModel" size="32%">
+            <span class="tooltip-content">This field cannot be empty!</span>
+          </label>
         </div>
+
         <div class="form-group">
           <label>Path</label>
-          <input [(ngModel)]="form_tool.path" name="path" type="text" id="path" placeholder="/usr/bin/" size="45">
+          <input [(ngModel)]="form_tool.path" name="path" type="text" id="pathInput" placeholder="/usr/bin/" size="35%">
         </div>
+
         <div class="form-group">
           <label>Command string</label>
-          <input [(ngModel)]="form_tool.commandstring" name="commandstring" type="text" id="commandstring" placeholder="nmap <host> -p <port>" size="45">
+          <label for="commandstringInput" aria-haspopup="true" role="tooltip" [class.invalid]="commandstring.touched && !commandstring.valid"
+            class="tooltip tooltip-validation tooltip-md tooltip-bottom-right">
+            <input required [(ngModel)]="form_tool.commandstring" name="commandstring" type="text" id="commandstringInput"
+              placeholder="nmap <host> -p <port>" size="32%" #commandstring="ngModel">
+            <span class="tooltip-content">This field cannot be empty!</span>
+          </label>
         </div>
+
         <div class="form-group">
           <label>Expected good</label>
-          <input [(ngModel)]="form_tool.expected_good" name="expected_good" type="text" id="expected_good" size="45">
+          <input [(ngModel)]="form_tool.expected_good" name="expected_good" type="text" id="expected_goodInput" size="35%">
         </div>
         <div class="form-group">
           <label>Expected bad</label>
-          <input [(ngModel)]="form_tool.expected_bad" name="expected_bad" type="text" id="expected_bad" size="45">
+          <input [(ngModel)]="form_tool.expected_bad" name="expected_bad" type="text" id="expected_badInput" size="35%">
         </div>
         <div class="form-group">
           <label>Timout</label>
-          <input [(ngModel)]="form_tool.timeout" name="timeout" type="text" id="timeout" size="45">
+          <input [(ngModel)]="form_tool.timeout" name="timeout" type="text" id="timeoutInput" size="35%">
         </div>
       </section>
     </form>
@@ -80,6 +95,23 @@
     <form>
       <section class="form-block">
         <!-- Test options here -->
+        <div class="form-group">
+            <label>Target</label>
+            <input (keyup)="ParseCommand()" [(ngModel)]="test_target" #target name="target" type="text" id="target" placeholder="192.168.1.53" size="35%">
+          </div>
+          <div class="form-group">
+              <label>Port</label>
+              <input (keyup)="ParseCommand()" [(ngModel)]="test_port"  name="port" type="text" id="port" placeholder="443" size="35%">
+            </div>
+            <div class="form-group">
+                <label>Command to be executed:</label>
+                <input [(ngModel)]="test_commandstring" name="test_commandstring" type="text" id="port" placeholder="443" size="35%">
+              </div>
+              <div class="form-group">
+                  <button class="btn btn-outline">
+                      <clr-icon shape="play"></clr-icon> Run
+                    </button>
+                </div>
       </section>
     </form>
   </clr-wizard-page>
@@ -93,6 +125,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline" (click)="deleteToolModal = false">Cancel</button>
-    <button type="button" class="btn btn-warning" (click)="deleteToolModal = false">Delete</button>
+    <button type="button" class="btn btn-warning" (click)="DeleteTool(selected_tool)">Delete</button>
   </div>
 </clr-modal>

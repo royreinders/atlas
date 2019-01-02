@@ -30,8 +30,15 @@ export class DataService {
   }
 
   AddTool(tool):Observable<any>{
-    console.log("DINGDINGDING");
     return this.http.post('http://127.0.0.1:8000/api/tools/', tool)
+  }
+
+  DeleteTool(tool):Observable<any>{
+    return this.http.delete('http://127.0.0.1:8000/api/tools/' + tool.id + "/")
+  }
+
+  EditTool(tool):Observable<any>{
+    return this.http.put('http://127.0.0.1:8000/api/tools/' + tool.id + "/", tool)
   }
 
   ExecuteTool(toolid, pocs):Observable<any>{

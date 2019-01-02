@@ -15,6 +15,7 @@ import { ImportComponent } from './import/import.component';
 import { TestComponent } from './test/test.component';
 import { ToolsComponent } from './tools/tools.component';
 import { FormsModule } from '@angular/forms'; 
+import {ClrFormsModule} from "@clr/angular";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     ClarityModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    ClrFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

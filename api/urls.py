@@ -13,5 +13,6 @@ router.register('tasks', views.TaskViewSet)
 # Add custom URL patterns for generic views and append DRF router
 urlpatterns = [
     path('importnessus/', views.ImportNessus.as_view(), name='importnessus'),
+    path('execute/', views.Execute.as_view(), name='execute'),
     path('', include(router.urls))
 ]

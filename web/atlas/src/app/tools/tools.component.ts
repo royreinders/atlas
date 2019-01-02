@@ -16,6 +16,10 @@ export class ToolsComponent implements OnInit {
   new_tool: boolean = true;
   deleteToolModal: boolean = false;
   form_tool: any;
+  
+  test_target = ''
+  test_port = ''
+  test_commandstring = ''
 
   tools: Object;
 
@@ -27,17 +31,50 @@ export class ToolsComponent implements OnInit {
     this.GetTools()
   }
 
-  AddTool(){
-    console.log(this.form_tool)
-    this.data.AddTool(this.form_tool).subscribe(data => this.form_tool = data)
-    this.tools = null
-    this.GetTools()
+  FinishWizard(tool){
+    if(this.new_tool){
+      this.AddTool(tool)
+    }
+    else {
+      this.EditTool(tool)
+    }
   }
 
-  GetTools(){
-      this.data.GetTools().subscribe(
-      data => this.tools = data
-    );
+  AddTool(tool){
+    this.data.AddTool(tool).subscribe(data => {
+      tool = data; 
+      this.GetTools();})
   }
 
+  EditTool(tool){
+    this.wizardLarge.reset()
+    this.data.EditTool(tool).subscribe(data => {
+      tool = data; 
+      this.GetTools();})
+  }
+
+  DeleteTool(tool){
+    this.data.DeleteTool(tool).subscribe(data => {
+      this.GetTools();})
+    this.deleteToolModal = false    
+  }
+
+  GetTools(){ 
+    this.data.GetTools().subscribe(data => this.tools = data) 
+  }
+
+  ParseCommand(){
+    if(this.form_tool.path){
+      this.test_commandstring = this.form_tool.path + this.form_tool.commandstring.replace("<host>", this.test_target).replace("<port>", this.test_port)
+    }
+    else {
+      this.test_commandstring = this.form_tool.commandstring.replace("<host>", this.test_target).replace("<port>", this.test_port)
+    }
+    
+    
+  }
+
+  onKey(event: any) { // without type info
+    this.test_commandstring = event.target.value;
+  }
 }

@@ -7,6 +7,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { ImportComponent } from './import/import.component';
 import { TestComponent } from './test/test.component';
 import { ToolsComponent } from './tools/tools.component';
+import { TasksComponent } from './tasks/tasks.component';
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: 'tools',
     component: ToolsComponent
+  },
+  {
+    path: 'tasks',
+    component: TasksComponent
   },
   {
     path: 'test',

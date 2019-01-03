@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -41,8 +41,13 @@ export class DataService {
     return this.http.put('http://127.0.0.1:8000/api/tools/' + tool.id + "/", tool)
   }
 
-  ExecuteTool(toolid, pocs):Observable<any>{
-    return this.http.post('http://127.0.0.1:800/api/tools/' + toolid + '/execute/', pocs)
+  Execute(commandstring):Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    return this.http.post('http://127.0.0.1:8000/api/execute/', commandstring, httpOptions)
   }
 
   UploadNessus(file): Observable<HttpEvent<{}>> {

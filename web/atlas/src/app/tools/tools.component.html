@@ -96,26 +96,41 @@
       <section class="form-block">
         <!-- Test options here -->
         <div class="form-group">
-            <label>Target</label>
-            <input (keyup)="ParseCommand()" [(ngModel)]="test_target" #target name="target" type="text" id="target" placeholder="192.168.1.53" size="35%">
-          </div>
-          <div class="form-group">
-              <label>Port</label>
-              <input (keyup)="ParseCommand()" [(ngModel)]="test_port"  name="port" type="text" id="port" placeholder="443" size="35%">
-            </div>
-            <div class="form-group">
-                <label>Command to be executed:</label>
-                <input [(ngModel)]="test_commandstring" name="test_commandstring" type="text" id="port" placeholder="443" size="35%">
-              </div>
-              <div class="form-group">
-                  <button class="btn btn-outline">
-                      <clr-icon shape="play"></clr-icon> Run
-                    </button>
-                </div>
+          <label>Target</label>
+          <input (keyup)="ParseCommand()" [(ngModel)]="test_target" #target name="target" type="text" id="target"
+            placeholder="192.168.1.53" size="35%">
+        </div>
+        <div class="form-group">
+          <label>Port</label>
+          <input (keyup)="ParseCommand()" [(ngModel)]="test_port" name="port" type="text" id="port" placeholder="443"
+            size="35%">
+        </div>
+        <div class="form-group">
+          <label>Command to be executed:</label>
+          <input [(ngModel)]="test_commandstring" name="test_commandstring" type="text" id="port" placeholder="443"
+            size="35%">
+        </div>
+        <div class="form-group">
+          <button class="btn btn-outline" (click)="loading=true; Execute()">
+            <span *ngIf="loading; else run" class="spinner spinner-inline"></span>
+            <ng-template #run>
+              <clr-icon shape="play"></clr-icon> Run
+            </ng-template>
+          </button>
+        </div>
       </section>
     </form>
   </clr-wizard-page>
 </clr-wizard>
+<clr-modal [(clrModalOpen)]="testoutputModalOpen" [clrModalSize]="'lg'">
+  <h3 class="modal-title">Test output</h3>
+  <div class="modal-body">
+    <textarea clrTextarea [(ngModel)]="test_output.output" name="test_output" rows="15"></textarea>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="testoutputModalOpen = false">Ok</button>
+  </div>
+</clr-modal>
 
 <clr-modal [(clrModalOpen)]="deleteToolModal">
   <h3 class="modal-title">Delete tool?</h3>

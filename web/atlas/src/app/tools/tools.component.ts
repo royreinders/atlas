@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../data.service';
-import {ClrWizard} from "@clr/angular";
+import {ClrWizard, ClrModal} from "@clr/angular";
 
 @Component({
   selector: 'app-tools',
@@ -11,11 +11,15 @@ export class ToolsComponent implements OnInit {
 
   @ViewChild("wizardlg") wizardLarge: ClrWizard;
   @ViewChild("toolForm") formData: any;
+
   lgOpen: boolean = false;
   selected_tool: any;
   new_tool: boolean = true;
   deleteToolModal: boolean = false;
   form_tool: any;
+  loading: boolean = false;
+  test_output: any = {};
+  testoutputModalOpen: boolean = false;
   
   test_target = ''
   test_port = ''
@@ -69,12 +73,18 @@ export class ToolsComponent implements OnInit {
     }
     else {
       this.test_commandstring = this.form_tool.commandstring.replace("<host>", this.test_target).replace("<port>", this.test_port)
-    }
-    
-    
+    }   
   }
 
   onKey(event: any) { // without type info
     this.test_commandstring = event.target.value;
+  }
+
+  Execute(){
+    this.data.Execute('{"commandstring":"'+this.test_commandstring+'"}').subscribe(data => {
+      this.test_output = data;
+      this.loading = false;
+      this.testoutputModalOpen = true;
+      console.log(this.test_output)})    
   }
 }

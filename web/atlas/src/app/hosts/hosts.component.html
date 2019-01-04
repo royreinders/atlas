@@ -66,8 +66,8 @@
                                 </button>
                             </div>
                             <div class="btn-group">
-                            <button class="btn" (click)="doSomething()">
-                                <clr-icon shape="play"></clr-icon> Run
+                            <button class="btn" (click)="generatePocModal = true">
+                                <clr-icon shape="play"></clr-icon> Generate PoC
                             </button>
                             </div>
                         </clr-dg-action-bar>
@@ -118,3 +118,30 @@
         </clr-tab-content>
     </clr-tab>
 </clr-tabs>
+
+<clr-modal [(clrModalOpen)]="generatePocModal" [clrModalSize]="'lg'">
+    <h3 class="modal-title">Generate PoC</h3>
+    <div class="modal-body">
+        <clr-datagrid [(clrDgSingleSelected)]="selected_tool" [clDgRowSelection]="true">
+            <clr-dg-placeholder>No tools found!</clr-dg-placeholder>
+            <clr-dg-column [clrDgField]="'name'">Name
+              <clr-dg-string-filter [clrDgStringFilter]="toolFilter"></clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-column [clrDgField]="'commandstring'">Commandstring
+                <clr-dg-string-filter [clrDgStringFilter]="commandstringFilter"></clr-dg-string-filter>
+              </clr-dg-column>
+            <clr-dg-row *clrDgItems="let tool of tools" [clrDgItem]="tool">
+              <clr-dg-cell>{{tool.name}}</clr-dg-cell>
+              <clr-dg-cell>{{tool.commandstring}}</clr-dg-cell>
+            </clr-dg-row>
+            <clr-dg-footer>
+              <clr-dg-pagination #tool_pagination [clrDgPageSize]="20">
+                {{tool_pagination.firstItem + 1}} - {{tool_pagination.lastItem + 1}} of {{tool_pagination.totalItems}} tools
+              </clr-dg-pagination>
+            </clr-dg-footer>
+          </clr-datagrid>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="generatePocModal = false">Ok</button>
+    </div>
+  </clr-modal>

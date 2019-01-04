@@ -39,6 +39,7 @@ export class HostsComponent implements OnInit {
   finding_pocs: Object;
   selected = [];
   selected_pocs = [];
+  tools: Object;
   private findingFilter = new FindingFilter();
   private hostFilter = new HostFilter();
   private portFilter = new PortFilter();
@@ -54,6 +55,8 @@ export class HostsComponent implements OnInit {
     this.data.GetFindings().subscribe(
       data => this.findings = data
     );
+
+    this.GetTools()
   }
 
   selectedFindingChanged(selected_finding) {
@@ -83,5 +86,9 @@ export class HostsComponent implements OnInit {
       poc.falsepositive = 0
       this.data.UpdatePoc(poc).subscribe(data => poc = data)
     }
+  }
+
+  GetTools(){ 
+    this.data.GetTools().subscribe(data => this.tools = data) 
   }
 }

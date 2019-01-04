@@ -1,18 +1,6 @@
 from .models import *
 from rest_framework import serializers
 
-
-# ---------------------- Not In Use ------------------------------
-
-# Host serializer, serializing Host fields, with only using the brief Service serializer
-class HostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Host
-        fields = ('id', 'ip', 'fqdn', 'mac', 'os')
-
-
-# --------------------- In Use -----------------------------------
-
 class ServiceHostSerializer(serializers.ModelSerializer):
     host = serializers.SlugRelatedField(many=False, slug_field='ip', read_only=True)
 
@@ -42,6 +30,7 @@ class ToolSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TaskSerializer(serializers.ModelSerializer):
+    tool = ToolSerializer(many=False, read_only=True)
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'pocs')

@@ -4,7 +4,6 @@ from rest_framework import routers
 
 # Register URLS with router for viewsets
 router = routers.DefaultRouter()
-#router.register('hosts', views.HostViewSet)
 router.register('findings', views.FindingViewSet)
 router.register('pocs', views.ProofOfConceptViewSet)
 router.register('tools', views.ToolViewSet)

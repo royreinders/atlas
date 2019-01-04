@@ -13,9 +13,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImportComponent } from './import/import.component';
 import { TestComponent } from './test/test.component';
 import { ToolsComponent } from './tools/tools.component';
-import { FormsModule } from '@angular/forms'; 
-import {ClrFormsModule} from "@clr/angular";
+import { FormsModule } from '@angular/forms';
+import { ClrFormsModule } from "@clr/angular";
 import { TasksComponent } from './tasks/tasks.component';
+import { PocsComponent } from './pocs/pocs.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { TasksComponent } from './tasks/tasks.component';
     ImportComponent,
     TestComponent,
     ToolsComponent,
-    TasksComponent
+    TasksComponent,
+    PocsComponent
   ],
   imports: [
     BrowserModule,

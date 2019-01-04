@@ -60,6 +60,7 @@ class Worker(Thread):
             if self.queue.empty():
                 self.task.running = 0
                 self.task.completed = 1
+                self.task.targets_completed += 1
                 self.task.save()
 
     # ToDo: Do more input sanitazation to prevent execution of unwanted commands

@@ -1,0 +1,89 @@
+<clr-tabs>
+
+  <!--  HOST TAB  -->
+  <clr-tab>
+      <button clrTabLink id="link1">Tasks</button>
+      <clr-tab-content id="tasks_content" *clrIfActive>
+
+      </clr-tab-content>
+  </clr-tab>
+
+  <!--  SERVICES TAB  -->
+  <clr-tab>
+      <button clrTabLink>Services</button>
+      <clr-tab-content id="services_content" *clrIfActive="true">
+
+      </clr-tab-content>
+  </clr-tab>
+
+  <!--  FINDINGS TAB  -->
+  <clr-tab>
+      <button clrTabLink>Findings</button>
+      <clr-tab-content id="findings_content" *clrIfActive="true">
+          <div class="clr-row">
+              <div class="clr-col-4">
+                  <clr-datagrid [(clrDgSingleSelected)]="selected_finding" (clrDgSingleSelectedChange)="selectedFindingChanged($event)"
+                      [clDgRowSelection]="true">
+                      <clr-dg-placeholder>No findings found!</clr-dg-placeholder>
+                      <clr-dg-column [clrDgField]="'name'">Name<clr-dg-string-filter [clrDgStringFilter]="findingFilter"></clr-dg-string-filter>
+                      </clr-dg-column>
+                      <clr-dg-row *clrDgItems="let finding of findings" [clrDgItem]="finding">
+                          <clr-dg-cell>{{finding.name}}</clr-dg-cell>
+                      </clr-dg-row>
+                      <clr-dg-footer>
+                          <clr-dg-pagination #finding_pagination [clrDgPageSize]="20">
+                              {{finding_pagination.firstItem + 1}} - {{finding_pagination.lastItem + 1}} of
+                              {{finding_pagination.totalItems}} findings
+                          </clr-dg-pagination>
+                      </clr-dg-footer>
+                  </clr-datagrid>
+              </div>
+              <div class="clr-col">
+                  <clr-datagrid [(clrDgSelected)]="selected_pocs" [clDgRowSelection]="true">
+                      <clr-dg-placeholder>No services found!</clr-dg-placeholder>
+                      <clr-dg-column [clrDgField]="'host'">IP<clr-dg-string-filter [clrDgStringFilter]="hostFilter"></clr-dg-string-filter>
+                      </clr-dg-column>
+                      <clr-dg-column [clrDgField]="'port'">Port<clr-dg-string-filter [clrDgStringFilter]="portFilter"></clr-dg-string-filter>
+                      </clr-dg-column>
+                      <clr-dg-column [clrDgField]="'name'">Type<clr-dg-string-filter [clrDgStringFilter]="typeFilter"></clr-dg-string-filter>
+                      </clr-dg-column>
+                      <clr-dg-column [clrDgField]="'haspoc'">Has POC<clr-dg-string-filter [clrDgStringFilter]="typeFilter"></clr-dg-string-filter>
+                      </clr-dg-column>
+                      <clr-dg-column [clrDgField]="'haspoc'">FP<clr-dg-string-filter [clrDgStringFilter]="typeFilter"></clr-dg-string-filter>
+                      </clr-dg-column>
+                      <div *ngIf="selected_finding">
+                          <clr-dg-row *clrDgItems="let poc of finding_pocs" [clrDgItem]="poc">
+                              <clr-dg-cell>{{poc.service.host}}</clr-dg-cell>
+                              <clr-dg-cell>{{poc.service.port}}</clr-dg-cell>
+                              <clr-dg-cell>{{poc.service.name}}</clr-dg-cell>
+                              <clr-dg-cell>
+                                  <div *ngIf="poc.haspoc === 1; else no_poc">
+                                      <clr-icon shape="check" (click)="setHasPoc(poc)"></clr-icon>
+                                  </div>
+                                  <ng-template #no_poc>
+                                      <clr-icon shape="times" (click)="setHasPoc(poc)"></clr-icon>
+                                  </ng-template>
+                              </clr-dg-cell>
+                              <clr-dg-cell>
+                                  <div *ngIf="poc.falsepositive === 1; else falsepositive">
+                                      <clr-icon shape="check" (click)="setFalsePositive(poc)"></clr-icon>
+                                  </div>
+                                  <ng-template #falsepositive>
+                                      <clr-icon shape="times" (click)="setFalsePositive(poc)"></clr-icon>
+                                  </ng-template>
+                              </clr-dg-cell>
+                          </clr-dg-row>
+                      </div>
+                      <clr-dg-footer>
+                          <clr-dg-pagination #poc_pagination [clrDgPageSize]="20">
+                              {{poc_pagination.firstItem + 1}} - {{poc_pagination.lastItem + 1}} of
+                              {{poc_pagination.totalItems}} services
+                          </clr-dg-pagination>
+                      </clr-dg-footer>
+                  </clr-datagrid>
+              </div>
+              
+          </div>
+      </clr-tab-content>
+  </clr-tab>
+</clr-tabs>

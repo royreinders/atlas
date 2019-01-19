@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-xs">
+      <clr-datagrid [(clrDgSingleSelected)]="selected_task" [clDgRowSelection]="true">
+        <clr-dg-placeholder>No tasks found!</clr-dg-placeholder>
+        <clr-dg-column [clrDgField]="'name'">Name
+          <clr-dg-string-filter [clrDgStringFilter]="taskFilter"></clr-dg-string-filter>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'starttime'">Starttime
+          <clr-dg-string-filter [clrDgStringFilter]="taskFilter"></clr-dg-string-filter>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'tool'">Tool
+          <clr-dg-string-filter [clrDgStringFilter]="toolFilter"></clr-dg-string-filter>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'running'">Running
+          <clr-dg-string-filter [clrDgStringFilter]="runningFilter"></clr-dg-string-filter>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'completedtargets'"># Completed
+          <clr-dg-string-filter [clrDgStringFilter]="completedtargetsfilter"></clr-dg-string-filter>
+        </clr-dg-column>
+        <clr-dg-row *clrDgItems="let task of tasks" [clrDgItem]="task">
+          <clr-dg-cell>{{task.id}}</clr-dg-cell>
+          <clr-dg-cell>{{task.starttime | date:'h:mm:ss, dLLL'}}</clr-dg-cell>
+          <clr-dg-cell>{{task.tool.name}}</clr-dg-cell>
+          <clr-dg-cell>{{task.running}}</clr-dg-cell>
+          <clr-dg-cell>{{task.targets_completed}} / {{task.pocs.length}}</clr-dg-cell>
+        </clr-dg-row>
+        <clr-dg-footer>
+          <clr-dg-pagination #task_pagination [clrDgPageSize]="20">
+            {{task_pagination.firstItem + 1}} - {{task_pagination.lastItem + 1}} of {{task_pagination.totalItems}} tasks
+          </clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </div>
+  </div>
+  
+  

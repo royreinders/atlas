@@ -88,7 +88,15 @@
           <input [(ngModel)]="form_tool.expected_bad" name="expected_bad" type="text" id="expected_badInput" size="35%">
         </div>
         <div class="form-group">
-          <label>Timout</label>
+          <label>Timout<clr-modal [(clrModalOpen)]="testoutputModalOpen" [clrModalSize]="'lg'">
+            <h3 class="modal-title">Test output</h3>
+            <div class="modal-body">
+              <textarea clrTextarea [(ngModel)]="test_output.output" name="test_output" rows="15"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="testoutputModalOpen = false">Ok</button>
+            </div>
+          </clr-modal></label>
           <input [(ngModel)]="form_tool.timeout" name="timeout" type="text" id="timeoutInput" size="35%">
         </div>
       </section>

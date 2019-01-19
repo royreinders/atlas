@@ -29,6 +29,10 @@ export class DataService {
     return this.http.get('http://localhost:8000/api/tools/')
   }
 
+  GetTool(id) {
+    return this.http.get('http://localhost:8000/api/tools/' + id + "/")
+  }
+
   AddTool(tool):Observable<any>{
     return this.http.post('http://127.0.0.1:8000/api/tools/', tool)
   }
@@ -52,6 +56,10 @@ export class DataService {
 
   GetTasks():Observable<any>{
     return this.http.get('http://127.0.0.1:8000/api/tasks/')
+  }
+
+  AddTask(task):Observable<any>{
+    return this.http.post('http://127.0.0.1:8000/api/tasks/', task)
   }
 
   UploadNessus(file): Observable<HttpEvent<{}>> {

@@ -48,7 +48,7 @@ class Tool(models.Model):
 
 class Task(models.Model):
     __tablename__ = 'tasks'
-    tool = models.ForeignKey(Tool, on_delete=models.CASCADE)
+    tool = models.ForeignKey(Tool, on_delete=models.CASCADE, null=False)
     starttime = models.DateTimeField(auto_now_add=True, blank=True)
     pocs = models.ManyToManyField(ProofOfConcept)
     threads = models.IntegerField(default=5)

@@ -59,7 +59,13 @@ export class DataService {
   }
 
   AddTask(task):Observable<any>{
-    return this.http.post('http://127.0.0.1:8000/api/tasks/', task)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    console.log(task)
+    return this.http.post('http://127.0.0.1:8000/api/tasks/', task, httpOptions)
   }
 
   UploadNessus(file): Observable<HttpEvent<{}>> {

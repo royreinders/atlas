@@ -19,6 +19,6 @@ export class TasksComponent implements OnInit {
 
   GetTasks(){ 
     this.data.GetTasks().subscribe(data => this.tasks = data)
-    console.log(this.tasks)
+
   }
 }

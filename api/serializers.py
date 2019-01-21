@@ -30,7 +30,6 @@ class ToolSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TaskSerializer(serializers.ModelSerializer):
-    tool = ToolSerializer(many=False, read_only=True)
     class Meta:
         model = Task
         fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'pocs')

@@ -42,7 +42,7 @@ export class HostsComponent implements OnInit {
   tools: Object;
   new_task: any;
   threads : any;
-  selected_tool: Object;
+  selected_tool: any;
   private findingFilter = new FindingFilter();
   private hostFilter = new HostFilter();
   private portFilter = new PortFilter();
@@ -96,10 +96,11 @@ export class HostsComponent implements OnInit {
   }
 
   AddTask(){
-    this.new_task = {}
-    this.new_task.tool = this.selected_tool
-    this.new_task.pocs = this.selected_pocs
+    this.new_task = new Object()
+    this.new_task.pocs = new Array()
+    this.new_task.tool = this.selected_tool.id
+    this.selected_pocs.forEach(poc => {this.new_task.pocs.push(poc.id)});
     this.new_task.threads = this.threads
-    this.data.AddTask(this.new_task).subscribe(data => this.new_task = data)
+    this.data.AddTask(this.new_task).subscribe()
   }
 }

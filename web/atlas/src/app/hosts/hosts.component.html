@@ -54,14 +54,14 @@
                 <div class="clr-col">
                     <clr-datagrid [(clrDgSelected)]="selected_pocs" [clDgRowSelection]="true">
                         <clr-dg-action-bar>
-                            <div class="btn-group">
-                                <button class="btn" (click)="doSomething()">
+                            <div class="btn-group" >
+                                <button [disabled]="!selected_pocs.length > 0" class="btn" (click)="doSomething()">
                                     <clr-icon shape="plus"></clr-icon> Add Service
                                 </button>
-                                <button [disabled]="!selected_pocs.length > 0" class="btn" [disabled]="! selected_pocs" (click)="doSomething()">
+                                <button [disabled]="!selected_pocs.length > 0" class="btn"(click)="doSomething()">
                                     <clr-icon shape="pencil"></clr-icon> Edit Service
                                 </button>
-                                <button [disabled]="!selected_pocs.length > 0" class="btn" [disabled]="! selected_pocs" (click)="doSomething()">
+                                <button [disabled]="!selected_pocs.length > 0" class="btn" (click)="doSomething()">
                                     <clr-icon shape="trash"></clr-icon> Delete Service
                                 </button>
                             </div>
@@ -103,6 +103,12 @@
                                         <clr-icon shape="times" (click)="setFalsePositive(poc)"></clr-icon>
                                     </ng-template>
                                 </clr-dg-cell>
+                                <clr-dg-row-detail *clrIfExpanded>
+                                                <textarea name="description" required>{{poc.poc}}</textarea>
+                                              
+                                    
+                                
+                                </clr-dg-row-detail>
                             </clr-dg-row>
                         </div>
                         <clr-dg-footer>

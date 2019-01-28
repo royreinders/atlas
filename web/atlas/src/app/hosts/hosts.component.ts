@@ -103,4 +103,5 @@ export class HostsComponent implements OnInit {
     this.new_task.threads = this.threads
     this.data.AddTask(this.new_task).subscribe()
   }
+  
 }

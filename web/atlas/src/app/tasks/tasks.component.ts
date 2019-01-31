@@ -28,4 +28,9 @@ export class TasksComponent implements OnInit {
     this.data.GetTool(tool_id).subscribe(data => this.tool = data);
     console.log(this.tool)
   }
+
+  StartTask(task){
+    this.data.StartTask(task.id).subscribe()
+    task.running = 1
+  }
 }

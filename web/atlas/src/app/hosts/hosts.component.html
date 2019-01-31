@@ -104,11 +104,8 @@
                                     </ng-template>
                                 </clr-dg-cell>
                                 <clr-dg-row-detail *clrIfExpanded>
-                                                <textarea name="description" required>{{poc.poc}}</textarea>
-                                              
-                                    
-                                
-                                </clr-dg-row-detail>
+                                        <div [innerHTML]="replaceLineBreak(poc.poc)"></div>    
+                                    </clr-dg-row-detail>
                             </clr-dg-row>
                         </div>
                         <clr-dg-footer>

@@ -72,6 +72,11 @@ export class DataService {
     return this.http.post('http://127.0.0.1:8000/api/tasks/', task, httpOptions)
   }
 
+  StartTask(task_id):Observable<any>{
+    console.log("Started task " + task_id)
+    return this.http.get('http://127.0.0.1:8000/api/tasks/' + task_id + "/start/")
+  }
+
   UploadNessus(file): Observable<HttpEvent<{}>> {
 
     const formdata: FormData = new FormData();

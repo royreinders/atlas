@@ -17,12 +17,20 @@
         <clr-dg-column [clrDgField]="'completedtargets'"># Completed
           <clr-dg-string-filter [clrDgStringFilter]="completedtargetsfilter"></clr-dg-string-filter>
         </clr-dg-column>
+        <clr-dg-column [clrDgField]="'completedtargets'">Run
+            <clr-dg-string-filter [clrDgStringFilter]="completedtargetsfilter"></clr-dg-string-filter>
+          </clr-dg-column>
         <clr-dg-row *clrDgItems="let task of tasks" [clrDgItem]="task">
           <clr-dg-cell>{{task.id}}</clr-dg-cell>
           <clr-dg-cell>{{task.starttime | date:'h:mm:ss, d LLL'}}</clr-dg-cell>
           <clr-dg-cell>asd</clr-dg-cell>
           <clr-dg-cell>{{task.running}}</clr-dg-cell>
           <clr-dg-cell>{{task.targets_completed}} / {{task.pocs.length}}</clr-dg-cell>
+          <clr-dg-cell>
+                <span *ngIf="task.running; else run" class="spinner spinner-inline"></span>
+                <ng-template #run>
+                  <clr-icon shape="play" (click)="loading=true; StartTask(task)"></clr-icon> Run
+                </ng-template></clr-dg-cell>
         </clr-dg-row>
         <clr-dg-footer>
           <clr-dg-pagination #task_pagination [clrDgPageSize]="20">

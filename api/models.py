@@ -44,6 +44,7 @@ class Tool(models.Model):
     expected_good = models.TextField(null=True, blank=True)
     expected_bad = models.TextField(null=True, blank=True)
     timeout = models.IntegerField(default=60)
+    threads = models.IntegerField(default=5, blank=True, null=True)
 
 
 class Task(models.Model):

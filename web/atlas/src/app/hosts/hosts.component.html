@@ -125,7 +125,7 @@
 <clr-modal [(clrModalOpen)]="generatePocModal" [clrModalSize]="'lg'">
     <h3 class="modal-title">Generate PoC</h3>
     <div class="modal-body">
-        <clr-datagrid [(clrDgSingleSelected)]="selected_tool" [clDgRowSelection]="true">
+        <clr-datagrid [(clrDgSingleSelected)]="selected_tool" [clDgRowSelection]="true" (clrDgSingleSelectedChange)="SetThreads(selected_tool.threads)">>
             <clr-dg-placeholder>No tools found!</clr-dg-placeholder>
             <clr-dg-column [clrDgField]="'name'">Name
               <clr-dg-string-filter [clrDgStringFilter]="toolFilter"></clr-dg-string-filter>
@@ -146,13 +146,13 @@
           <form>
             <section class="form-block">
                 <div class="form-group">
-                    <label class="required">Threads</label>
-                    <input [(ngModel)]="threads" name="threadsInput" type="text" id="requiredInput">
+                    <label class="required">Threads</label>                                      
+                    <input [(ngModel)]="task_threads" name="threadsInput" type="text" id="requiredInput">
                 </div>
             </section>
         </form> 
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="generatePocModal = false; AddTask()">Ok</button>
+      <button type="button" [disabled]="!task_threads" class="btn btn-primary" (click)="generatePocModal = false; AddTask()">Ok</button>
     </div>
   </clr-modal>

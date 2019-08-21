@@ -2,3 +2,4 @@ api/migrations
 .idea
 api/__pycache__/
 *.pyc
+venv/

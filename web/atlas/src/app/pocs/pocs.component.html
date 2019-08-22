@@ -22,8 +22,7 @@
       <clr-tab-content id="findings_content" *clrIfActive="true">
           <div class="clr-row">
               <div class="clr-col-4">
-                  <clr-datagrid [(clrDgSingleSelected)]="selected_finding" (clrDgSingleSelectedChange)="selectedFindingChanged($event)"
-                      [clDgRowSelection]="true">
+                  <clr-datagrid [(clrDgSingleSelected)]="selected_finding" (clrDgSingleSelectedChange)="selectedFindingChanged($event)">
                       <clr-dg-placeholder>No findings found!</clr-dg-placeholder>
                       <clr-dg-column [clrDgField]="'name'">Name<clr-dg-string-filter [clrDgStringFilter]="findingFilter"></clr-dg-string-filter>
                       </clr-dg-column>
@@ -39,7 +38,7 @@
                   </clr-datagrid>
               </div>
               <div class="clr-col">
-                  <clr-datagrid [(clrDgSelected)]="selected_pocs" [clDgRowSelection]="true">
+                  <clr-datagrid [(clrDgSelected)]="selected_pocs">
                       <clr-dg-placeholder>No services found!</clr-dg-placeholder>
                       <clr-dg-column [clrDgField]="'host'">IP<clr-dg-string-filter [clrDgStringFilter]="hostFilter"></clr-dg-string-filter>
                       </clr-dg-column>

@@ -13,8 +13,8 @@ export class TestComponent implements OnInit {
     
   }
 
-  @ViewChild("wizard") wizard: ClrWizard;
-  @ViewChild("myForm") formData: any;
+  @ViewChild("wizard", { static: true }) wizard: ClrWizard;
+  @ViewChild("myForm", { static: true }) formData: any;
 
     loadingFlag: boolean = false;
     errorFlag: boolean = false;

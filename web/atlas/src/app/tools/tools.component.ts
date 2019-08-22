@@ -9,8 +9,8 @@ import {ClrWizard, ClrModal} from "@clr/angular";
 })
 export class ToolsComponent implements OnInit {
 
-  @ViewChild("wizardlg") wizardLarge: ClrWizard;
-  @ViewChild("toolForm") formData: any;
+  @ViewChild("wizardlg", { static: true }) wizardLarge: ClrWizard;
+  @ViewChild("toolForm", { static: true }) formData: any;
 
   lgOpen: boolean = false;
   selected_tool: any;

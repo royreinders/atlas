@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs">
-    <clr-datagrid [(clrDgSingleSelected)]="selected_tool">
+    <clr-datagrid [(clrDgSingleSelected)]="selected_tool" [clrDgRowSelection]="true">
       <clr-dg-action-bar>
         <div class="btn-group">
           <button class="btn" (click)="form_tool = {}; wizardLarge.reset(); lgOpen = true; new_tool = true;">
@@ -50,59 +50,49 @@
   <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
   <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
   <clr-wizard-button [type]="'finish'" (click)="FinishWizard(form_tool);">Finish</clr-wizard-button>
-  <clr-wizard-page [clrWizardPageNextDisabled]="(name.pristine || commandstring.pristine|| !toolForm.valid) && new_tool ">
+  
+  <clr-wizard-page [clrWizardPageNextDisabled]="(name.pristine || commandstring.pristine || !toolForm.valid) && new_tool">
     <ng-template clrPageTitle>Tool settings</ng-template>
     <form clrForm #toolForm="ngForm">
       <section class="form-block">
-
-        <div class="form-group">
+        
+        <clr-input-container>
           <label>Name</label>
-          <label for="nameInput" aria-haspopup="true" role="tooltip" [class.invalid]="name.touched && !name.valid"
-            class="tooltip tooltip-validation tooltip-md tooltip-bottom-right">
-            <input type="text" id="nameInput" required [(ngModel)]="form_tool.name" name="name" #name="ngModel" size="32%">
-            <span class="tooltip-content">This field cannot be empty!</span>
-          </label>
-        </div>
+          <input placeholder="Name" clrInput [(ngModel)]="form_tool.name" name="name" id="name" #name="ngModel" required />
+          <clr-control-error>This field is required!</clr-control-error>
+        </clr-input-container>
 
-        <div class="form-group">
+        <clr-input-container>
           <label>Path</label>
-          <input [(ngModel)]="form_tool.path" name="path" type="text" id="pathInput" placeholder="/usr/bin/" size="35%">
-        </div>
+          <input placeholder="/bin/ping" clrInput [(ngModel)]="form_tool.path" name="path"/>
+        </clr-input-container>
 
-        <div class="form-group">
+        <clr-input-container>
           <label>Command string</label>
-          <label for="commandstringInput" aria-haspopup="true" role="tooltip" [class.invalid]="commandstring.touched && !commandstring.valid"
-            class="tooltip tooltip-validation tooltip-md tooltip-bottom-right">
-            <input required [(ngModel)]="form_tool.commandstring" name="commandstring" type="text" id="commandstringInput"
-              placeholder="nmap <host> -p <port>" size="32%" #commandstring="ngModel">
-            <span class="tooltip-content">This field cannot be empty!</span>
-          </label>
-        </div>
+          <input placeholder="nmap <host> -p <port>" clrInput [(ngModel)]="form_tool.commandstring" name="commandstring" #commandstring="ngModel" id="commandstring" required />
+          <clr-control-error>This field is required!</clr-control-error>
+        </clr-input-container>
 
-        <div class="form-group">
+        <clr-input-container>
           <label>Expected good</label>
-          <input [(ngModel)]="form_tool.expected_good" name="expected_good" type="text" id="expected_goodInput" size="35%">
-        </div>
-        <div class="form-group">
+          <input clrInput [(ngModel)]="form_tool.expected_good" name="expected_good"/>
+        </clr-input-container>
+
+        <clr-input-container>
           <label>Expected bad</label>
-          <input [(ngModel)]="form_tool.expected_bad" name="expected_bad" type="text" id="expected_badInput" size="35%">
-        </div>
-        <div class="form-group">
-          <label>Timout<clr-modal [(clrModalOpen)]="testoutputModalOpen" [clrModalSize]="'lg'">
-            <h3 class="modal-title">Test output</h3>
-            <div class="modal-body">
-              <textarea clrTextarea [(ngModel)]="test_output.output" name="test_output" rows="15"></textarea>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" (click)="testoutputModalOpen = false">Ok</button>
-            </div>
-          </clr-modal></label>
-          <input [(ngModel)]="form_tool.timeout" name="timeout" type="text" id="timeoutInput" size="35%">
-        </div>
-        <div class="form-group">
+          <input clrInput [(ngModel)]="form_tool.expected_bad" name="expected_bad"/>
+        </clr-input-container>
+
+        <clr-input-container>
+          <label>Timeout</label>
+          <input clrInput [(ngModel)]="form_tool.timeout" name="timeout"/>
+        </clr-input-container>
+
+        <clr-input-container>
           <label>Threads</label>
-          <input [(ngModel)]="form_tool.threads" name="threads" type="text" id="threads" size="35%">
-        </div>
+          <input clrInput [(ngModel)]="form_tool.threads" name="threads"/>
+        </clr-input-container>
+
       </section>
     </form>
   </clr-wizard-page>
@@ -111,21 +101,22 @@
     <form>
       <section class="form-block">
         <!-- Test options here -->
-        <div class="form-group">
+
+        <clr-input-container>
           <label>Target</label>
-          <input (keyup)="ParseCommand()" [(ngModel)]="test_target" #target name="target" type="text" id="target"
-            placeholder="192.168.1.53" size="35%">
-        </div>
-        <div class="form-group">
+          <input clrInput (keyup)="ParseCommand()" [(ngModel)]="test_target" #target name="target" type="text" id="target" placeholder="e.g. 192.168.1.53">
+        </clr-input-container>
+
+        <clr-input-container>
           <label>Port</label>
-          <input (keyup)="ParseCommand()" [(ngModel)]="test_port" name="port" type="text" id="port" placeholder="443"
-            size="35%">
-        </div>
-        <div class="form-group">
-          <label>Command to be executed:</label>
-          <input [(ngModel)]="test_commandstring" name="test_commandstring" type="text" id="port" placeholder="443"
-            size="35%">
-        </div>
+          <input clrInput (keyup)="ParseCommand()" [(ngModel)]="test_port" name="port" type="text" id="port" placeholder="443">
+        </clr-input-container>
+
+        <clr-input-container>
+          <label>Command to be executed</label>
+          <input clrInput [(ngModel)]="test_commandstring" name="test_commandstring" type="text" id="port" placeholder="443">
+        </clr-input-container>
+        
         <div class="form-group">
           <button class="btn btn-outline" (click)="loading=true; Execute()">
             <span *ngIf="loading; else run" class="spinner spinner-inline"></span>
@@ -141,7 +132,7 @@
 <clr-modal [(clrModalOpen)]="testoutputModalOpen" [clrModalSize]="'lg'">
   <h3 class="modal-title">Test output</h3>
   <div class="modal-body">
-    <textarea clrTextarea [(ngModel)]="test_output.output" name="test_output" rows="15"></textarea>
+    <textarea clrTextarea [(ngModel)]="test_output.output" name="test_output" rows="15" cols="100"></textarea>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-primary" (click)="testoutputModalOpen = false">Ok</button>

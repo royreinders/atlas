@@ -22,7 +22,7 @@
         <clr-tab-content id="findings_content" *clrIfActive="true">
             <div class="clr-row">
                 <div class="clr-col-4">
-                    <clr-datagrid [(clrDgSingleSelected)]="selected_finding" (clrDgSingleSelectedChange)="selectedFindingChanged($event)">
+                    <clr-datagrid [(clrDgSingleSelected)]="selected_finding" (clrDgSingleSelectedChange)="selectedFindingChanged($event)" [clrDgRowSelection]="true">
                         <clr-dg-action-bar>
                             <div class="btn-group">
                                 <button class="btn" (click)="doSomething()">
@@ -51,7 +51,7 @@
                     </clr-datagrid>
                 </div>
                 <div class="clr-col">
-                    <clr-datagrid [(clrDgSelected)]="selected_pocs">
+                    <clr-datagrid [(clrDgSelected)]="selected_pocs" [clrDgRowSelection]="true">
                         <clr-dg-action-bar>
                             <div class="btn-group" >
                                 <button [disabled]="!selected_pocs.length > 0" class="btn" (click)="doSomething()">
@@ -124,7 +124,7 @@
 <clr-modal [(clrModalOpen)]="generatePocModal" [clrModalSize]="'lg'">
     <h3 class="modal-title">Generate PoC</h3>
     <div class="modal-body">
-        <clr-datagrid [(clrDgSingleSelected)]="selected_tool" (clrDgSingleSelectedChange)="SetThreads(selected_tool.threads)">>
+        <clr-datagrid [(clrDgSingleSelected)]="selected_tool" (clrDgSingleSelectedChange)="SetThreads(selected_tool.threads)" [clrDgRowSelection]="true">>
             <clr-dg-placeholder>No tools found!</clr-dg-placeholder>
             <clr-dg-column [clrDgField]="'name'">Name
               <clr-dg-string-filter [clrDgStringFilter]="toolFilter"></clr-dg-string-filter>
@@ -142,12 +142,12 @@
               </clr-dg-pagination>
             </clr-dg-footer>
           </clr-datagrid>
-          <form>
+          <form clrForm>
             <section class="form-block">
-                <div class="form-group">
-                    <label class="required">Threads</label>                                      
-                    <input [(ngModel)]="task_threads" name="threadsInput" type="text" id="requiredInput">
-                </div>
+                <clr-input-container>
+                    <label>Threads</label><input clrInput [(ngModel)]="task_threads" name="threadsInput" type="text" id="requiredInput" placeholder="# of threads">
+                    <clr-control-error>This field is required!</clr-control-error>
+                </clr-input-container>
             </section>
         </form> 
     </div>

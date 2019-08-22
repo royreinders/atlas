@@ -3,3 +3,4 @@ api/migrations
 api/__pycache__/
 *.pyc
 venv/
+db.sqlite3

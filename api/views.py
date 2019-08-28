@@ -31,6 +31,13 @@ class ProofOfConceptViewSet(viewsets.ModelViewSet):
     filter_fields = ('finding', 'haspoc', 'service')
 
 
+class ServiceViewSet(viewsets.ModelViewSet):
+    serializer_class = ServiceHostSerializer
+    queryset = Service.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id', 'name', 'port', 'protocol', 'host', 'finding', 'haspoc', 'falsepositive')
+
+
 class ToolViewSet(viewsets.ModelViewSet):
     serializer_class = ToolSerializer
     queryset = Tool.objects.all()

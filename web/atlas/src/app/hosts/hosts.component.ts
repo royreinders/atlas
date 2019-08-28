@@ -36,9 +36,9 @@ export class HostsComponent implements OnInit {
   //hosts: Object;
   selected_finding: any;
   findings: Object;
-  finding_pocs: Object;
+  finding_services: Object;
   selected = [];
-  selected_pocs = [];
+  selected_services = [];
   tools: Object;
   new_task: any;
   selected_tool: any;
@@ -64,30 +64,30 @@ export class HostsComponent implements OnInit {
 
   selectedFindingChanged(selected_finding) {
     this.selected_finding = selected_finding;
-    this.getFindingPocs(selected_finding.id)
+    this.getFindingServices(selected_finding.id)
   }
 
-  getFindingPocs(finding_id) {
-    this.data.GetFindingPocs(finding_id).subscribe(data => this.finding_pocs = data);
+  getFindingServices(finding_id) {
+    this.data.GetFindingServices(finding_id).subscribe(data => this.finding_services = data);
   }
 
-  setHasPoc(poc){
-    if(poc.haspoc == 0){
-      poc.haspoc = 1
-      this.data.UpdatePoc(poc).subscribe(data => poc = data)
-    } else if (poc.haspoc == 1){
-      poc.haspoc = 0
-      this.data.UpdatePoc(poc).subscribe(data => poc = data)
+  setHasPoc(service){
+    if(service.haspoc == 0){
+      service.haspoc = 1
+      this.data.UpdateService(service).subscribe(data => service = data)
+    } else if (service.haspoc == 1){
+      service.haspoc = 0
+      this.data.UpdateService(service).subscribe(data => service = data)
     }
   }
 
-  setFalsePositive(poc){
-    if(poc.falsepositive == 0){
-      poc.falsepositive = 1
-      this.data.UpdatePoc(poc).subscribe(data => poc = data)
-    } else if (poc.falsepositive == 1){
-      poc.falsepositive = 0
-      this.data.UpdatePoc(poc).subscribe(data => poc = data)
+  setFalsePositive(service){
+    if(service.falsepositive == 0){
+      service.falsepositive = 1
+      this.data.UpdateService(service).subscribe(data => service = data)
+    } else if (service.falsepositive == 1){
+      service.falsepositive = 0
+      this.data.UpdateService(service).subscribe(data => service = data)
     }
   }
 
@@ -101,9 +101,9 @@ export class HostsComponent implements OnInit {
 
   AddTask(){
     this.new_task = new Object()
-    this.new_task.pocs = new Array()
+    this.new_task.services = new Array()
     this.new_task.tool = this.selected_tool.id
-    this.selected_pocs.forEach(poc => {this.new_task.pocs.push(poc.id)});
+    this.selected_services.forEach(poc => {this.new_task.services.push(poc.id)});
     this.new_task.threads = this.task_threads
     this.data.AddTask(this.new_task).subscribe()
   }
@@ -111,5 +111,7 @@ export class HostsComponent implements OnInit {
   replaceLineBreak(s:string) {
     return s.replace('\n','<br />');
   }
+
+  
   
 }

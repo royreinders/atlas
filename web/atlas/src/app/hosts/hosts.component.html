@@ -22,16 +22,16 @@
         <clr-tab-content id="findings_content" *clrIfActive="true">
             <div class="clr-row">
                 <div class="clr-col-4">
-                    <clr-datagrid [(clrDgSingleSelected)]="selected_finding" (clrDgSingleSelectedChange)="selectedFindingChanged($event)" [clrDgRowSelection]="true">
+                    <clr-datagrid [(clrDgSingleSelected)]="selected_finding" (clrDgSingleSelectedChange)="selectedFindingChanged($event)" [clrDgRowSelection]="true" class="datagrid-compact">
                         <clr-dg-action-bar>
                             <div class="btn-group">
                                 <button class="btn" (click)="doSomething()">
                                     <clr-icon shape="plus"></clr-icon> Add Finding
                                 </button>
-                                <button class="btn" [disabled]="! selected_pocs" (click)="doSomething()">
+                                <button class="btn" [disabled]="! selected_services" (click)="doSomething()">
                                     <clr-icon shape="pencil"></clr-icon> Edit Finding
                                 </button>
-                                <button class="btn" [disabled]="! selected_pocs" (click)="doSomething()">
+                                <button class="btn" [disabled]="! selected_services" (click)="doSomething()">
                                     <clr-icon shape="trash"></clr-icon> Delete Finding
                                 </button>
                             </div>
@@ -43,7 +43,7 @@
                             <clr-dg-cell>{{finding.name}}</clr-dg-cell>
                         </clr-dg-row>
                         <clr-dg-footer>
-                            <clr-dg-pagination #finding_pagination [clrDgPageSize]="20">
+                            <clr-dg-pagination #finding_pagination [clrDgPageSize]="25">
                                 {{finding_pagination.firstItem + 1}} - {{finding_pagination.lastItem + 1}} of
                                 {{finding_pagination.totalItems}} findings
                             </clr-dg-pagination>
@@ -51,21 +51,21 @@
                     </clr-datagrid>
                 </div>
                 <div class="clr-col">
-                    <clr-datagrid [(clrDgSelected)]="selected_pocs" [clrDgRowSelection]="true">
+                    <clr-datagrid [(clrDgSelected)]="selected_services" [clrDgRowSelection]="true" class="datagrid-compact">
                         <clr-dg-action-bar>
                             <div class="btn-group" >
-                                <button [disabled]="!selected_pocs.length > 0" class="btn" (click)="doSomething()">
+                                <button [disabled]="!selected_services.length > 0" class="btn" (click)="doSomething()">
                                     <clr-icon shape="plus"></clr-icon> Add Service
                                 </button>
-                                <button [disabled]="!selected_pocs.length > 0" class="btn"(click)="doSomething()">
+                                <button [disabled]="!selected_services.length > 0" class="btn"(click)="doSomething()">
                                     <clr-icon shape="pencil"></clr-icon> Edit Service
                                 </button>
-                                <button [disabled]="!selected_pocs.length > 0" class="btn" (click)="doSomething()">
+                                <button [disabled]="!selected_services.length > 0" class="btn" (click)="doSomething()">
                                     <clr-icon shape="trash"></clr-icon> Delete Service
                                 </button>
                             </div>
                             <div class="btn-group">
-                            <button [disabled]="!selected_pocs.length > 0" class="btn" (click)="generatePocModal = true">
+                            <button [disabled]="!selected_services.length > 0" class="btn" (click)="generatePocModal = true">
                                 <clr-icon shape="play"></clr-icon> Generate PoC
                             </button>
                             </div>
@@ -82,33 +82,33 @@
                         <clr-dg-column [clrDgField]="'haspoc'">FP<clr-dg-string-filter [clrDgStringFilter]="typeFilter"></clr-dg-string-filter>
                         </clr-dg-column>
                         <div *ngIf="selected_finding">
-                            <clr-dg-row *clrDgItems="let poc of finding_pocs" [clrDgItem]="poc">
-                                <clr-dg-cell>{{poc.service.host}}</clr-dg-cell>
-                                <clr-dg-cell>{{poc.service.port}}</clr-dg-cell>
-                                <clr-dg-cell>{{poc.service.name}}</clr-dg-cell>
+                            <clr-dg-row *clrDgItems="let service of finding_services" [clrDgItem]="service">
+                                <clr-dg-cell>{{service.host}}</clr-dg-cell>
+                                <clr-dg-cell>{{service.port}}</clr-dg-cell>
+                                <clr-dg-cell>{{service.name}}</clr-dg-cell>
                                 <clr-dg-cell>
-                                    <div *ngIf="poc.haspoc === 1; else no_poc">
-                                        <clr-icon shape="check" (click)="setHasPoc(poc)"></clr-icon>
+                                    <div *ngIf="service.haspoc === 1; else no_poc">
+                                        <clr-icon shape="check" (click)="setHasPoc(service)"></clr-icon>
                                     </div>
                                     <ng-template #no_poc>
-                                        <clr-icon shape="times" (click)="setHasPoc(poc)"></clr-icon>
+                                        <clr-icon shape="times" (click)="setHasPoc(service)"></clr-icon>
                                     </ng-template>
                                 </clr-dg-cell>
                                 <clr-dg-cell>
-                                    <div *ngIf="poc.falsepositive === 1; else falsepositive">
-                                        <clr-icon shape="check" (click)="setFalsePositive(poc)"></clr-icon>
+                                    <div *ngIf="service.falsepositive === 1; else falsepositive">
+                                        <clr-icon shape="check" (click)="setFalsePositive(service)"></clr-icon>
                                     </div>
                                     <ng-template #falsepositive>
-                                        <clr-icon shape="times" (click)="setFalsePositive(poc)"></clr-icon>
+                                        <clr-icon shape="times" (click)="setFalsePositive(service)"></clr-icon>
                                     </ng-template>
                                 </clr-dg-cell>
                                 <clr-dg-row-detail *clrIfExpanded>
-                                        <div [innerHTML]="replaceLineBreak(poc.poc)"></div>    
+                                        <!-- Place Poc viewing code here -->    
                                     </clr-dg-row-detail>
                             </clr-dg-row>
                         </div>
                         <clr-dg-footer>
-                            <clr-dg-pagination #poc_pagination [clrDgPageSize]="20">
+                            <clr-dg-pagination #poc_pagination [clrDgPageSize]="25">
                                 {{poc_pagination.firstItem + 1}} - {{poc_pagination.lastItem + 1}} of
                                 {{poc_pagination.totalItems}} services
                             </clr-dg-pagination>

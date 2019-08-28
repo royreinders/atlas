@@ -57,30 +57,30 @@ export class PocsComponent implements OnInit {
 
   selectedFindingChanged(selected_finding) {
     this.selected_finding = selected_finding;
-    this.getFindingPocs(selected_finding.id)
+    this.getServicePocs(selected_finding.id)
   }
 
-  getFindingPocs(finding_id) {
-    this.data.GetFindingPocs(finding_id).subscribe(data => this.finding_pocs = data);
+  getServicePocs(finding_id) {
+    this.data.GetFindingServices(finding_id).subscribe(data => this.finding_pocs = data);
   }
 
-  setHasPoc(poc){
-    if(poc.haspoc == 0){
-      poc.haspoc = 1
-      this.data.UpdatePoc(poc).subscribe(data => poc = data)
-    } else if (poc.haspoc == 1){
-      poc.haspoc = 0
-      this.data.UpdatePoc(poc).subscribe(data => poc = data)
+  setHasPoc(service){
+    if(service.haspoc == 0){
+      service.haspoc = 1
+      this.data.UpdateService(service).subscribe(data => service = data)
+    } else if (service.haspoc == 1){
+      service.haspoc = 0
+      this.data.UpdateService(service).subscribe(data => service = data)
     }
   }
 
-  setFalsePositive(poc){
-    if(poc.falsepositive == 0){
-      poc.falsepositive = 1
-      this.data.UpdatePoc(poc).subscribe(data => poc = data)
-    } else if (poc.falsepositive == 1){
-      poc.falsepositive = 0
-      this.data.UpdatePoc(poc).subscribe(data => poc = data)
+  setFalsePositive(service){
+    if(service.falsepositive == 0){
+      service.falsepositive = 1
+      this.data.UpdateService(service).subscribe(data => service = data)
+    } else if (service.falsepositive == 1){
+      service.falsepositive = 0
+      this.data.UpdateService(service).subscribe(data => service = data)
     }
   }
 }

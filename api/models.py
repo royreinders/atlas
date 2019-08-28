@@ -9,29 +9,28 @@ class Host(models.Model):
     os = models.CharField(max_length=100)
 
 
-class Service(models.Model):
-    __tablename__ = 'services'
-    name = models.CharField(max_length=100)
-    port = models.IntegerField(default=0)
-    protocol = models.CharField(max_length=10)
-    host = models.ForeignKey(Host, related_name='services', on_delete=models.CASCADE)
-
-
 class Finding(models.Model):
     __tablename__ = 'findings'
     name = models.CharField(max_length=255)
     description = models.TextField()
     import_poc = models.TextField()  # PoC originating from the import from a scanning tool
     pluginID = models.IntegerField()
-    services = models.ManyToManyField(Service, through='ProofOfConcept')
+
+
+class Service(models.Model):
+    __tablename__ = 'services'
+    name = models.CharField(max_length=100)
+    port = models.IntegerField(default=0)
+    protocol = models.CharField(max_length=10)
+    host = models.ForeignKey(Host, related_name='services', on_delete=models.CASCADE)
+    finding = models.ForeignKey(Finding, related_name='services', on_delete=models.CASCADE)
+    haspoc = models.IntegerField(default=0)
+    falsepositive = models.IntegerField(default=0)
 
 
 class ProofOfConcept(models.Model):
     __tablename__ = 'proofofconcept'
     service = models.ForeignKey(Service, null=True, on_delete=models.SET_NULL)
-    finding = models.ForeignKey(Finding, null=True, on_delete=models.SET_NULL)
-    haspoc = models.IntegerField(default=0)
-    falsepositive = models.IntegerField(default=0)
     poc = models.TextField(null=True, blank=True)
     tool = models.TextField()
 
@@ -51,8 +50,9 @@ class Task(models.Model):
     __tablename__ = 'tasks'
     tool = models.ForeignKey(Tool, on_delete=models.CASCADE, null=False)
     starttime = models.DateTimeField(auto_now_add=True, blank=True)
-    pocs = models.ManyToManyField(ProofOfConcept)
+    services = models.ManyToManyField(Service)
     threads = models.IntegerField(default=5)
     running = models.IntegerField(default=0)
     completed = models.IntegerField(default=0)
+    error = models.IntegerField(default=0)
     targets_completed = models.IntegerField(default=0)

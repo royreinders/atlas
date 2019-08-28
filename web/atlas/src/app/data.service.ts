@@ -17,12 +17,12 @@ export class DataService {
     return this.http.get('http://127.0.0.1:8000/api/findings/')
   }
 
-  GetFindingPocs(finding_id) {
-    return this.http.get('http://127.0.0.1:8000/api/pocs/?finding=' + finding_id)
+  GetFindingServices(finding_id) {
+    return this.http.get('http://127.0.0.1:8000/api/services/?finding=' + finding_id)
   }
 
-  UpdatePoc(poc):Observable<any>{
-    return this.http.put('http://127.0.0.1:8000/api/pocs/' + poc.id + "/", poc)
+  UpdateService(service):Observable<any>{
+    return this.http.put('http://127.0.0.1:8000/api/services/' + service.id + "/", service)
   }
 
   GetTools() {

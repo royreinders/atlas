@@ -16,7 +16,6 @@ export class TasksComponent implements OnInit {
 
   ngOnInit() {
     this.GetTasks()
-    this.GetTool(2)
   }
 
   GetTasks(){ 
@@ -26,7 +25,6 @@ export class TasksComponent implements OnInit {
   GetTool(tool_id){
     var tool
     this.data.GetTool(tool_id).subscribe(data => this.tool = data);
-    console.log(this.tool)
   }
 
   StartTask(task){

@@ -25,7 +25,7 @@
           <clr-dg-cell>{{task.starttime | date:'h:mm:ss, d LLL'}}</clr-dg-cell>
           <clr-dg-cell>asd</clr-dg-cell>
           <clr-dg-cell>{{task.running}}</clr-dg-cell>
-          <clr-dg-cell>{{task.targets_completed}} / {{task.pocs.length}}</clr-dg-cell>
+          <clr-dg-cell>{{task.targets_completed}} / {{task.services.length}}</clr-dg-cell>
           <clr-dg-cell>
                 <span *ngIf="task.running; else run" class="spinner spinner-inline"></span>
                 <ng-template #run>

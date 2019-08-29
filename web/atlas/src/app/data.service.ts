@@ -21,6 +21,10 @@ export class DataService {
     return this.http.get('http://127.0.0.1:8000/api/services/?finding=' + finding_id)
   }
 
+  GetServicePocs(service_id) {
+    return this.http.get('http://127.0.0.1:8000/api/pocs/?service=' + service_id)
+  }
+
   UpdateService(service):Observable<any>{
     return this.http.put('http://127.0.0.1:8000/api/services/' + service.id + "/", service)
   }

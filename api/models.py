@@ -13,7 +13,6 @@ class Finding(models.Model):
     __tablename__ = 'findings'
     name = models.CharField(max_length=255)
     description = models.TextField()
-    import_poc = models.TextField()  # PoC originating from the import from a scanning tool
     pluginID = models.IntegerField()
 
 
@@ -33,6 +32,7 @@ class ProofOfConcept(models.Model):
     service = models.ForeignKey(Service, null=True, on_delete=models.SET_NULL)
     poc = models.TextField(null=True, blank=True)
     tool = models.TextField()
+    imported = models.IntegerField(default=0)
 
 
 class Tool(models.Model):
@@ -54,5 +54,5 @@ class Task(models.Model):
     threads = models.IntegerField(default=5)
     running = models.IntegerField(default=0)
     completed = models.IntegerField(default=0)
-    error = models.IntegerField(default=0)
+    errormessage = models.CharField(max_length=100)
     targets_completed = models.IntegerField(default=0)

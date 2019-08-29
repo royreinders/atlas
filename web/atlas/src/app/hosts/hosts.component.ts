@@ -37,6 +37,7 @@ export class HostsComponent implements OnInit {
   selected_finding: any;
   findings: Object;
   finding_services: Object;
+  service_pocs: Object;
   selected = [];
   selected_services = [];
   tools: Object;
@@ -69,6 +70,10 @@ export class HostsComponent implements OnInit {
 
   getFindingServices(finding_id) {
     this.data.GetFindingServices(finding_id).subscribe(data => this.finding_services = data);
+  }
+
+  getServicePocs(service_id) {
+    this.data.GetServicePocs(service_id).subscribe(data => this.service_pocs= data);
   }
 
   setHasPoc(service){

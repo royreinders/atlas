@@ -34,10 +34,10 @@ class NessusParser():
         pluginID = xml_reportitem.attrib['pluginID']
         description = xml_reportitem.xpath('description/text()')[0]
         if xml_reportitem.xpath('plugin_output/text()'):
-            poc = xml_reportitem.xpath('plugin_output/text()')[0]
+            plugin_output = xml_reportitem.xpath('plugin_output/text()')[0]
         else:
-            poc = ''
-        reportitem = ReportItem(serviceName, protocol, port, pluginName, pluginID, description, poc)
+            plugin_output = ''
+        reportitem = ReportItem(serviceName, protocol, port, pluginName, pluginID, description, plugin_output)
         return reportitem
 
 
@@ -87,14 +87,14 @@ class ReportItem:
     pluginName = ''
     pluginID = ''
     description = ''
-    poc = ''
+    plugin_output = ''
 
-    def __init__(self, serviceName, protocol, port, pluginName, pluginId, description, poc):
+    def __init__(self, serviceName, protocol, port, pluginName, pluginId, description, plugin_output):
         self.serviceName = serviceName
         self.protocol = protocol
         self.port = port
         self.pluginName = pluginName
         self.pluginID = pluginId
         self.description = description
-        self.pocs = poc
+        self.plugin_output = plugin_output
 

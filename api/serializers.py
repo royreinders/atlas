@@ -19,18 +19,17 @@ class FindingListSerializer(serializers.ModelSerializer):
 
 
 class ProofOfConceptSerializer(serializers.ModelSerializer):
-    service = ServiceHostSerializer(many=False, read_only=True)
-    finding = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
-
+    service = serializers.SlugRelatedField(many=False, slug_field='id', read_only=True)
     class Meta:
         model = ProofOfConcept
-        fields = ('id', 'finding', 'service', 'haspoc', 'falsepositive')
+        fields = ('id', 'service', 'poc', 'tool', 'imported')
 
 
 class ToolSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tool
         fields = '__all__'
+
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:

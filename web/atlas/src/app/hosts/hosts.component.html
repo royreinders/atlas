@@ -1,25 +1,4 @@
-<clr-tabs>
 
-    <!--  HOST TAB  -->
-    <clr-tab>
-        <button clrTabLink id="link1">Hosts</button>
-        <clr-tab-content id="host_content" *clrIfActive>
-
-        </clr-tab-content>
-    </clr-tab>
-
-    <!--  SERVICES TAB  -->
-    <clr-tab>
-        <button clrTabLink>Services</button>
-        <clr-tab-content id="services_content" *clrIfActive="true">
-
-        </clr-tab-content>
-    </clr-tab>
-
-    <!--  FINDINGS TAB  -->
-    <clr-tab>
-        <button clrTabLink>Findings</button>
-        <clr-tab-content id="findings_content" *clrIfActive="true">
             <div class="clr-row">
                 <div class="clr-col-4">
                     <clr-datagrid [(clrDgSingleSelected)]="selected_finding" (clrDgSingleSelectedChange)="selectedFindingChanged($event)" [clrDgRowSelection]="true" class="datagrid-compact">
@@ -81,6 +60,7 @@
                         </clr-dg-column>
                         <clr-dg-column [clrDgField]="'haspoc'">FP<clr-dg-string-filter [clrDgStringFilter]="typeFilter"></clr-dg-string-filter>
                         </clr-dg-column>
+                        <clr-dg-column>PoC's</clr-dg-column>
                         <div *ngIf="selected_finding">
                             <clr-dg-row *clrDgItems="let service of finding_services" [clrDgItem]="service">
                                 <clr-dg-cell>{{service.host}}</clr-dg-cell>
@@ -102,9 +82,7 @@
                                         <clr-icon shape="times" (click)="setFalsePositive(service)"></clr-icon>
                                     </ng-template>
                                 </clr-dg-cell>
-                                <clr-dg-row-detail *clrIfExpanded>
-                                        <!-- Place Poc viewing code here -->    
-                                    </clr-dg-row-detail>
+                                <clr-dg-cell><clr-icon shape="pop-out" (click)="viewPocModal = true"></clr-icon></clr-dg-cell>
                             </clr-dg-row>
                         </div>
                         <clr-dg-footer>
@@ -117,9 +95,6 @@
                 </div>
                 
             </div>
-        </clr-tab-content>
-    </clr-tab>
-</clr-tabs>
 
 <clr-modal [(clrModalOpen)]="generatePocModal" [clrModalSize]="'lg'">
     <h3 class="modal-title">Generate PoC</h3>
@@ -155,3 +130,38 @@
       <button type="button" [disabled]="!task_threads" class="btn btn-primary" (click)="generatePocModal = false; AddTask()">Ok</button>
     </div>
   </clr-modal>
+
+
+  <clr-modal [(clrModalOpen)]="viewPocModal" [clrModalStaticBackdrop]="false" [clrModalSize]="'xl'">
+        <div *ngIf="selected_finding">
+    <h3 class="modal-title">PoC's for {{selected_finding}}</h3>
+        </div>
+    <div class="modal-body">
+            <ul id="demoTabs" class="nav" role="tablist">
+                    <li role="presentation" class="nav-item">
+                        <button id="tab1" class="btn btn-link nav-link active" aria-controls="panel1"
+                                aria-selected="true" type="button">Dashboard</button>
+                    </li>
+                    <li role="presentation" class="nav-item">
+                        <button id="tab2" class="btn btn-link nav-link" aria-controls="panel2"
+                                aria-selected="false" type="button">Management</button>
+                    </li>
+                    <li role="presentation" class="nav-item">
+                        <button id="tab3" class="btn btn-link nav-link" aria-controls="panel3"
+                                aria-selected="false" type="button">Cloud</button>
+                    </li>
+                </ul>
+                <section id="panel1" role="tabpanel" aria-labelledby="tab1">
+                    ...
+                </section>
+                <section id="panel2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true">
+                    ...
+                </section>
+                <section id="panel3" role="tabpanel" aria-labelledby="tab3" aria-hidden="true">
+                    ...
+                </section>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="viewPocModal = false">Ok</button>
+    </div>
+</clr-modal>

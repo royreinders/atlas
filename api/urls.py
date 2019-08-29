@@ -8,6 +8,7 @@ router.register('findings', views.FindingViewSet)
 router.register('services', views.ServiceViewSet)
 router.register('tools', views.ToolViewSet)
 router.register('tasks', views.TaskViewSet)
+router.register('pocs', views.ProofOfConceptViewSet)
 
 # Add custom URL patterns for generic views and append DRF router
 urlpatterns = [

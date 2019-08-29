@@ -28,7 +28,7 @@ class ProofOfConceptViewSet(viewsets.ModelViewSet):
     serializer_class = ProofOfConceptSerializer
     queryset = ProofOfConcept.objects.all()
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('finding', 'haspoc', 'service')
+    filter_fields = ('service', 'imported')
 
 
 class ServiceViewSet(viewsets.ModelViewSet):

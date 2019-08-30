@@ -27,14 +27,6 @@ class Service(models.Model):
     falsepositive = models.IntegerField(default=0)
 
 
-class ProofOfConcept(models.Model):
-    __tablename__ = 'proofofconcept'
-    service = models.ForeignKey(Service, null=True, on_delete=models.SET_NULL)
-    poc = models.TextField(null=True, blank=True)
-    tool = models.TextField()
-    imported = models.IntegerField(default=0)
-
-
 class Tool(models.Model):
     __tablename__ = 'tool'
     name = models.CharField(max_length=255)
@@ -56,3 +48,12 @@ class Task(models.Model):
     completed = models.IntegerField(default=0)
     errormessage = models.CharField(max_length=100)
     targets_completed = models.IntegerField(default=0)
+
+
+class ProofOfConcept(models.Model):
+    __tablename__ = 'proofofconcept'
+    service = models.ForeignKey(Service, null=True, on_delete=models.SET_NULL)
+    info = models.CharField(max_length=30, null=False)
+    poc = models.TextField(null=True, blank=True)
+    imported = models.IntegerField(default=0)
+

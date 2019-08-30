@@ -25,7 +25,7 @@ class Executioncontroller:
         try:
             print(command)
             tool_output = run(command, shell=True, check=True, timeout=60, stdout=PIPE, stderr=STDOUT)
-            return tool_output.stdout
+            return tool_output.stdout.decode('utf-8')
         except Exception as ex:
             print(ex)
             print("Command execution failed")
@@ -55,7 +55,7 @@ class Worker(Thread):
             else:
                 service.haspoc = 1
                 service.save()
-                ProofOfConcept.objects.create(service=service, tool=self.task.tool, poc=tool_output)
+                ProofOfConcept.objects.create(service=service, info=self.task.tool.name, poc=tool_output)
                 self.queue.task_done()
                 if self.queue.empty():
                     self.task.running = 0
@@ -70,7 +70,7 @@ class Worker(Thread):
             command = self.parse_command(tool.commandstring, service.host.ip, service.port)
             print(command)
             tool_output = run(command, shell=True, check=True, timeout=tool.timeout, stdout=PIPE, stderr=STDOUT)
-            return tool_output.stdout
+            return tool_output.stdout.decode('utf-8')
         except Exception as ex:
             print(ex)
             print("Command execution failed")

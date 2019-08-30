@@ -22,7 +22,7 @@ class ProofOfConceptSerializer(serializers.ModelSerializer):
     service = serializers.SlugRelatedField(many=False, slug_field='id', read_only=True)
     class Meta:
         model = ProofOfConcept
-        fields = ('id', 'service', 'poc', 'tool', 'imported')
+        fields = ('id', 'service', 'poc', 'info', 'imported')
 
 
 class ToolSerializer(serializers.ModelSerializer):

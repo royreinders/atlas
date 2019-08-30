@@ -20,7 +20,7 @@ class Datacontroller():
                 service, service_created = Service.objects.get_or_create(name=reportitem.serviceName, port=reportitem.port, protocol=reportitem.protocol, host=host, finding=finding)
                 # ToDo: Add imported (Nessus) PoC
                 # If ProofOfConcept does not exist
-                ProofOfConcept.objects.get_or_create(service=service, poc=reportitem.plugin_output, imported=1)
+                ProofOfConcept.objects.get_or_create(service=service, info="Nessus import", poc=reportitem.plugin_output, imported=1)
         print("[+] Nessus findings succesfully imported to DB...")
 
 

@@ -37,13 +37,16 @@ export class HostsComponent implements OnInit {
   selected_finding: any;
   findings: Object;
   finding_services: Object;
-  service_pocs: Object;
+  service_pocs: any;
   selected = [];
   selected_services = [];
   tools: Object;
   new_task: any;
   selected_tool: any;
   task_threads: any = 0;
+  viewPocModal = false
+  selected_service = Object;
+  poc_options: any;
   private findingFilter = new FindingFilter();
   private hostFilter = new HostFilter();
   private portFilter = new PortFilter();
@@ -117,6 +120,30 @@ export class HostsComponent implements OnInit {
     return s.replace('\n','<br />');
   }
 
+  viewPocs(service) {
+    this.selected_service = service
+    this.viewPocModal = true
+    this.getServicePocs(service.id)
+  }
+
+  copyToClipboard(val: string){
+    console.log(val)
+    let selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.getElementById("pocmodal").appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('clipboard');
+    document.getElementById("pocmodal").removeChild(selBox);
+  }
   
+
+  doPrint(value) {
+    console.log(value.info)
+  } 
   
 }

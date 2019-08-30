@@ -82,7 +82,7 @@
                                         <clr-icon shape="times" (click)="setFalsePositive(service)"></clr-icon>
                                     </ng-template>
                                 </clr-dg-cell>
-                                <clr-dg-cell><clr-icon shape="pop-out" (click)="viewPocModal = true"></clr-icon></clr-dg-cell>
+                                <clr-dg-cell><clr-icon shape="pop-out" (click)="viewPocs(service)"></clr-icon></clr-dg-cell>
                             </clr-dg-row>
                         </div>
                         <clr-dg-footer>
@@ -133,35 +133,29 @@
 
 
   <clr-modal [(clrModalOpen)]="viewPocModal" [clrModalStaticBackdrop]="false" [clrModalSize]="'xl'">
-        <div *ngIf="selected_finding">
-    <h3 class="modal-title">PoC's for {{selected_finding}}</h3>
-        </div>
-    <div class="modal-body">
-            <ul id="demoTabs" class="nav" role="tablist">
-                    <li role="presentation" class="nav-item">
-                        <button id="tab1" class="btn btn-link nav-link active" aria-controls="panel1"
-                                aria-selected="true" type="button">Dashboard</button>
-                    </li>
-                    <li role="presentation" class="nav-item">
-                        <button id="tab2" class="btn btn-link nav-link" aria-controls="panel2"
-                                aria-selected="false" type="button">Management</button>
-                    </li>
-                    <li role="presentation" class="nav-item">
-                        <button id="tab3" class="btn btn-link nav-link" aria-controls="panel3"
-                                aria-selected="false" type="button">Cloud</button>
-                    </li>
-                </ul>
-                <section id="panel1" role="tabpanel" aria-labelledby="tab1">
-                    ...
-                </section>
-                <section id="panel2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true">
-                    ...
-                </section>
-                <section id="panel3" role="tabpanel" aria-labelledby="tab3" aria-hidden="true">
-                    ...
-                </section>
+    <h3 class="modal-title" *ngIf="selected_finding && selected_service">{{selected_finding.name}} ({{selected_service.host}}:{{selected_service.port}})</h3>
+    <div class="modal-body" height="600px" id="pocmodal">
+
+            <clr-accordion>
+                    <clr-accordion-panel *ngFor="let poc of service_pocs">
+                      <clr-accordion-title>
+                          {{poc.info}}
+                            <span style="float: right;">
+                            <button type="button" title="Copy To Clipboard" class="btn btn-icon btn-primary btn-sm" aria-label="settings" (click)="copyToClipboard(poc.poc)">
+                                    <clr-icon shape="copy"></clr-icon>
+                                </button>
+                            </span>
+                      </clr-accordion-title>
+                      <clr-accordion-content *clrIfExpanded>
+                                    <textarea name="description" rows="15" cols="100">{{poc.poc}}</textarea>
+                        </clr-accordion-content>
+                    </clr-accordion-panel>
+                  </clr-accordion>
     </div>
+
+
     <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="viewPocModal = false">Ok</button>
     </div>
+    
 </clr-modal>

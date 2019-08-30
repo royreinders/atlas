@@ -16,7 +16,6 @@ import { ToolsComponent } from './tools/tools.component';
 import { FormsModule } from '@angular/forms';
 import { ClrFormsModule } from "@clr/angular";
 import { TasksComponent } from './tasks/tasks.component';
-import { PocsComponent } from './pocs/pocs.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +25,7 @@ import { PocsComponent } from './pocs/pocs.component';
     ImportComponent,
     TestComponent,
     ToolsComponent,
-    TasksComponent,
-    PocsComponent
+    TasksComponent
   ],
   imports: [
     BrowserModule,

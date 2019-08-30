@@ -7,7 +7,6 @@ import { ImportComponent } from './import/import.component';
 import { TestComponent } from './test/test.component';
 import { ToolsComponent } from './tools/tools.component';
 import { TasksComponent } from './tasks/tasks.component';
-import { PocsComponent } from './pocs/pocs.component';
 
 const routes: Routes = [
   {
@@ -15,12 +14,12 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'hosts',
-    component: HostsComponent
-  },
-  {
     path: 'import',
     component: ImportComponent
+  },
+  {
+    path: 'hosts',
+    component: HostsComponent
   },
   {
     path: 'tools',
@@ -29,10 +28,6 @@ const routes: Routes = [
   {
     path: 'tasks',
     component: TasksComponent
-  },
-  {
-    path: 'pocs',
-    component: PocsComponent
   },
   {
     path: 'test',

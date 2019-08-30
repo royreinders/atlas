@@ -11,3 +11,25 @@ Import
 </label>
 
 <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+
+<div class="clr-row">
+    <div class="clr-col-12 clr-col-sm-6">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Nessus import</h4>
+                <p class="card-text"><label class="btn btn-outline">
+                        <input type="file" (change)="selectFile($event)" accept=".nessus" placeholder="Upload file">
+                    </label></p>
+                            
+                    <div *ngIf="currentFileUpload" class="progress success"><progress></progress>
+                    <div *ngIf="!currentFileUpload && !progess.percentage == 100" class="progress static"><progress></progress>
+                    </div>    
+
+                    
+            </div>
+            <div class="card-footer">
+                    <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -29,6 +29,14 @@ export class DataService {
     return this.http.put('http://127.0.0.1:8000/api/services/' + service.id + "/", service)
   }
 
+  GetImports() {
+    return this.http.get('http://localhost:8000/api/imports/')
+  }
+
+  AddImport(import_obj):Observable<any>{
+    return this.http.post('http://127.0.0.1:8000/api/import/', import_obj)
+  }
+
   GetTools() {
     return this.http.get('http://localhost:8000/api/tools/')
   }

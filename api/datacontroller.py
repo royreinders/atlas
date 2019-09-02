@@ -7,6 +7,8 @@ class Datacontroller():
 
     # Import Nessus file into database
     def import_nessusfile(self, nessusfile):
+        import_job = Import.objects.create(name=nessusfile, running=1)
+
         parser = NessusParser()
         reporthosts = parser.parse(nessusfile)
 
@@ -21,6 +23,11 @@ class Datacontroller():
                 # ToDo: Add imported (Nessus) PoC
                 # If ProofOfConcept does not exist
                 ProofOfConcept.objects.get_or_create(service=service, info="Nessus import", poc=reportitem.plugin_output, imported=1)
+
+        import_job.running = 0
+        import_job.completed = 1
+        import_job.save()
+
         print("[+] Nessus findings succesfully imported to DB...")
 
 

@@ -43,6 +43,10 @@ class ToolViewSet(viewsets.ModelViewSet):
     queryset = Tool.objects.all()
     filter_fields = ('id', 'name')
 
+class ImportViewSet(viewsets.ModelViewSet):
+    serializer_class = ImportSerializer
+    queryset = Import.objects.all()
+
 
 class ImportNessus(views.APIView):
     parser_classes = (MultiPartParser,)

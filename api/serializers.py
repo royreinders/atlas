@@ -35,3 +35,9 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'services')
+
+
+class ImportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Import
+        fields = '__all__'

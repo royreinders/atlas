@@ -137,7 +137,7 @@ export class HostsComponent implements OnInit {
     document.getElementById("pocmodal").appendChild(selBox);
     selBox.focus();
     selBox.select();
-    document.execCommand('clipboard');
+    document.execCommand('copy');
     document.getElementById("pocmodal").removeChild(selBox);
   }
   

@@ -57,3 +57,11 @@ class ProofOfConcept(models.Model):
     poc = models.TextField(null=True, blank=True)
     imported = models.IntegerField(default=0)
 
+class Import(models.Model):
+    __tablename__ = 'import'
+    name = models.CharField(max_length=30, null=False)
+    timestamp = models.DateTimeField(auto_now_add=True, blank=True)
+    running = models.IntegerField(default=0)
+    completed = models.IntegerField(default=0)
+
+

@@ -1,35 +1,55 @@
-Import
-
-<div *ngIf="currentFileUpload" class="progress">
-    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
-        aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
-        {{progress.percentage}}%</div>
-</div>
-
-<label class="btn btn-outline">
-    <input type="file" (change)="selectFile($event)" accept=".nessus" placeholder="Upload file">
-</label>
-
-<button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
-
 <div class="clr-row">
-    <div class="clr-col-12 clr-col-sm-6">
+    <div class="clr-col-4">
         <div class="card">
             <div class="card-block">
                 <h4 class="card-title">Nessus import</h4>
                 <p class="card-text"><label class="btn btn-outline">
-                        <input type="file" (change)="selectFile($event)" accept=".nessus" placeholder="Upload file">
-                    </label></p>
-                            
-                    <div *ngIf="currentFileUpload" class="progress success"><progress></progress>
-                    <div *ngIf="!currentFileUpload && !progess.percentage == 100" class="progress static"><progress></progress>
-                    </div>    
-
-                    
+                       <form #NessusForm="ngForm"> <input id="inputfile" type="file" (change)="selectFile($event); " accept=".nessus" placeholder="Upload file"></form>
+                    </label></p>                      
+                                  
             </div>
             <div class="card-footer">
-                    <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+                    <ng-container *ngIf="uploading; then progress; else noprogress"></ng-container>
+
+                        <ng-template #progress>                                
+                                <ng-container *ngIf="success; then success; else nosuccess"></ng-container>
+                                <ng-template #success>                                
+                                        <div class="progress success"><progress value="100" max="100"></progress>
+                                        </div>     
+                                    </ng-template>  
+                                <ng-template #nosuccess>                                
+                                    <div class="progress loop"><progress></progress>
+                                    </div>     
+                                </ng-template>   
+                        </ng-template>  
+
+                        <ng-template #noprogress>                                
+                            <div class="progress static"><progress value="0" max="100"></progress>
+                            </div>     
+                        </ng-template>     
+                    <button class="btn btn-primary" [disabled]="uploading && !success" (click)="upload()">Upload</button>
             </div>
         </div>
     </div>
+
+    <div class="clr-col-4">
+    <div class="card">
+        <div class="card-block">
+                <h4 class="card-title">Current imports</h4>
+<clr-datagrid>
+    <clr-dg-placeholder>No imports found!</clr-dg-placeholder>
+    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+    <clr-dg-column [clrDgField]="'name'">State</clr-dg-column>
+    <clr-dg-row *clrDgItems="let import of imports" [clrDgItem]="import">
+      <clr-dg-cell>{{import.name}}</clr-dg-cell>
+      <clr-dg-cell>
+        <span *ngIf="import.running; else done" class="spinner spinner-inline"></span>
+        <ng-template #done>
+          <clr-icon shape="check"></clr-icon>
+        </ng-template></clr-dg-cell>
+    </clr-dg-row>
+  </clr-datagrid>
+  </div>
+</div>
+</div>
 </div>

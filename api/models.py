@@ -4,16 +4,16 @@ from django.db import models
 class Host(models.Model):
     __tablename__ = 'hosts'
     ip = models.CharField(max_length=30)
-    fqdn = models.CharField(max_length=255)
-    mac = models.CharField(max_length=30)
-    os = models.CharField(max_length=100)
+    fqdn = models.CharField(max_length=255, null=True)
+    mac = models.CharField(max_length=30, null=True)
+    os = models.CharField(max_length=100, null=True)
 
 
 class Finding(models.Model):
     __tablename__ = 'findings'
     name = models.CharField(max_length=255)
-    description = models.TextField()
-    pluginID = models.IntegerField()
+    description = models.TextField(null=True)
+    pluginID = models.IntegerField(null=True)
 
 
 class Service(models.Model):
@@ -46,7 +46,7 @@ class Task(models.Model):
     threads = models.IntegerField(default=5)
     running = models.IntegerField(default=0)
     completed = models.IntegerField(default=0)
-    errormessage = models.CharField(max_length=100)
+    errormessage = models.TextField(null=True, blank=True)
     targets_completed = models.IntegerField(default=0)
 
 

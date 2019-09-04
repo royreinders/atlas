@@ -39,8 +39,6 @@ export class ImportComponent implements OnInit {
         this.success = true;
         this.currentFileUpload = null
         this.GetImports();
-        console.log(this.progress.percentage);
-        console.log('File is completely uploaded!');
       }
     });
  

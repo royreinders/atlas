@@ -2,8 +2,14 @@ from .models import *
 from rest_framework import serializers
 
 
+class HostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Host
+        fields = '__all__'
+
+
 class ServiceHostSerializer(serializers.ModelSerializer):
-    host = serializers.SlugRelatedField(many=False, slug_field='ip', read_only=True)
+    host = HostSerializer(many=False, read_only=False)
     finding = serializers.SlugRelatedField(many=False, slug_field='id', read_only=True)
 
     class Meta:
@@ -34,7 +40,7 @@ class ToolSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'services')
+        fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'services', 'errormessage')
 
 
 class ImportSerializer(serializers.ModelSerializer):

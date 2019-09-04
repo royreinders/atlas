@@ -17,8 +17,32 @@ export class DataService {
     return this.http.get('http://127.0.0.1:8000/api/findings/')
   }
 
+  DeleteFinding(finding):Observable<any>{
+    return this.http.delete('http://127.0.0.1:8000/api/findings/' + finding.id + "/")
+  }
+
+  AddFinding(finding):Observable<any>{
+    return this.http.post('http://127.0.0.1:8000/api/findings/', finding)
+  }
+  
+  EditFinding(finding):Observable<any>{
+    return this.http.put('http://127.0.0.1:8000/api/findings/' + finding.id + "/", finding)
+  }
+
   GetFindingServices(finding_id) {
     return this.http.get('http://127.0.0.1:8000/api/services/?finding=' + finding_id)
+  }
+
+  DeleteService(service):Observable<any>{
+    return this.http.delete('http://127.0.0.1:8000/api/services/' + service.id + "/")
+  }
+
+  AddService(service):Observable<any>{
+    return this.http.post('http://127.0.0.1:8000/api/services/', service)
+  }
+  
+  EditService(service):Observable<any>{
+    return this.http.put('http://127.0.0.1:8000/api/services/' + service.id + "/", service)
   }
 
   GetServicePocs(service_id) {
@@ -85,7 +109,6 @@ export class DataService {
   }
 
   StartTask(task_id):Observable<any>{
-    console.log("Started task " + task_id)
     return this.http.get('http://127.0.0.1:8000/api/tasks/' + task_id + "/start/")
   }
 

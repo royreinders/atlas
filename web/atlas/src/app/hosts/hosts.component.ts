@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../data.service';
 import { ClrDatagridStringFilterInterface } from "@clr/angular";
+import { ObjectUnsubscribedError } from 'rxjs';
 
 export class FindingFilter implements ClrDatagridStringFilterInterface<any> {
   accepts(finding: any, search: string): boolean {
@@ -10,7 +11,7 @@ export class FindingFilter implements ClrDatagridStringFilterInterface<any> {
 
 export class HostFilter implements ClrDatagridStringFilterInterface<any> {
   accepts(service: any, search: string): boolean {
-    return service.service.host.toLowerCase().indexOf(search) >= 0;
+    return service.service.host.ip.toLowerCase().indexOf(search) >= 0;
   }
 }
 
@@ -42,11 +43,25 @@ export class HostsComponent implements OnInit {
   selected_services = [];
   tools: Object;
   new_task: any;
+  new_finding: any;
   selected_tool: any;
   task_threads: any = 0;
   viewPocModal = false
   selected_service = Object;
   poc_options: any;
+
+
+  new_service: any;
+  new_host:any;
+  newHostIP: any;
+  newHostFQDN: any;
+  newHostMAC: any;
+  newHostOS: any;
+  newServiceName: any;
+  newServicePort: any;
+  newServiceProtocol: any;
+  
+
   private findingFilter = new FindingFilter();
   private hostFilter = new HostFilter();
   private portFilter = new PortFilter();
@@ -59,16 +74,22 @@ export class HostsComponent implements OnInit {
     //this.data.getHosts().subscribe(
     //  data => this.hosts = data
     //);
-    this.data.GetFindings().subscribe(
-      data => this.findings = data
-    );
+    this.getFindings()
 
     this.GetTools()
+
+    this.newServiceName = "ASDASD"
+  }
+
+  getFindings(){
+    this.data.GetFindings().subscribe(data => this.findings = data);
   }
 
   selectedFindingChanged(selected_finding) {
-    this.selected_finding = selected_finding;
-    this.getFindingServices(selected_finding.id)
+    if(selected_finding){
+      this.selected_finding = selected_finding;
+      this.getFindingServices(selected_finding.id)
+    }
   }
 
   getFindingServices(finding_id) {
@@ -145,5 +166,39 @@ export class HostsComponent implements OnInit {
   doPrint(value) {
     console.log(value.info)
   } 
+
+  AddFinding(finding_name){
+    this.new_finding = new Object()
+    this.new_finding.name = finding_name
+    this.data.AddFinding(this.new_finding).subscribe()
+    this.getFindings()
+  }
+
+  deleteFinding(finding){
+    this.data.DeleteFinding(finding).subscribe(data => {
+      this.getFindings();}) 
+  }
+
+  editFinding(finding){
+    this.data.EditFinding(finding).subscribe(data => {
+      this.getFindings();}) 
+  }
+
+  addService(){
+    this.new_host = new Object()
+    this.new_host.ip = this.newHostIP
+    this.new_host.fqdn = this.newHostFQDN
+    this.new_host.mac = this.newHostMAC
+    this.new_host.os = this.newHostOS
+
+    this.new_service = new Object();
+    this.new_service.name = this.newServiceName
+    this.new_service.port = this.newServicePort
+    this.new_service.protocol = this.newServiceProtocol
+    this.new_service.host = this.new_host
+
+    this.data.AddService(this.new_service).subscribe()
+    this.getFindingServices(this.selected_finding)
+  }
   
 }

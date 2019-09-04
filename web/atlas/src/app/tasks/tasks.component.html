@@ -1,44 +1,62 @@
 <div class="row">
-    <div class="col-xs">
-      <clr-datagrid [(clrDgSingleSelected)]="selected_task" [clrDgRowSelection]="true">
-        <clr-dg-placeholder>No tasks found!</clr-dg-placeholder>
-        <clr-dg-column [clrDgField]="'name'">Name
-          <clr-dg-string-filter [clrDgStringFilter]="taskFilter"></clr-dg-string-filter>
-        </clr-dg-column>
-        <clr-dg-column [clrDgField]="'starttime'">Starttime
-          <clr-dg-string-filter [clrDgStringFilter]="taskFilter"></clr-dg-string-filter>
-        </clr-dg-column>
-        <clr-dg-column [clrDgField]="'tool'">Tool
-          <clr-dg-string-filter [clrDgStringFilter]="toolFilter"></clr-dg-string-filter>
-        </clr-dg-column>
-        <clr-dg-column [clrDgField]="'running'">Running
-          <clr-dg-string-filter [clrDgStringFilter]="runningFilter"></clr-dg-string-filter>
-        </clr-dg-column>
-        <clr-dg-column [clrDgField]="'completedtargets'"># Completed
-          <clr-dg-string-filter [clrDgStringFilter]="completedtargetsfilter"></clr-dg-string-filter>
-        </clr-dg-column>
-        <clr-dg-column [clrDgField]="'completedtargets'">Run
-            <clr-dg-string-filter [clrDgStringFilter]="completedtargetsfilter"></clr-dg-string-filter>
-          </clr-dg-column>
-        <clr-dg-row *clrDgItems="let task of tasks" [clrDgItem]="task">
-          <clr-dg-cell>{{task.id}}</clr-dg-cell>
-          <clr-dg-cell>{{task.starttime | date:'h:mm:ss, d LLL'}}</clr-dg-cell>
-          <clr-dg-cell>asd</clr-dg-cell>
-          <clr-dg-cell>{{task.running}}</clr-dg-cell>
-          <clr-dg-cell>{{task.targets_completed}} / {{task.services.length}}</clr-dg-cell>
-          <clr-dg-cell>
-                <span *ngIf="task.running; else run" class="spinner spinner-inline"></span>
-                <ng-template #run>
-                  <clr-icon shape="play" (click)="loading=true; StartTask(task)"></clr-icon> Run
-                </ng-template></clr-dg-cell>
-        </clr-dg-row>
-        <clr-dg-footer>
-          <clr-dg-pagination #task_pagination [clrDgPageSize]="20">
-            {{task_pagination.firstItem + 1}} - {{task_pagination.lastItem + 1}} of {{task_pagination.totalItems}} tasks
-          </clr-dg-pagination>
-        </clr-dg-footer>
-      </clr-datagrid>
-    </div>
+  <div class="col-xs">
+    <clr-datagrid [(clrDgSingleSelected)]="selected_task" [clrDgRowSelection]="true">
+      <clr-dg-placeholder>No tasks found!</clr-dg-placeholder>
+      <clr-dg-column [clrDgField]="'name'">Name
+        <clr-dg-string-filter [clrDgStringFilter]="taskFilter"></clr-dg-string-filter>
+      </clr-dg-column>
+      <clr-dg-column [clrDgField]="'starttime'">Starttime
+        <clr-dg-string-filter [clrDgStringFilter]="taskFilter"></clr-dg-string-filter>
+      </clr-dg-column>
+      <clr-dg-column [clrDgField]="'tool'">Tool
+        <clr-dg-string-filter [clrDgStringFilter]="toolFilter"></clr-dg-string-filter>
+      </clr-dg-column>
+      <clr-dg-column [clrDgField]="'completedtargets'"># Completed
+        <clr-dg-string-filter [clrDgStringFilter]="completedtargetsfilter"></clr-dg-string-filter>
+      </clr-dg-column>
+      <clr-dg-column [clrDgField]="'completedtargets'">Run
+        <clr-dg-string-filter [clrDgStringFilter]="completedtargetsfilter"></clr-dg-string-filter>
+      </clr-dg-column>
+      <clr-dg-column [clrDgField]="'completedtargets'">Error
+        <clr-dg-string-filter [clrDgStringFilter]="completedtargetsfilter"></clr-dg-string-filter>
+      </clr-dg-column>
+      <clr-dg-row *clrDgItems="let task of tasks" [clrDgItem]="task">
+        <clr-dg-cell>{{task.id}}</clr-dg-cell>
+        <clr-dg-cell>{{task.starttime | date:'h:mm:ss, d LLL'}}</clr-dg-cell>
+        <clr-dg-cell>asd</clr-dg-cell>
+        <clr-dg-cell>{{task.targets_completed}} / {{task.services.length}}</clr-dg-cell>
+        <clr-dg-cell>
+          <span *ngIf="task.running; else run" class="spinner spinner-inline"></span>
+          <ng-template #run>
+            <clr-icon shape="play" (click)="loading=true; StartTask(task)"></clr-icon> Run
+          </ng-template>
+        </clr-dg-cell>
+        <clr-dg-cell>
+          <a role="tooltip" aria-haspopup="true" class="tooltip tooltip-lg tooltip-top-left">
+            <clr-icon *ngIf="task.errormessage" shape="info-circle" class="is-error" (click)="errorModal = true">
+            </clr-icon><span class="tooltip-content">{{task.errormessage}}</span>
+          </a>
+        </clr-dg-cell>
+      </clr-dg-row>
+      <clr-dg-footer>
+        <clr-dg-pagination #task_pagination [clrDgPageSize]="20">
+          {{task_pagination.firstItem + 1}} - {{task_pagination.lastItem + 1}} of {{task_pagination.totalItems}} tasks
+        </clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
   </div>
-  
-  
+</div>
+
+<button type="button" class="btn btn-icon btn-primary" aria-label="settings" (click)="GetTasks()">
+    <clr-icon shape="refresh"></clr-icon> Refresh
+</button>
+
+<clr-modal [(clrModalOpen)]="errorModal" [clrModalSize]="'lg'">
+  <h3 *ngIf="selected_task" class="modal-title">Task {{selected_task.id}} error log</h3>
+  <div class="modal-body">
+    <textarea *ngIf="selected_task" name="description" rows="15" cols="90">{{selected_task.errormessage}}</textarea>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="errorModal = false">Ok</button>
+  </div>
+</clr-modal>

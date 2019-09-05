@@ -16,14 +16,20 @@ export class HostFilter implements ClrDatagridStringFilterInterface<any> {
 }
 
 export class PortFilter implements ClrDatagridStringFilterInterface<any> {
-  accepts(service: any, search: string): boolean {    
+  accepts(service: any, search: string): boolean {
     return String(service.service.port).indexOf(search) >= 0;
   }
 }
 
 export class TypeFilter implements ClrDatagridStringFilterInterface<any> {
-  accepts(service: any, search: string): boolean {    
+  accepts(service: any, search: string): boolean {
     return service.service.name.toLowerCase().indexOf(search) >= 0;
+  }
+}
+
+export class FindingCheckedFilter implements ClrDatagridStringFilterInterface<any> {
+  accepts(finding: any, search: string): boolean {
+    return finding.checked.toLowerCase().indexOf(search) >= 0;
   }
 }
 
@@ -52,7 +58,7 @@ export class HostsComponent implements OnInit {
 
 
   new_service: any;
-  new_host:any;
+  new_host: any;
   newHostIP: any;
   newHostFQDN: any;
   newHostMAC: any;
@@ -60,7 +66,7 @@ export class HostsComponent implements OnInit {
   newServiceName: any;
   newServicePort: any;
   newServiceProtocol: any;
-  
+
 
   private findingFilter = new FindingFilter();
   private hostFilter = new HostFilter();
@@ -71,22 +77,17 @@ export class HostsComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.data.getHosts().subscribe(
-    //  data => this.hosts = data
-    //);
     this.getFindings()
 
     this.GetTools()
-
-    this.newServiceName = "ASDASD"
   }
 
-  getFindings(){
+  getFindings() {
     this.data.GetFindings().subscribe(data => this.findings = data);
   }
 
   selectedFindingChanged(selected_finding) {
-    if(selected_finding){
+    if (selected_finding) {
       this.selected_finding = selected_finding;
       this.getFindingServices(selected_finding.id)
     }
@@ -97,48 +98,48 @@ export class HostsComponent implements OnInit {
   }
 
   getServicePocs(service_id) {
-    this.data.GetServicePocs(service_id).subscribe(data => this.service_pocs= data);
+    this.data.GetServicePocs(service_id).subscribe(data => this.service_pocs = data);
   }
 
-  setHasPoc(service){
-    if(service.haspoc == 0){
+  setHasPoc(service) {
+    if (service.haspoc == 0) {
       service.haspoc = 1
       this.data.UpdateService(service).subscribe(data => service = data)
-    } else if (service.haspoc == 1){
+    } else if (service.haspoc == 1) {
       service.haspoc = 0
       this.data.UpdateService(service).subscribe(data => service = data)
     }
   }
 
-  setFalsePositive(service){
-    if(service.falsepositive == 0){
+  setFalsePositive(service) {
+    if (service.falsepositive == 0) {
       service.falsepositive = 1
       this.data.UpdateService(service).subscribe(data => service = data)
-    } else if (service.falsepositive == 1){
+    } else if (service.falsepositive == 1) {
       service.falsepositive = 0
       this.data.UpdateService(service).subscribe(data => service = data)
     }
   }
 
-  SetThreads(threads){
+  SetThreads(threads) {
     this.task_threads = threads
   }
 
-  GetTools(){ 
-    this.data.GetTools().subscribe(data => this.tools = data) 
+  GetTools() {
+    this.data.GetTools().subscribe(data => this.tools = data)
   }
 
-  AddTask(){
+  AddTask() {
     this.new_task = new Object()
     this.new_task.services = new Array()
     this.new_task.tool = this.selected_tool.id
-    this.selected_services.forEach(poc => {this.new_task.services.push(poc.id)});
+    this.selected_services.forEach(poc => { this.new_task.services.push(poc.id) });
     this.new_task.threads = this.task_threads
     this.data.AddTask(this.new_task).subscribe()
   }
 
-  replaceLineBreak(s:string) {
-    return s.replace('\n','<br />');
+  replaceLineBreak(s: string) {
+    return s.replace('\n', '<br />');
   }
 
   viewPocs(service) {
@@ -147,7 +148,7 @@ export class HostsComponent implements OnInit {
     this.getServicePocs(service.id)
   }
 
-  copyToClipboard(val: string){
+  copyToClipboard(val: string) {
     console.log(val)
     let selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
@@ -161,30 +162,44 @@ export class HostsComponent implements OnInit {
     document.execCommand('copy');
     document.getElementById("pocmodal").removeChild(selBox);
   }
-  
+
 
   doPrint(value) {
     console.log(value.info)
-  } 
+  }
 
-  AddFinding(finding_name){
+  AddFinding(finding_name) {
     this.new_finding = new Object()
     this.new_finding.name = finding_name
     this.data.AddFinding(this.new_finding).subscribe()
     this.getFindings()
   }
 
-  deleteFinding(finding){
+  deleteFinding(finding) {
     this.data.DeleteFinding(finding).subscribe(data => {
-      this.getFindings();}) 
+      this.getFindings();
+    })
   }
 
-  editFinding(finding){
+  editFinding(finding) {
     this.data.EditFinding(finding).subscribe(data => {
-      this.getFindings();}) 
+      this.getFindings();
+    })
   }
 
-  addService(){
+  toggleFindingDone(finding) {
+    if (finding.checked == 1) {
+      finding.checked = 0;
+    }
+    else if (finding.checked == 0) {
+      finding.checked = 1
+    }
+    this.data.EditFinding(finding).subscribe(data => {
+      this.getFindings();
+    })
+  }
+
+  addService() {
     this.new_host = new Object()
     this.new_host.ip = this.newHostIP
     this.new_host.fqdn = this.newHostFQDN
@@ -200,5 +215,5 @@ export class HostsComponent implements OnInit {
     this.data.AddService(this.new_service).subscribe()
     this.getFindingServices(this.selected_finding)
   }
-  
+
 }

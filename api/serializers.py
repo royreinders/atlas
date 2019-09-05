@@ -21,7 +21,7 @@ class ServiceHostSerializer(serializers.ModelSerializer):
 class FindingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Finding
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'checked')
 
 
 class ProofOfConceptSerializer(serializers.ModelSerializer):

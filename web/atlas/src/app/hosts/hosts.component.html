@@ -1,5 +1,5 @@
 <div class="clr-row">
-    <div class="clr-col-4">
+    <div class="clr-col-5">
         <clr-datagrid [(clrDgSingleSelected)]="selected_finding"
             (clrDgSingleSelectedChange)="selectedFindingChanged($event)" [clrDgRowSelection]="true"
             class="datagrid-compact">
@@ -13,15 +13,26 @@
                     </button>
                     <button class="btn" [disabled]="!selected_finding" (click)="deleteFindingModal = true">
                         <clr-icon shape="trash"></clr-icon> Delete Finding
-                    </button>
+                    </button>                    
                 </div>
+                <button class="btn" [disabled]="!selected_finding" (click)="toggleFindingDone(selected_finding)">
+                    <clr-icon shape="check"></clr-icon> Toggle Done
+                </button>
             </clr-dg-action-bar>
             <clr-dg-placeholder>No findings found!</clr-dg-placeholder>
             <clr-dg-column [clrDgField]="'name'">Name<clr-dg-string-filter [clrDgStringFilter]="findingFilter">
                 </clr-dg-string-filter>
             </clr-dg-column>
+            <clr-dg-column [clrDgField]="'Done'">Done<clr-dg-string-filter [clrDgStringFilter]="FindingCheckedFilter">
+                </clr-dg-string-filter>
+            </clr-dg-column>
             <clr-dg-row *clrDgItems="let finding of findings" [clrDgItem]="finding">
                 <clr-dg-cell>{{finding.name}}</clr-dg-cell>
+                <clr-dg-cell>
+                    <div *ngIf="finding.checked === 1">
+                        <clr-icon shape="check"></clr-icon>
+                    </div>
+                </clr-dg-cell>
             </clr-dg-row>
             <clr-dg-footer>
                 <clr-dg-pagination #finding_pagination [clrDgPageSize]="25">
@@ -275,7 +286,7 @@
         </form>
     </div>
     <div class="modal-footer">
-            <button type="button" class="btn btn-outline" (click)="addServiceModal = false">Cancel</button>
+        <button type="button" class="btn btn-outline" (click)="addServiceModal = false">Cancel</button>
         <button type="button" [disabled]="!newServiceName" class="btn btn-primary"
             (click)="addServiceModal = false; addService(newFindingName)">Add</button>
     </div>

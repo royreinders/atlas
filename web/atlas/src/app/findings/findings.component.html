@@ -1,0 +1,304 @@
+<div class="clr-row">
+    <div class="clr-col-5">
+        <clr-datagrid [(clrDgSingleSelected)]="selected_finding"
+            (clrDgSingleSelectedChange)="selectedFindingChanged($event)" [clrDgRowSelection]="true"
+            class="datagrid-compact">
+            <clr-dg-action-bar>
+                <div class="btn-group">
+                    <button class="btn" (click)="addFindingModal = true">
+                        <clr-icon shape="plus"></clr-icon> Add Finding
+                    </button>
+                    <button class="btn" [disabled]="!selected_finding" (click)="editFindingModal = true">
+                        <clr-icon shape="pencil"></clr-icon> Edit Finding
+                    </button>
+                    <button class="btn" [disabled]="!selected_finding" (click)="deleteFindingModal = true">
+                        <clr-icon shape="trash"></clr-icon> Delete Finding
+                    </button>                    
+                </div>
+                <button class="btn" [disabled]="!selected_finding" (click)="toggleFindingDone(selected_finding)">
+                    <clr-icon shape="check"></clr-icon> Toggle Done
+                </button>
+            </clr-dg-action-bar>
+            <clr-dg-placeholder>No findings found!</clr-dg-placeholder>
+            <clr-dg-column [clrDgField]="'name'">Name<clr-dg-string-filter [clrDgStringFilter]="findingFilter">
+                </clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-column [clrDgField]="'Done'">Done<clr-dg-string-filter [clrDgStringFilter]="FindingCheckedFilter">
+                </clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-row *clrDgItems="let finding of findings" [clrDgItem]="finding">
+                <clr-dg-cell>{{finding.name}}</clr-dg-cell>
+                <clr-dg-cell>
+                    <div *ngIf="finding.checked === 1">
+                        <clr-icon shape="check"></clr-icon>
+                    </div>
+                </clr-dg-cell>
+            </clr-dg-row>
+            <clr-dg-footer>
+                <clr-dg-pagination #finding_pagination [clrDgPageSize]="25">
+                    {{finding_pagination.firstItem + 1}} - {{finding_pagination.lastItem + 1}} of
+                    {{finding_pagination.totalItems}} findings
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
+    </div>
+    <div class="clr-col">
+        <clr-datagrid [(clrDgSelected)]="selected_services" [clrDgRowSelection]="true" class="datagrid-compact">
+            <clr-dg-action-bar>
+                <div class="btn-group">
+                    <button [disabled]="!selected_finding" class="btn" (click)="notYetImplementedModal = true">
+                        <clr-icon shape="plus"></clr-icon> Add Service
+                    </button>
+                    <button [disabled]="!selected_services.length > 0" class="btn" (click)="notYetImplementedModal = true">
+                        <clr-icon shape="pencil"></clr-icon> Edit Service
+                    </button>
+                    <button [disabled]="!selected_services.length > 0" class="btn" (click)="notYetImplementedModal = true">
+                        <clr-icon shape="trash"></clr-icon> Delete Service
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button [disabled]="!selected_services.length > 0" class="btn" (click)="generatePocModal = true">
+                        <clr-icon shape="play"></clr-icon> Generate PoC
+                    </button>
+                </div>
+            </clr-dg-action-bar>
+            <clr-dg-placeholder>No services found!</clr-dg-placeholder>
+            <clr-dg-column [clrDgField]="'host'">IP<clr-dg-string-filter [clrDgStringFilter]="hostFilter">
+                </clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-column [clrDgField]="'port'">Port<clr-dg-string-filter [clrDgStringFilter]="portFilter">
+                </clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-column [clrDgField]="'name'">Type<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
+                </clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-column [clrDgField]="'haspoc'">Has POC<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
+                </clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-column [clrDgField]="'haspoc'">FP<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
+                </clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-column>PoC's</clr-dg-column>
+            <div *ngIf="selected_finding">
+                <clr-dg-row *clrDgItems="let service of finding_services" [clrDgItem]="service">
+                    <clr-dg-cell>{{service.host.ip}}</clr-dg-cell>
+                    <clr-dg-cell>{{service.port}}</clr-dg-cell>
+                    <clr-dg-cell>{{service.name}}</clr-dg-cell>
+                    <clr-dg-cell>
+                        <div *ngIf="service.haspoc === 1; else no_poc">
+                            <clr-icon shape="check" (click)="setHasPoc(service)"></clr-icon>
+                        </div>
+                        <ng-template #no_poc>
+                            <clr-icon shape="times" (click)="setHasPoc(service)"></clr-icon>
+                        </ng-template>
+                    </clr-dg-cell>
+                    <clr-dg-cell>
+                        <div *ngIf="service.falsepositive === 1; else falsepositive">
+                            <clr-icon shape="check" (click)="setFalsePositive(service)"></clr-icon>
+                        </div>
+                        <ng-template #falsepositive>
+                            <clr-icon shape="times" (click)="setFalsePositive(service)"></clr-icon>
+                        </ng-template>
+                    </clr-dg-cell>
+                    <clr-dg-cell>
+                        <clr-icon shape="pop-out" (click)="viewPocs(service)"></clr-icon>
+                    </clr-dg-cell>
+                </clr-dg-row>
+            </div>
+            <clr-dg-footer>
+                <clr-dg-pagination #poc_pagination [clrDgPageSize]="25">
+                    {{poc_pagination.firstItem + 1}} - {{poc_pagination.lastItem + 1}} of
+                    {{poc_pagination.totalItems}} services
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
+    </div>
+
+</div>
+
+<clr-modal [(clrModalOpen)]="generatePocModal" [clrModalSize]="'lg'">
+    <h3 class="modal-title">Generate PoC</h3>
+    <div class="modal-body">
+        <clr-datagrid [(clrDgSingleSelected)]="selected_tool"
+            (clrDgSingleSelectedChange)="SetThreads(selected_tool.threads)" [clrDgRowSelection]="true">>
+            <clr-dg-placeholder>No tools found!</clr-dg-placeholder>
+            <clr-dg-column [clrDgField]="'name'">Name
+                <clr-dg-string-filter [clrDgStringFilter]="toolFilter"></clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-column [clrDgField]="'commandstring'">Commandstring
+                <clr-dg-string-filter [clrDgStringFilter]="commandstringFilter"></clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-row *clrDgItems="let tool of tools" [clrDgItem]="tool">
+                <clr-dg-cell>{{tool.name}}</clr-dg-cell>
+                <clr-dg-cell>{{tool.commandstring}}</clr-dg-cell>
+            </clr-dg-row>
+            <clr-dg-footer>
+                <clr-dg-pagination #tool_pagination [clrDgPageSize]="20">
+                    {{tool_pagination.firstItem + 1}} - {{tool_pagination.lastItem + 1}} of
+                    {{tool_pagination.totalItems}} tools
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
+        <form clrForm>
+            <section class="form-block">
+                <clr-input-container>
+                    <label>Threads</label><input clrInput [(ngModel)]="task_threads" name="threadsInput" type="text"
+                        id="requiredInput" placeholder="# of threads">
+                    <clr-control-error>This field is required!</clr-control-error>
+                </clr-input-container>
+            </section>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" [disabled]="!task_threads" class="btn btn-primary"
+            (click)="generatePocModal = false; AddTask()">Ok</button>
+    </div>
+</clr-modal>
+
+
+<clr-modal [(clrModalOpen)]="viewPocModal" [clrModalStaticBackdrop]="false" [clrModalSize]="'xl'">
+    <h3 class="modal-title" *ngIf="selected_finding && selected_service && selected_service.host">
+        {{selected_finding.name}}
+        ({{selected_service.host.ip}}:{{selected_service.port}})</h3>
+    <div class="modal-body" height="600px" id="pocmodal">
+
+        <clr-accordion>
+            <clr-accordion-panel *ngFor="let poc of service_pocs">
+                <clr-accordion-title>
+                    {{poc.info}}
+                    <span style="float: right;">
+                        <button type="button" title="Copy To Clipboard" class="btn btn-icon btn-primary btn-sm"
+                            aria-label="settings" (click)="copyToClipboard(poc.poc)">
+                            <clr-icon shape="copy"></clr-icon>
+                        </button>
+                    </span>
+                </clr-accordion-title>
+                <clr-accordion-content *clrIfExpanded>
+                    <textarea name="description" rows="15" cols="100">{{poc.poc}}</textarea>
+                </clr-accordion-content>
+            </clr-accordion-panel>
+        </clr-accordion>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="viewPocModal = false">Ok</button>
+    </div>
+
+</clr-modal>
+
+
+<clr-modal [(clrModalOpen)]="addFindingModal" [clrModalStaticBackdrop]="false" [clrModalSize]="'lg'">
+    <h3 class="modal-title">Add finding</h3>
+    <div class="modal-body" height="600px" id="pocmodal">
+        <form clrForm>
+            <clr-input-container>
+                <label>Finding name</label>
+                <input clrInput placeholder="Enter finding name..." name="name" [(ngModel)]="newFindingName" required />
+                <clr-control-error>This field is required!</clr-control-error>
+            </clr-input-container>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="addFindingModal = false">Cancel</button>
+        <button type="button" [disabled]="!newFindingName" class="btn btn-primary"
+            (click)="addFindingModal = false; AddFinding(newFindingName)">Add</button>
+    </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="deleteFindingModal">
+    <h3 class="modal-title">Delete finding?</h3>
+    <div class="modal-body">
+        <p *ngIf="selected_finding">Are you sure you want to delete finding "<b>{{selected_finding.name}}</b>"?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="deleteFindingModal = false">Cancel</button>
+        <button type="button" class="btn btn-warning"
+            (click)="deleteFinding(selected_finding); deleteFindingModal = false">Delete</button>
+    </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="editFindingModal" [clrModalStaticBackdrop]="false" [clrModalSize]="'lg'">
+    <h3 class="modal-title">Edit finding</h3>
+    <div class="modal-body" height="600px" id="pocmodal">
+        <form clrForm>
+            <clr-input-container>
+                <p *ngIf="selected_finding">Editing "<b>{{selected_finding.name}}</b>"...</p>
+                <label>Finding name</label>
+                <input *ngIf="selected_finding" clrInput placeholder="Enter finding name..." name="name"
+                    [(ngModel)]="selected_finding.name" required />
+                <clr-control-error>This field is required!</clr-control-error>
+            </clr-input-container>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="editFindingModal = false">Cancel</button>
+        <button *ngIf="selected_finding" type="button" [disabled]="!selected_finding.name" class="btn btn-primary"
+            (click)="editFindingModal = false; editFinding(selected_finding)">Edit</button>
+    </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="addServiceModal" [clrModalStaticBackdrop]="false" [clrModalSize]="'lg'">
+    <h3 class="modal-title">Add service</h3>
+    <div class="modal-body" height="600px" id="pocmodal">
+        <h5 class="modal-title">Host</h5>
+        <form clrForm>
+            <clr-input-container>
+                <label>IP address</label>
+                <input clrInput placeholder="e.g. 192.168.0.1" name="ip" [(ngModel)]="newHostIP" required />
+                <clr-control-error>This field is required!</clr-control-error>
+            </clr-input-container>
+            <clr-input-container>
+                <label>FQDN</label>
+                <input clrInput placeholder="e.g. example.com" name="fqdn" [(ngModel)]="newHostFQDN" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>MAC address</label>
+                <input clrInput placeholder="e.g. 00:0a:95:9d:68:16" name="mac" [(ngModel)]="newHostMAC" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Operating System</label>
+                <input clrInput placeholder="e.g. Windows Server 2012" name="os" [(ngModel)]="newHostOS" />
+            </clr-input-container>
+        </form>
+        <h5 class="modal-title">Service</h5>
+        <form clrForm>
+            <clr-input-container>
+                <label>Service name</label>
+                <input clrInput placeholder="e.g. www or rdp" name="servicename" [(ngModel)]="newServiceName"
+                    required />
+                <clr-control-error>This field is required!</clr-control-error>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Port</label>
+                <input clrInput placeholder="Enter finding name..." name="serviceport" [(ngModel)]="newServicePort"
+                    required />
+                <clr-control-error>This field is required!</clr-control-error>
+            </clr-input-container>
+            <clr-select-container>
+                <label>Protocol</label>
+                <select clrSelect name="serviceprotocol" [(ngModel)]="newServiceProtocol" required>
+                    <option value="tcp">tcp</option>
+                    <option value="udp">udp</option>
+                </select>
+                <clr-control-error>This field is required!</clr-control-error>
+            </clr-select-container>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="addServiceModal = false">Cancel</button>
+        <button type="button" [disabled]="!newServiceName" class="btn btn-primary"
+            (click)="addServiceModal = false; addService(newFindingName)">Add</button>
+    </div>
+</clr-modal>
+
+
+<clr-modal [(clrModalOpen)]="notYetImplementedModal" [clrModalStaticBackdrop]="false" [clrModalSize]="'lg'">
+    <h3 class="modal-title">Feature not yet implemented</h3>
+    <div class="modal-body">
+      Please forward your complaints or requests to /dev/null
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="notYetImplementedModal = false">Kusje van de boys</button>
+    </div>
+  </clr-modal>

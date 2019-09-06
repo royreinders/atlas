@@ -66,6 +66,9 @@
             <clr-dg-column [clrDgField]="'host'">IP<clr-dg-string-filter [clrDgStringFilter]="hostFilter">
                 </clr-dg-string-filter>
             </clr-dg-column>
+            <clr-dg-column [clrDgField]="'fqdn'">FQDN<clr-dg-string-filter [clrDgStringFilter]="hostFilter">
+            </clr-dg-string-filter>
+        </clr-dg-column>
             <clr-dg-column [clrDgField]="'port'">Port<clr-dg-string-filter [clrDgStringFilter]="portFilter">
                 </clr-dg-string-filter>
             </clr-dg-column>
@@ -82,6 +85,7 @@
             <div *ngIf="selected_finding">
                 <clr-dg-row *clrDgItems="let service of finding_services" [clrDgItem]="service">
                     <clr-dg-cell>{{service.host.ip}}</clr-dg-cell>
+                    <clr-dg-cell>{{service.host.fqdn}}</clr-dg-cell>
                     <clr-dg-cell>{{service.port}}</clr-dg-cell>
                     <clr-dg-cell>{{service.name}}</clr-dg-cell>
                     <clr-dg-cell>

@@ -32,13 +32,11 @@ class Executioncontroller:
     # Execute a single command and return output (for testing purposes)
     @staticmethod
     def execute_test(command):
-        error = False
         try:
             tool_output = run(command, shell=True, check=True, timeout=60, stdout=PIPE, stderr=STDOUT)
-            return "$ " + command + "\n" + tool_output.stdout.decode('utf-8'), error
+            return "$ " + command + "\n" + tool_output.stdout.decode('utf-8')
         except Exception as ex:
-            error = True
-            return "$ " + command + "\n" + ex.output.decode('utf-8'), error
+            return "$ " + command + "\n" + ex.output.decode('utf-8')
 
 class Worker(Thread):
     def __init__(self, queue, task, *args, **kwargs):

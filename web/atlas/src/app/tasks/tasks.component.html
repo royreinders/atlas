@@ -23,7 +23,7 @@
       <clr-dg-row *clrDgItems="let task of tasks" [clrDgItem]="task">
         <clr-dg-cell>{{task.id}}</clr-dg-cell>
         <clr-dg-cell>{{task.starttime | date:'h:mm:ss, d LLL'}}</clr-dg-cell>
-        <clr-dg-cell>{{task.tool}}</clr-dg-cell>
+        <clr-dg-cell>NYI</clr-dg-cell>
         <clr-dg-cell>{{task.targets_completed}} / {{task.services.length}}</clr-dg-cell>
         <clr-dg-cell>
           <span *ngIf="task.running; else run" class="spinner spinner-inline"></span>

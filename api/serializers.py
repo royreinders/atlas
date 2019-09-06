@@ -39,7 +39,6 @@ class ToolSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    tool = serializers.SlugRelatedField(many=False, slug_field='name', read_only=True)
     class Meta:
         model = Task
         fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'services', 'errormessage')

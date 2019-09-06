@@ -26,6 +26,7 @@ class FindingListSerializer(serializers.ModelSerializer):
 
 class ProofOfConceptSerializer(serializers.ModelSerializer):
     service = serializers.SlugRelatedField(many=False, slug_field='id', read_only=True)
+
     class Meta:
         model = ProofOfConcept
         fields = ('id', 'service', 'poc', 'info', 'imported')
@@ -38,6 +39,7 @@ class ToolSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    tool = serializers.SlugRelatedField(many=False, slug_field='name', read_only=True)
     class Meta:
         model = Task
         fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'services', 'errormessage')

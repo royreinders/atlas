@@ -6,7 +6,8 @@
           <button class="btn" (click)="form_tool = {}; wizardLarge.reset(); lgOpen = true; new_tool = true;">
             <clr-icon shape="plus"></clr-icon> Add Tool
           </button>
-          <button class="btn" [disabled]="! selected_tool" (click)="wizardLarge.reset(); test_target=''; test_port=''; lgOpen = true; new_tool = false; form_tool = selected_tool;  ParseCommand()">
+          <button class="btn" [disabled]="! selected_tool"
+            (click)="wizardLarge.reset(); test_target=''; test_port=''; lgOpen = true; new_tool = false; form_tool = selected_tool;  ParseCommand()">
             <clr-icon shape="pencil"></clr-icon> Edit Tool
           </button>
           <button class="btn" [disabled]="! selected_tool" (click)="deleteToolModal = true">
@@ -18,8 +19,19 @@
       <clr-dg-column [clrDgField]="'name'">Name
         <clr-dg-string-filter [clrDgStringFilter]="toolFilter"></clr-dg-string-filter>
       </clr-dg-column>
+      <clr-dg-column [clrDgField]="'info'">Info</clr-dg-column>
       <clr-dg-row *clrDgItems="let tool of tools" [clrDgItem]="tool">
         <clr-dg-cell>{{tool.name}}</clr-dg-cell>
+        <clr-dg-cell>
+          <a role="tooltip" aria-haspopup="true" class="tooltip tooltip-lg tooltip-top-left">
+            <clr-icon shape="info-circle" class="is-info" (click)="infoModal = true">
+            </clr-icon><span class="tooltip-content"><b>Name: </b>{{tool.name}} <br>
+              <b>Execution string: </b>{{tool.commandstring}} <br>
+              <b>Expected good: </b>{{tool.expected_good}} <br>
+              <b>Expected bad: </b>{{tool.expected_bad}} <br>
+              <b>Timeout: </b>{{tool.timeout}} <br></span>
+          </a>
+        </clr-dg-cell>
       </clr-dg-row>
       <clr-dg-footer>
         <clr-dg-pagination #tool_pagination [clrDgPageSize]="20">
@@ -27,16 +39,6 @@
         </clr-dg-pagination>
       </clr-dg-footer>
     </clr-datagrid>
-  </div>
-  <div class="col-xs">
-    <h3>Info</h3>
-    <p *ngIf="selected_tool">
-      <b>Name: </b>{{selected_tool.name}} <br>
-      <b>Execution string: </b>{{selected_tool.commandstring}} <br>
-      <b>Expected good: </b>{{selected_tool.expected_good}} <br>
-      <b>Expected bad: </b>{{selected_tool.expected_bad}} <br>
-      <b>Timeout: </b>{{selected_tool.timeout}} <br>
-    </p>
   </div>
 </div>
 
@@ -50,47 +52,44 @@
   <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
   <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
   <clr-wizard-button [type]="'finish'" (click)="FinishWizard(form_tool);">Finish</clr-wizard-button>
-  
-  <clr-wizard-page [clrWizardPageNextDisabled]="(name.pristine || commandstring.pristine || !toolForm.valid) && new_tool">
+
+  <clr-wizard-page
+    [clrWizardPageNextDisabled]="(name.pristine || commandstring.pristine || !toolForm.valid) && new_tool">
     <ng-template clrPageTitle>Tool settings</ng-template>
     <form clrForm #toolForm="ngForm">
       <section class="form-block">
-        
+
         <clr-input-container>
           <label>Name</label>
-          <input placeholder="Name" clrInput [(ngModel)]="form_tool.name" name="name" id="name" #name="ngModel" required />
+          <input placeholder="Name" clrInput [(ngModel)]="form_tool.name" name="name" id="name" #name="ngModel"
+            required />
           <clr-control-error>This field is required!</clr-control-error>
         </clr-input-container>
-
-        <clr-input-container>
-          <label>Path</label>
-          <input placeholder="/bin/ping" clrInput [(ngModel)]="form_tool.path" name="path"/>
-        </clr-input-container>
-
         <clr-input-container>
           <label>Command string</label>
-          <input placeholder="nmap <host> -p <port>" clrInput [(ngModel)]="form_tool.commandstring" name="commandstring" #commandstring="ngModel" id="commandstring" required />
+          <input placeholder="nmap <host> -p <port>" clrInput [(ngModel)]="form_tool.commandstring" name="commandstring"
+            #commandstring="ngModel" id="commandstring" required size="70" />
           <clr-control-error>This field is required!</clr-control-error>
         </clr-input-container>
 
         <clr-input-container>
           <label>Expected good</label>
-          <input clrInput [(ngModel)]="form_tool.expected_good" name="expected_good"/>
+          <input clrInput [(ngModel)]="form_tool.expected_good" name="expected_good" size="70" />
         </clr-input-container>
 
         <clr-input-container>
           <label>Expected bad</label>
-          <input clrInput [(ngModel)]="form_tool.expected_bad" name="expected_bad"/>
+          <input clrInput [(ngModel)]="form_tool.expected_bad" name="expected_bad" size="70" />
         </clr-input-container>
 
         <clr-input-container>
           <label>Timeout</label>
-          <input clrInput [(ngModel)]="form_tool.timeout" name="timeout"/>
+          <input clrInput [(ngModel)]="form_tool.timeout" name="timeout" />
         </clr-input-container>
 
         <clr-input-container>
           <label>Threads</label>
-          <input clrInput [(ngModel)]="form_tool.threads" name="threads"/>
+          <input clrInput [(ngModel)]="form_tool.threads" name="threads" />
         </clr-input-container>
 
       </section>
@@ -104,21 +103,24 @@
 
         <clr-input-container>
           <label>Target</label>
-          <input clrInput (keyup)="ParseCommand()" [(ngModel)]="test_target" #target name="target" type="text" id="target" placeholder="e.g. 192.168.1.53">
+          <input clrInput (keyup)="ParseCommand()" [(ngModel)]="test_target" #target name="target" type="text"
+            id="target" placeholder="e.g. 192.168.1.53" required>
         </clr-input-container>
 
         <clr-input-container>
           <label>Port</label>
-          <input clrInput (keyup)="ParseCommand()" [(ngModel)]="test_port" name="port" type="text" id="port" placeholder="443">
+          <input clrInput (keyup)="ParseCommand()" [(ngModel)]="test_port" name="port" type="text" id="port"
+            placeholder="443">
         </clr-input-container>
 
         <clr-input-container>
           <label>Command to be executed</label>
-          <input clrInput [(ngModel)]="test_commandstring" name="test_commandstring" type="text" id="port" placeholder="443">
+          <input clrInput [(ngModel)]="test_commandstring" name="test_commandstring" type="text" id="port"
+            placeholder="443" size="70">
         </clr-input-container>
-        
+
         <div class="form-group">
-          <button class="btn btn-outline" (click)="loading=true; Execute()">
+          <button [disabled]="!target" class="btn btn-outline" (click)="loading=true; Execute()">
             <span *ngIf="loading; else run" class="spinner spinner-inline"></span>
             <ng-template #run>
               <clr-icon shape="play"></clr-icon> Run
@@ -148,5 +150,22 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-outline" (click)="deleteToolModal = false">Cancel</button>
     <button type="button" class="btn btn-warning" (click)="DeleteTool(selected_tool)">Delete</button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="infoModal" [clrModalSize]="'lg'">
+  <h3 *ngIf="selected_task" class="modal-title">Task {{selected_task.id}} error log</h3>
+  <div class="modal-body">
+    <h3>Info</h3>
+    <p *ngIf="selected_tool">
+      <b>Name: </b>{{selected_tool.name}} <br>
+      <b>Execution string: </b>{{selected_tool.commandstring}} <br>
+      <b>Expected good: </b>{{selected_tool.expected_good}} <br>
+      <b>Expected bad: </b>{{selected_tool.expected_bad}} <br>
+      <b>Timeout: </b>{{selected_tool.timeout}} <br>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="infoModal = false">Ok</button>
   </div>
 </clr-modal>

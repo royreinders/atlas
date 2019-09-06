@@ -6,29 +6,18 @@
             </a>
         </div>
         <div class="header-actions">
-                <clr-dropdown>
-                        <button class="nav-icon" clrDropdownTrigger>
-                            <clr-icon shape="cog"></clr-icon>
-                            <clr-icon shape="caret down"></clr-icon>
-                        </button>
-                        <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-                            <a href="..." clrDropdownItem>About</a>
-                            <a href="..." clrDropdownItem>Preferences</a>
-                            <a href="..." clrDropdownItem>Log out</a>
-                        </clr-dropdown-menu>
-                    </clr-dropdown>
-                <clr-dropdown>
-                    <button class="nav-icon" clrDropdownTrigger>
-                        <clr-icon shape="cog"></clr-icon>
-                        <clr-icon shape="caret down"></clr-icon>
-                    </button>
-                    <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-                        <a href="..." clrDropdownItem>About</a>
-                        <a href="..." clrDropdownItem>Preferences</a>
-                        <a href="..." clrDropdownItem>Log out</a>
-                    </clr-dropdown-menu>
-                </clr-dropdown>
-            </div>
+            <clr-dropdown>
+                <button class="nav-icon" clrDropdownTrigger>
+                    <clr-icon shape="cog"></clr-icon>
+                    <clr-icon shape="caret down"></clr-icon>
+                </button>
+                <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+                    <a href="home" clrDropdownItem>About</a>
+                    <a href="home" clrDropdownItem>Preferences</a>
+                    <a href="home" clrDropdownItem>Log out</a>
+                </clr-dropdown-menu>
+            </clr-dropdown>
+        </div>
     </header>
     <div class="content-container">
         <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed">
@@ -37,12 +26,12 @@
                 Dashboard
             </a>
             <a clrVerticalNavLink routerLink="import" routerLinkActive="active">
-                    <clr-icon clrVerticalNavIcon shape="upload"></clr-icon>
-                    Import
-                </a>
-            <a clrVerticalNavLink routerLink="hosts" routerLinkActive="active">
-                <clr-icon clrVerticalNavIcon shape="devices"></clr-icon>
-                Hosts
+                <clr-icon clrVerticalNavIcon shape="upload"></clr-icon>
+                Import
+            </a>
+            <a clrVerticalNavLink routerLink="findings" routerLinkActive="active">
+                <clr-icon clrVerticalNavIcon shape="bullseye"></clr-icon>
+                Findings
             </a>
             <a clrVerticalNavLink routerLink="tasks" routerLinkActive="active">
                 <clr-icon clrVerticalNavIcon shape="tasks"></clr-icon>
@@ -52,12 +41,13 @@
                 <clr-icon clrVerticalNavIcon shape="wrench"></clr-icon>
                 Tools
             </a>
-            <a clrVerticalNavLink routerLink="test" routerLinkActive="active">
+            <!--<a clrVerticalNavLink routerLink="test" routerLinkActive="active">
                 <clr-icon clrVerticalNavIcon shape="flag"></clr-icon>
                 Test
-            </a>
+            </a>-->
         </clr-vertical-nav>
         <div class="content-area">
+
             <router-outlet></router-outlet>
         </div>
 

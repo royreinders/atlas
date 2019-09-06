@@ -23,7 +23,7 @@
       <clr-dg-row *clrDgItems="let task of tasks" [clrDgItem]="task">
         <clr-dg-cell>{{task.id}}</clr-dg-cell>
         <clr-dg-cell>{{task.starttime | date:'h:mm:ss, d LLL'}}</clr-dg-cell>
-        <clr-dg-cell>asd</clr-dg-cell>
+        <clr-dg-cell>{{task.tool}}</clr-dg-cell>
         <clr-dg-cell>{{task.targets_completed}} / {{task.services.length}}</clr-dg-cell>
         <clr-dg-cell>
           <span *ngIf="task.running; else run" class="spinner spinner-inline"></span>
@@ -33,7 +33,7 @@
         </clr-dg-cell>
         <clr-dg-cell>
           <a role="tooltip" aria-haspopup="true" class="tooltip tooltip-lg tooltip-top-left">
-            <clr-icon *ngIf="task.errormessage" shape="info-circle" class="is-error" (click)="errorModal = true">
+            <clr-icon *ngIf="task.errormessage" shape="error-circle" class="is-error" (click)="errorModal = true">
             </clr-icon><span class="tooltip-content">{{task.errormessage}}</span>
           </a>
         </clr-dg-cell>

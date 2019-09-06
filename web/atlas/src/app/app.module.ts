@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { HostsComponent } from './hosts/hosts.component';
+import { FindingsComponent } from './findings/findings.component';
 import { DataService } from './data.service';
 import { ClarityModule } from '@clr/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,7 +21,7 @@ import { TasksComponent } from './tasks/tasks.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    HostsComponent,
+    FindingsComponent,
     ImportComponent,
     TestComponent,
     ToolsComponent,

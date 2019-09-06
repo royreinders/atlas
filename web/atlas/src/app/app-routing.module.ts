@@ -2,13 +2,17 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
-import { HostsComponent } from './hosts/hosts.component';
+import { FindingsComponent } from './findings/findings.component';
 import { ImportComponent } from './import/import.component';
 import { TestComponent } from './test/test.component';
 import { ToolsComponent } from './tools/tools.component';
 import { TasksComponent } from './tasks/tasks.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
   {
     path: 'home',
     component: HomeComponent
@@ -18,8 +22,8 @@ const routes: Routes = [
     component: ImportComponent
   },
   {
-    path: 'hosts',
-    component: HostsComponent
+    path: 'findings',
+    component: FindingsComponent
   },
   {
     path: 'tools',

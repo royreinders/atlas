@@ -69,7 +69,7 @@ export class ToolsComponent implements OnInit {
 
   ParseCommand(){
     if(this.form_tool.path){
-      this.test_commandstring = this.form_tool.path + this.form_tool.commandstring.replace("<host>", this.test_target).replace("<port>", this.test_port)
+      this.test_commandstring = this.form_tool.commandstring.replace("<host>", this.test_target).replace("<port>", this.test_port)
     }
     else {
       this.test_commandstring = this.form_tool.commandstring.replace("<host>", this.test_target).replace("<port>", this.test_port)

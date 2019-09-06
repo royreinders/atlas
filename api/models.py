@@ -31,7 +31,6 @@ class Service(models.Model):
 class Tool(models.Model):
     __tablename__ = 'tool'
     name = models.CharField(max_length=255)
-    path = models.CharField(max_length=255, null=True, blank=True)
     commandstring = models.CharField(max_length=255)
     expected_good = models.TextField(null=True, blank=True)
     expected_bad = models.TextField(null=True, blank=True)

@@ -21,7 +21,7 @@ export class DataService {
   }
 
   AddHost(host):Observable<any>{
-    return this.http.post(this.backend_url + 'api/host/', host)
+    return this.http.post(this.backend_url + 'api/hosts/', host)
   }
   
   EditHost(host):Observable<any>{

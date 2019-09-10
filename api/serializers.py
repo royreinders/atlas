@@ -15,14 +15,23 @@ class ProofOfConceptFindingSerializer(serializers.ModelSerializer):
         model = ProofOfConcept
         fields = ('id', 'finding')
 
-class ServiceHostSerializer(serializers.ModelSerializer):
+# Not Used ...?
+class ServiceHostFindingSerializer(serializers.ModelSerializer):
     host = HostSerializer(many=False, read_only=False)
     #findings = ProofOfConceptFindingSerializer(many=True, read_only=True)
     findings = serializers.SlugRelatedField(many=True, slug_field='id', read_only=True)
 
     class Meta:
         model = Service
-        fields = ('id', 'name', 'port', 'protocol', 'host', 'haspoc', 'falsepositive', 'findings')
+        fields = ('id', 'name', 'port', 'protocol', 'host', 'findings')
+
+
+class ServiceHostSerializer(serializers.ModelSerializer):
+    host = HostSerializer(many=False, read_only=False)
+
+    class Meta:
+        model = Service
+        fields = ('id', 'name', 'port', 'protocol', 'host')
 
 
 # Finding serializer, serializing only id and name
@@ -32,12 +41,22 @@ class FindingListSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'checked')
 
 
-class ProofOfConceptSerializer(serializers.ModelSerializer):
-    service = serializers.SlugRelatedField(many=False, slug_field='id', read_only=True)
+class ProofOfConceptServiceSerializer(serializers.ModelSerializer):
+    service = ServiceHostSerializer(many=False, read_only=True)
+    finding = serializers.SlugRelatedField(many=False, slug_field='id', read_only=True)
 
     class Meta:
         model = ProofOfConcept
-        fields = ('id', 'service', 'poc', 'info', 'imported')
+        fields = ('id', 'service', 'finding', 'info', 'imported', 'haspoc', 'falsepositive')
+
+
+class ProofOfConceptSerializer(serializers.ModelSerializer):
+    service = serializers.SlugRelatedField(many=False, slug_field='id', read_only=True)
+    finding = serializers.SlugRelatedField(many=False, slug_field='id', read_only=True)
+
+    class Meta:
+        model = ProofOfConcept
+        fields = ('id', 'service', 'finding', 'poc', 'info', 'imported')
 
 
 class ToolSerializer(serializers.ModelSerializer):
@@ -49,7 +68,7 @@ class ToolSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'services', 'errormessage')
+        fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'services', 'finding', 'errormessage')
 
 
 class ImportSerializer(serializers.ModelSerializer):

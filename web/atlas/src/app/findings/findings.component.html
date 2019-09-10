@@ -45,18 +45,7 @@
     <div class="clr-col">
         <clr-datagrid [(clrDgSelected)]="selected_services" [clrDgRowSelection]="true" class="datagrid-compact">
             <clr-dg-action-bar>
-                <div class="btn-group">
-                    <button [disabled]="!selected_finding" class="btn" (click)="notYetImplementedModal = true">
-                        <clr-icon shape="plus"></clr-icon> Add Service
-                    </button>
-                    <button [disabled]="!selected_services.length > 0" class="btn" (click)="notYetImplementedModal = true">
-                        <clr-icon shape="pencil"></clr-icon> Edit Service
-                    </button>
-                    <button [disabled]="!selected_services.length > 0" class="btn" (click)="notYetImplementedModal = true">
-                        <clr-icon shape="trash"></clr-icon> Delete Service
-                    </button>
-                </div>
-                <div class="btn-group">
+               <div class="btn-group">
                     <button [disabled]="!selected_services.length > 0" class="btn" (click)="generatePocModal = true">
                         <clr-icon shape="play"></clr-icon> Generate PoC
                     </button>

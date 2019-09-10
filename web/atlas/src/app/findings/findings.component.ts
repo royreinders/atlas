@@ -97,8 +97,8 @@ export class FindingsComponent implements OnInit {
     this.data.GetFindingServices(finding_id).subscribe(data => this.finding_services = data);
   }
 
-  getServicePocs(service_id) {
-    this.data.GetServicePocs(service_id).subscribe(data => this.service_pocs = data);
+  getServicePocs(service_id, finding_id) {
+    this.data.GetServicePocs(service_id,finding_id).subscribe(data => this.service_pocs = data);
   }
 
   setHasPoc(service) {
@@ -134,6 +134,7 @@ export class FindingsComponent implements OnInit {
     this.new_task.services = new Array()
     this.new_task.tool = this.selected_tool.id
     this.selected_services.forEach(poc => { this.new_task.services.push(poc.id) });
+    this.new_task.finding = this.selected_finding.id
     this.new_task.threads = this.task_threads
     this.data.AddTask(this.new_task).subscribe()
   }
@@ -145,7 +146,7 @@ export class FindingsComponent implements OnInit {
   viewPocs(service) {
     this.selected_service = service
     this.viewPocModal = true
-    this.getServicePocs(service.id)
+    this.getServicePocs(service.id, this.selected_finding.id)
   }
 
   copyToClipboard(val: string) {

@@ -24,8 +24,6 @@ class Service(models.Model):
     protocol = models.CharField(max_length=10)
     host = models.ForeignKey(Host, related_name='services', on_delete=models.CASCADE)
     findings = models.ManyToManyField(Finding, through='ProofOfConcept')
-    haspoc = models.IntegerField(default=0)
-    falsepositive = models.IntegerField(default=0)
 
 
 class Tool(models.Model):
@@ -43,6 +41,7 @@ class Task(models.Model):
     tool = models.ForeignKey(Tool, on_delete=models.CASCADE, null=False)
     starttime = models.DateTimeField(auto_now_add=True, blank=True)
     services = models.ManyToManyField(Service)
+    finding = models.ForeignKey(Finding, null=False, on_delete=models.CASCADE)
     threads = models.IntegerField(default=5)
     running = models.IntegerField(default=0)
     completed = models.IntegerField(default=0)
@@ -57,6 +56,8 @@ class ProofOfConcept(models.Model):
     info = models.CharField(max_length=30, null=False)
     poc = models.TextField(null=True, blank=True)
     imported = models.IntegerField(default=0)
+    haspoc = models.IntegerField(default=0)
+    falsepositive = models.IntegerField(default=0)
 
 
 class Import(models.Model):

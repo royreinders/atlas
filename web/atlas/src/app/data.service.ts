@@ -64,8 +64,8 @@ export class DataService {
     return this.http.put(this.backend_url + 'api/services/' + service.id + "/", service)
   }
 
-  GetServicePocs(service_id) {
-    return this.http.get(this.backend_url + 'api/pocs/?service=' + service_id)
+  GetServicePocs(service_id, finding_id) {
+    return this.http.get(this.backend_url + 'api/pocs/?service=' + service_id + "&" + "finding=" + finding_id)
   }
 
   UpdateService(service):Observable<any>{

@@ -11,6 +11,7 @@ router.register('tasks', views.TaskViewSet)
 router.register('pocs', views.ProofOfConceptViewSet)
 router.register('imports', views.ImportViewSet)
 router.register('hosts', views.HostViewSet)
+router.register('pocservices', views.ProofOfConceptServiceViewSet)
 
 # Add custom URL patterns for generic views and append DRF router
 urlpatterns = [

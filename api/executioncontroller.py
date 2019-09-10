@@ -57,9 +57,7 @@ class Worker(Thread):
                 self.task.error = 1
                 self.task.errormessage += tool_output + "\n\n"
             else:
-                service.haspoc = 1
-                service.save()
-                ProofOfConcept.objects.create(service=service, info=self.task.tool.name, poc=tool_output)
+                ProofOfConcept.objects.create(service=service, finding=self.task.finding, info=self.task.tool.name, poc=tool_output, haspoc=1)
                 self.task.targets_completed += 1
                 self.task.save()
             self.queue.task_done()  # Mark queue item as done

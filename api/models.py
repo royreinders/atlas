@@ -23,7 +23,7 @@ class Service(models.Model):
     port = models.IntegerField(default=0)
     protocol = models.CharField(max_length=10)
     host = models.ForeignKey(Host, related_name='services', on_delete=models.CASCADE)
-    finding = models.ForeignKey(Finding, related_name='services', on_delete=models.CASCADE)
+    findings = models.ManyToManyField(Finding, through='ProofOfConcept')
     haspoc = models.IntegerField(default=0)
     falsepositive = models.IntegerField(default=0)
 
@@ -53,9 +53,11 @@ class Task(models.Model):
 class ProofOfConcept(models.Model):
     __tablename__ = 'proofofconcept'
     service = models.ForeignKey(Service, null=True, on_delete=models.SET_NULL)
+    finding = models.ForeignKey(Finding, null=True, on_delete=models.SET_NULL)
     info = models.CharField(max_length=30, null=False)
     poc = models.TextField(null=True, blank=True)
     imported = models.IntegerField(default=0)
+
 
 class Import(models.Model):
     __tablename__ = 'import'

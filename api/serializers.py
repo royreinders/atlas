@@ -8,13 +8,21 @@ class HostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ServiceHostSerializer(serializers.ModelSerializer):
-    host = HostSerializer(many=False, read_only=False)
+class ProofOfConceptFindingSerializer(serializers.ModelSerializer):
     finding = serializers.SlugRelatedField(many=False, slug_field='id', read_only=True)
 
     class Meta:
+        model = ProofOfConcept
+        fields = ('id', 'finding')
+
+class ServiceHostSerializer(serializers.ModelSerializer):
+    host = HostSerializer(many=False, read_only=False)
+    #findings = ProofOfConceptFindingSerializer(many=True, read_only=True)
+    findings = serializers.SlugRelatedField(many=True, slug_field='id', read_only=True)
+
+    class Meta:
         model = Service
-        fields = ('id', 'name', 'port', 'protocol', 'host', 'finding', 'haspoc', 'falsepositive')
+        fields = ('id', 'name', 'port', 'protocol', 'host', 'haspoc', 'falsepositive', 'findings')
 
 
 # Finding serializer, serializing only id and name

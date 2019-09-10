@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
 import { FindingsComponent } from './findings/findings.component';
+import { HostsComponent } from './hosts/hosts.component';
 import { ImportComponent } from './import/import.component';
 import { TestComponent } from './test/test.component';
 import { ToolsComponent } from './tools/tools.component';
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'findings',
     component: FindingsComponent
+  },
+  {
+    path: 'hosts',
+    component: HostsComponent
   },
   {
     path: 'tools',

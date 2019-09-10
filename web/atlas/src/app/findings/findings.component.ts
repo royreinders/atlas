@@ -34,7 +34,7 @@ export class FindingCheckedFilter implements ClrDatagridStringFilterInterface<an
 }
 
 @Component({
-  selector: 'app-hosts',
+  selector: 'app-findings',
   templateUrl: './findings.component.html',
   styleUrls: ['./findings.component.css']
 })

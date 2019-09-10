@@ -8,11 +8,28 @@ import { Observable } from 'rxjs';
 export class DataService {
 
   constructor(private http: HttpClient) { }
-
+  
+  // Trailing slash is necessary!
   private backend_url = 'http://127.0.0.1:8000/'
 
   getHosts() {
     return this.http.get(this.backend_url + 'api/hosts/');
+  }
+
+  DeleteHost(host):Observable<any>{
+    return this.http.delete(this.backend_url + 'api/hosts/' + host.id + "/")
+  }
+
+  AddHost(host):Observable<any>{
+    return this.http.post(this.backend_url + 'api/host/', host)
+  }
+  
+  EditHost(host):Observable<any>{
+    return this.http.put(this.backend_url + 'api/hosts/' + host.id + "/", host)
+  }
+
+  GetHostServices(host_id) {
+    return this.http.get(this.backend_url + 'api/services/?host=' + host_id)
   }
 
   GetFindings() {
@@ -32,7 +49,7 @@ export class DataService {
   }
 
   GetFindingServices(finding_id) {
-    return this.http.get(this.backend_url + 'api/services/?finding=' + finding_id)
+    return this.http.get(this.backend_url + 'api/services/?findings=' + finding_id)
   }
 
   DeleteService(service):Observable<any>{

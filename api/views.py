@@ -35,7 +35,14 @@ class ServiceViewSet(viewsets.ModelViewSet):
     serializer_class = ServiceHostSerializer
     queryset = Service.objects.all()
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('id', 'name', 'port', 'protocol', 'host', 'finding', 'haspoc', 'falsepositive')
+    filter_fields = ('id', 'name', 'port', 'protocol', 'host', 'findings', 'haspoc', 'falsepositive')
+
+
+class HostViewSet(viewsets.ModelViewSet):
+    serializer_class = HostSerializer
+    queryset = Host.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id', 'ip', 'fqdn')
 
 
 class ToolViewSet(viewsets.ModelViewSet):

@@ -19,10 +19,10 @@ class Datacontroller():
                 # If finding does not yet exist, create new finding object
                 finding, created_finding = Finding.objects.get_or_create(name=reportitem.pluginName, description=reportitem.description, pluginID=reportitem.pluginID)
                 # If service does not yet exist, append as child to host
-                service, service_created = Service.objects.get_or_create(name=reportitem.serviceName, port=reportitem.port, protocol=reportitem.protocol, host=host, finding=finding)
-                # ToDo: Add imported (Nessus) PoC
+                service, service_created = Service.objects.get_or_create(name=reportitem.serviceName, port=reportitem.port, protocol=reportitem.protocol, host=host)
+                # ToDo: Check case when Nessus has no PoC (relation finding <-> serivce trough PoC will not be made?)
                 # If ProofOfConcept does not exist
-                ProofOfConcept.objects.get_or_create(service=service, info="Nessus import", poc=reportitem.plugin_output, imported=1)
+                ProofOfConcept.objects.get_or_create(service=service, finding=finding, info="Nessus import", poc=reportitem.plugin_output, imported=1)
 
         import_job.running = 0
         import_job.completed = 1

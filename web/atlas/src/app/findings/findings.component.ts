@@ -9,27 +9,27 @@ export class FindingFilter implements ClrDatagridStringFilterInterface<any> {
   }
 }
 
-export class HostFilter implements ClrDatagridStringFilterInterface<any> {
+export class IPFilter implements ClrDatagridStringFilterInterface<any> {
   accepts(service: any, search: string): boolean {
-    return service.service.host.ip.toLowerCase().indexOf(search) >= 0;
+    return service.host.ip.toLowerCase().indexOf(search) >= 0;
+  }
+}
+
+export class FQDNFilter implements ClrDatagridStringFilterInterface<any> {
+  accepts(service: any, search: string): boolean {
+    return service.host.fqdn.toLowerCase().indexOf(search) >= 0;
   }
 }
 
 export class PortFilter implements ClrDatagridStringFilterInterface<any> {
   accepts(service: any, search: string): boolean {
-    return String(service.service.port).indexOf(search) >= 0;
+    return String(service.port).indexOf(search) >= 0;
   }
 }
 
 export class TypeFilter implements ClrDatagridStringFilterInterface<any> {
   accepts(service: any, search: string): boolean {
-    return service.service.name.toLowerCase().indexOf(search) >= 0;
-  }
-}
-
-export class FindingCheckedFilter implements ClrDatagridStringFilterInterface<any> {
-  accepts(finding: any, search: string): boolean {
-    return String(finding.checked).indexOf(search) >= 0;
+    return service.name.toLowerCase().indexOf(search) >= 0;
   }
 }
 
@@ -57,7 +57,8 @@ export class FindingsComponent implements OnInit {
   poc_options: any;
 
   private findingFilter = new FindingFilter();
-  private hostFilter = new HostFilter();
+  private ipFilter = new IPFilter();
+  private fqdnFilter = new FQDNFilter();
   private portFilter = new PortFilter();
   private typeFilter = new TypeFilter();
 
@@ -86,7 +87,7 @@ export class FindingsComponent implements OnInit {
   }
 
   getServicePocs(service_id, finding_id) {
-    this.data.GetServicePocs(service_id,finding_id).subscribe(data => this.service_pocs = data);
+    this.data.GetServicePocs(service_id, finding_id).subscribe(data => this.service_pocs = data);
   }
 
   setHasPoc(service) {

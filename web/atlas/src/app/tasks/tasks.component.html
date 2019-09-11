@@ -2,24 +2,14 @@
   <div class="col-xs">
     <clr-datagrid [(clrDgSingleSelected)]="selected_task" [clrDgRowSelection]="true">
       <clr-dg-placeholder>No tasks found!</clr-dg-placeholder>
-      <clr-dg-column [clrDgField]="'name'">Name
-        <clr-dg-string-filter [clrDgStringFilter]="taskFilter"></clr-dg-string-filter>
+      <clr-dg-column [clrDgField]="'name'" [clrDgSortOrder]="ascSort">Name </clr-dg-column>
+      <clr-dg-column>Starttime </clr-dg-column>
+      <clr-dg-column [clrDgField]="'tool'">Tool <clr-dg-string-filter [clrDgStringFilter]="toolFilter">
+        </clr-dg-string-filter>
       </clr-dg-column>
-      <clr-dg-column [clrDgField]="'starttime'">Starttime
-        <clr-dg-string-filter [clrDgStringFilter]="taskFilter"></clr-dg-string-filter>
-      </clr-dg-column>
-      <clr-dg-column [clrDgField]="'tool'">Tool
-        <clr-dg-string-filter [clrDgStringFilter]="toolFilter"></clr-dg-string-filter>
-      </clr-dg-column>
-      <clr-dg-column [clrDgField]="'completedtargets'"># Completed
-        <clr-dg-string-filter [clrDgStringFilter]="completedtargetsfilter"></clr-dg-string-filter>
-      </clr-dg-column>
-      <clr-dg-column [clrDgField]="'completedtargets'">Run
-        <clr-dg-string-filter [clrDgStringFilter]="completedtargetsfilter"></clr-dg-string-filter>
-      </clr-dg-column>
-      <clr-dg-column [clrDgField]="'completedtargets'">Error
-        <clr-dg-string-filter [clrDgStringFilter]="completedtargetsfilter"></clr-dg-string-filter>
-      </clr-dg-column>
+      <clr-dg-column># Completed </clr-dg-column>
+      <clr-dg-column>Run </clr-dg-column>
+      <clr-dg-column>Error </clr-dg-column>
       <clr-dg-row *clrDgItems="let task of tasks" [clrDgItem]="task">
         <clr-dg-cell>{{task.id}}</clr-dg-cell>
         <clr-dg-cell>{{task.starttime | date:'h:mm:ss, d LLL'}}</clr-dg-cell>
@@ -48,7 +38,7 @@
 </div>
 
 <button type="button" class="btn btn-icon btn-primary" aria-label="settings" (click)="GetTasks()">
-    <clr-icon shape="refresh"></clr-icon> Refresh
+  <clr-icon shape="refresh"></clr-icon> Refresh
 </button>
 
 <clr-modal [(clrModalOpen)]="errorModal" [clrModalSize]="'lg'">

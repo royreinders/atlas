@@ -16,14 +16,11 @@
                 </div>
             </clr-dg-action-bar>
             <clr-dg-placeholder>No hosts found!</clr-dg-placeholder>
-            <clr-dg-column [clrDgField]="'ip'">IP<clr-dg-string-filter [clrDgStringFilter]="findingFilter">
-                </clr-dg-string-filter>
+            <clr-dg-column [clrDgField]="'ip'">IP<clr-dg-string-filter [clrDgStringFilter]="ipFilter"></clr-dg-string-filter>
             </clr-dg-column>
-            <clr-dg-column [clrDgField]="'fqdn'">FQDN<clr-dg-string-filter [clrDgStringFilter]="findingFilter">
-                </clr-dg-string-filter>
+            <clr-dg-column [clrDgField]="'fqdn'">FQDN<clr-dg-string-filter [clrDgStringFilter]="fqdnFilter"></clr-dg-string-filter>
             </clr-dg-column>
-            <clr-dg-column [clrDgField]="'os'">OS<clr-dg-string-filter [clrDgStringFilter]="findingFilter">
-                </clr-dg-string-filter>
+            <clr-dg-column [clrDgField]="'os'">OS<clr-dg-string-filter [clrDgStringFilter]="osFilter"></clr-dg-string-filter>
             </clr-dg-column>
             <clr-dg-row *clrDgItems="let host of hosts" [clrDgItem]="host">
                 <clr-dg-cell>{{host.ip}}</clr-dg-cell>
@@ -59,10 +56,10 @@
             <clr-dg-column [clrDgField]="'port'">Port<clr-dg-string-filter [clrDgStringFilter]="portFilter">
                 </clr-dg-string-filter>
             </clr-dg-column>
-            <clr-dg-column [clrDgField]="'name'">Type<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
+            <clr-dg-column [clrDgField]="'typee'">Type<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
                 </clr-dg-string-filter>
             </clr-dg-column>
-            <clr-dg-column [clrDgField]="'name'">Protocol<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
+            <clr-dg-column [clrDgField]="'protocol'">Protocol<clr-dg-string-filter [clrDgStringFilter]="protocolFilter">
             </clr-dg-string-filter>
         </clr-dg-column>
             <clr-dg-column>PoC's</clr-dg-column>
@@ -155,7 +152,6 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="viewPocModal = false">Ok</button>
     </div>
-
 </clr-modal>
 
 

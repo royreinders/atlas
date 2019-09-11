@@ -13,7 +13,7 @@
                     </button>
                     <button class="btn" [disabled]="!selected_finding" (click)="deleteFindingModal = true">
                         <clr-icon shape="trash"></clr-icon> Delete Finding
-                    </button>                    
+                    </button>
                 </div>
                 <button class="btn" [disabled]="!selected_finding" (click)="toggleFindingDone(selected_finding)">
                     <clr-icon shape="check"></clr-icon> Toggle Done
@@ -23,9 +23,7 @@
             <clr-dg-column [clrDgField]="'name'">Name<clr-dg-string-filter [clrDgStringFilter]="findingFilter">
                 </clr-dg-string-filter>
             </clr-dg-column>
-            <clr-dg-column [clrDgField]="'Done'">Done<clr-dg-string-filter [clrDgStringFilter]="FindingCheckedFilter">
-                </clr-dg-string-filter>
-            </clr-dg-column>
+            <clr-dg-column>Done </clr-dg-column>
             <clr-dg-row *clrDgItems="let finding of findings" [clrDgItem]="finding">
                 <clr-dg-cell>{{finding.name}}</clr-dg-cell>
                 <clr-dg-cell>
@@ -45,31 +43,31 @@
     <div class="clr-col">
         <clr-datagrid [(clrDgSelected)]="selected_services" [clrDgRowSelection]="true" class="datagrid-compact">
             <clr-dg-action-bar>
-               <div class="btn-group">
+                <div class="btn-group">
                     <button [disabled]="!selected_services.length > 0" class="btn" (click)="generatePocModal = true">
                         <clr-icon shape="play"></clr-icon> Generate PoC
                     </button>
                 </div>
             </clr-dg-action-bar>
             <clr-dg-placeholder>No services found!</clr-dg-placeholder>
-            <clr-dg-column [clrDgField]="'host'">IP<clr-dg-string-filter [clrDgStringFilter]="hostFilter">
+            <clr-dg-column [clrDgField]="'host'">IP<clr-dg-string-filter [clrDgStringFilter]="ipFilter">
                 </clr-dg-string-filter>
             </clr-dg-column>
-            <clr-dg-column [clrDgField]="'fqdn'">FQDN<clr-dg-string-filter [clrDgStringFilter]="hostFilter">
-            </clr-dg-string-filter>
-        </clr-dg-column>
+            <clr-dg-column [clrDgField]="'fqdn'">FQDN<clr-dg-string-filter [clrDgStringFilter]="fqdnFilter">
+                </clr-dg-string-filter>
+            </clr-dg-column>
             <clr-dg-column [clrDgField]="'port'">Port<clr-dg-string-filter [clrDgStringFilter]="portFilter">
                 </clr-dg-string-filter>
             </clr-dg-column>
             <clr-dg-column [clrDgField]="'name'">Type<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
                 </clr-dg-string-filter>
             </clr-dg-column>
-            <clr-dg-column [clrDgField]="'haspoc'">Has POC<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
+            <!--<clr-dg-column [clrDgField]="'haspoc'">Has POC<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
                 </clr-dg-string-filter>
             </clr-dg-column>
             <clr-dg-column [clrDgField]="'haspoc'">FP<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
                 </clr-dg-string-filter>
-            </clr-dg-column>
+            </clr-dg-column>-->
             <clr-dg-column>PoC's</clr-dg-column>
             <div *ngIf="selected_finding">
                 <clr-dg-row *clrDgItems="let service of finding_services" [clrDgItem]="service">
@@ -77,7 +75,7 @@
                     <clr-dg-cell>{{service.host.fqdn}}</clr-dg-cell>
                     <clr-dg-cell>{{service.port}}</clr-dg-cell>
                     <clr-dg-cell>{{service.name}}</clr-dg-cell>
-                    <clr-dg-cell>
+                    <!--<clr-dg-cell>
                         <div *ngIf="service.haspoc === 1; else no_poc">
                             <clr-icon shape="check" (click)="setHasPoc(service)"></clr-icon>
                         </div>
@@ -92,7 +90,7 @@
                         <ng-template #falsepositive>
                             <clr-icon shape="times" (click)="setFalsePositive(service)"></clr-icon>
                         </ng-template>
-                    </clr-dg-cell>
+                    </clr-dg-cell>-->
                     <clr-dg-cell>
                         <clr-icon shape="pop-out" (click)="viewPocs(service)"></clr-icon>
                     </clr-dg-cell>
@@ -228,16 +226,17 @@
         <button type="button" class="btn btn-outline" (click)="editFindingModal = false">Cancel</button>
         <button *ngIf="selected_finding" type="button" [disabled]="!selected_finding.name" class="btn btn-primary"
             (click)="editFindingModal = false; editFinding(selected_finding)">Edit</button>
-        </div>
+    </div>
 </clr-modal>
 
 
 <clr-modal [(clrModalOpen)]="notYetImplementedModal" [clrModalStaticBackdrop]="false" [clrModalSize]="'lg'">
     <h3 class="modal-title">Feature not yet implemented</h3>
     <div class="modal-body">
-      Please forward your complaints or requests to /dev/null
+        Please forward your complaints or requests to /dev/null
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="notYetImplementedModal = false">Kusje van de boys</button>
+        <button type="button" class="btn btn-primary" (click)="notYetImplementedModal = false">Kusje van de
+            boys</button>
     </div>
-  </clr-modal>
+</clr-modal>

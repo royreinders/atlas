@@ -3,33 +3,39 @@ import { DataService } from '../data.service';
 import { ClrDatagridStringFilterInterface } from "@clr/angular";
 import { ObjectUnsubscribedError } from 'rxjs';
 
-export class FindingFilter implements ClrDatagridStringFilterInterface<any> {
-  accepts(finding: any, search: string): boolean {
-    return finding.name.toLowerCase().indexOf(search) >= 0;
+export class IPFilter implements ClrDatagridStringFilterInterface<any> {
+  accepts(host: any, search: string): boolean {
+    return host.ip.toLowerCase().indexOf(search) >= 0;
   }
 }
 
-export class HostFilter implements ClrDatagridStringFilterInterface<any> {
-  accepts(service: any, search: string): boolean {
-    return service.service.host.ip.toLowerCase().indexOf(search) >= 0;
+export class FQDNFilter implements ClrDatagridStringFilterInterface<any> {
+  accepts(host: any, search: string): boolean {
+    return host.fqdn.toLowerCase().indexOf(search) >= 0;
+  }
+}
+
+export class OSFilter implements ClrDatagridStringFilterInterface<any> {
+  accepts(host: any, search: string): boolean {
+    return host.os.toLowerCase().indexOf(search) >= 0;
   }
 }
 
 export class PortFilter implements ClrDatagridStringFilterInterface<any> {
   accepts(service: any, search: string): boolean {
-    return String(service.service.port).indexOf(search) >= 0;
+    return String(service.port).indexOf(search) >= 0;
   }
 }
 
 export class TypeFilter implements ClrDatagridStringFilterInterface<any> {
   accepts(service: any, search: string): boolean {
-    return service.service.name.toLowerCase().indexOf(search) >= 0;
+    return service.name.toLowerCase().indexOf(search) >= 0;
   }
 }
 
-export class FindingCheckedFilter implements ClrDatagridStringFilterInterface<any> {
-  accepts(finding: any, search: string): boolean {
-    return String(finding.checked).indexOf(search) >= 0;
+export class ProtocolFilter implements ClrDatagridStringFilterInterface<any> {
+  accepts(service: any, search: string): boolean {
+    return service.protocol.toLowerCase().indexOf(search) >= 0;
   }
 }
 
@@ -67,10 +73,13 @@ export class HostsComponent implements OnInit {
   newServiceProtocol: any;
 
 
-  private findingFilter = new FindingFilter();
-  private hostFilter = new HostFilter();
+  private ipFilter = new IPFilter();
+  private fqdnFilter = new FQDNFilter();
+  private osFilter = new OSFilter();
   private portFilter = new PortFilter();
   private typeFilter = new TypeFilter();
+  private protocolFilter = new ProtocolFilter();
+
 
   constructor(private data: DataService) {
   }

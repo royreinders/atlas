@@ -1,6 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../data.service';
-import {ClrWizard, ClrModal} from "@clr/angular";
+import {ClrWizard, ClrModal,ClrDatagridStringFilterInterface} from "@clr/angular";
+
+export class ToolFilter implements ClrDatagridStringFilterInterface<any> {
+  accepts(tool: any, search: string): boolean {
+    return tool.name.toLowerCase().indexOf(search) >= 0;
+  }
+}
 
 @Component({
   selector: 'app-tools',
@@ -26,6 +32,8 @@ export class ToolsComponent implements OnInit {
   test_commandstring = ''
 
   tools: Object;
+
+  private toolFilter = new ToolFilter()
 
   constructor(private data: DataService) { 
     this.form_tool = {}; 

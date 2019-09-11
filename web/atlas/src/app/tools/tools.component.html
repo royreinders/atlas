@@ -16,10 +16,10 @@
         </div>
       </clr-dg-action-bar>
       <clr-dg-placeholder>No tools found!</clr-dg-placeholder>
-      <clr-dg-column [clrDgField]="'name'">Name
-        <clr-dg-string-filter [clrDgStringFilter]="toolFilter"></clr-dg-string-filter>
+      <clr-dg-column [clrDgField]="'name'">Name<clr-dg-string-filter [clrDgStringFilter]="toolFilter">
+        </clr-dg-string-filter>
       </clr-dg-column>
-      <clr-dg-column [clrDgField]="'info'">Info</clr-dg-column>
+      <clr-dg-column>Info</clr-dg-column>
       <clr-dg-row *clrDgItems="let tool of tools" [clrDgItem]="tool">
         <clr-dg-cell>{{tool.name}}</clr-dg-cell>
         <clr-dg-cell>

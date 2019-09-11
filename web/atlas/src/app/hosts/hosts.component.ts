@@ -46,14 +46,13 @@ export class HostsComponent implements OnInit {
   host_services: Object;
   service_pocs: any;
   selected = [];
-  selected_services = [];
   tools: Object;
   new_task: any;
   new_finding: any;
   selected_tool: any;
   task_threads: any = 0;
   viewPocModal = false
-  selected_service = Object;
+  selected_service: Object;
   poc_options: any;
 
 
@@ -78,8 +77,6 @@ export class HostsComponent implements OnInit {
 
   ngOnInit() {
     this.getHosts()
-
-    this.GetTools()
   }
 
   getHosts() {
@@ -99,43 +96,6 @@ export class HostsComponent implements OnInit {
 
   getServicePocs(service_id) {
     this.data.GetServicePocs(service_id, this.selected).subscribe(data => this.service_pocs = data);
-  }
-
-  setHasPoc(service) {
-    if (service.haspoc == 0) {
-      service.haspoc = 1
-      this.data.UpdateService(service).subscribe(data => service = data)
-    } else if (service.haspoc == 1) {
-      service.haspoc = 0
-      this.data.UpdateService(service).subscribe(data => service = data)
-    }
-  }
-
-  setFalsePositive(service) {
-    if (service.falsepositive == 0) {
-      service.falsepositive = 1
-      this.data.UpdateService(service).subscribe(data => service = data)
-    } else if (service.falsepositive == 1) {
-      service.falsepositive = 0
-      this.data.UpdateService(service).subscribe(data => service = data)
-    }
-  }
-
-  SetThreads(threads) {
-    this.task_threads = threads
-  }
-
-  GetTools() {
-    this.data.GetTools().subscribe(data => this.tools = data)
-  }
-
-  AddTask() {
-    this.new_task = new Object()
-    this.new_task.services = new Array()
-    this.new_task.tool = this.selected_tool.id
-    this.selected_services.forEach(poc => { this.new_task.services.push(poc.id) });
-    this.new_task.threads = this.task_threads
-    this.data.AddTask(this.new_task).subscribe()
   }
 
   replaceLineBreak(s: string) {
@@ -176,8 +136,9 @@ export class HostsComponent implements OnInit {
     this.new_host.mac = this.newHostMAC
     this.new_host.os = this.newHostOS
 
-    this.data.AddHost(this.new_host).subscribe()
-    this.getHosts()
+    this.data.AddHost(this.new_host).subscribe(data => {
+      this.getHosts();
+    })
   }
 
   deleteHost(host) {
@@ -193,24 +154,17 @@ export class HostsComponent implements OnInit {
   }
 
   addService() {
-    this.new_host = new Object()
-    this.new_host.ip = this.newHostIP
-    this.new_host.fqdn = this.newHostFQDN
-    this.new_host.mac = this.newHostMAC
-    this.new_host.os = this.newHostOS
-
     this.new_service = new Object();
     this.new_service.name = this.newServiceName
     this.new_service.port = this.newServicePort
     this.new_service.protocol = this.newServiceProtocol
-    this.new_service.host = this.new_host
-
-    this.data.AddService(this.new_service).subscribe()
-    this.getHostServices(this.selected_host)
+    this.new_service.host = this.selected_host.id
+    this.data.AddService(this.new_service).subscribe(data => {this.getHostServices(this.selected_host.id);})
   }
 
-  clearServices() {
-    this.host_services = null
+  deleteService(service) {
+    this.data.DeleteService(service).subscribe(data => {
+      this.getHostServices(this.selected_host.id);
+    })
   }
-
 }

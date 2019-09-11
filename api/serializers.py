@@ -15,10 +15,10 @@ class ProofOfConceptFindingSerializer(serializers.ModelSerializer):
         model = ProofOfConcept
         fields = ('id', 'finding')
 
+
 # Not Used ...?
 class ServiceHostFindingSerializer(serializers.ModelSerializer):
     host = HostSerializer(many=False, read_only=False)
-    #findings = ProofOfConceptFindingSerializer(many=True, read_only=True)
     findings = serializers.SlugRelatedField(many=True, slug_field='id', read_only=True)
 
     class Meta:
@@ -33,6 +33,13 @@ class ServiceHostSerializer(serializers.ModelSerializer):
         model = Service
         fields = ('id', 'name', 'port', 'protocol', 'host')
 
+
+class ServiceSerializer(serializers.ModelSerializer):
+    findings = serializers.SlugRelatedField(many=True, slug_field='id', read_only=True)
+
+    class Meta:
+        model = Service
+        fields = ('id', 'name', 'port', 'protocol', 'host', 'findings')
 
 # Finding serializer, serializing only id and name
 class FindingListSerializer(serializers.ModelSerializer):

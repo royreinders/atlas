@@ -56,18 +56,6 @@ export class FindingsComponent implements OnInit {
   selected_service = Object;
   poc_options: any;
 
-
-  new_service: any;
-  new_host: any;
-  newHostIP: any;
-  newHostFQDN: any;
-  newHostMAC: any;
-  newHostOS: any;
-  newServiceName: any;
-  newServicePort: any;
-  newServiceProtocol: any;
-
-
   private findingFilter = new FindingFilter();
   private hostFilter = new HostFilter();
   private portFilter = new PortFilter();
@@ -104,20 +92,20 @@ export class FindingsComponent implements OnInit {
   setHasPoc(service) {
     if (service.haspoc == 0) {
       service.haspoc = 1
-      this.data.UpdateService(service).subscribe(data => service = data)
+      this.data.EditService(service).subscribe(data => service = data)
     } else if (service.haspoc == 1) {
       service.haspoc = 0
-      this.data.UpdateService(service).subscribe(data => service = data)
+      this.data.EditService(service).subscribe(data => service = data)
     }
   }
 
   setFalsePositive(service) {
     if (service.falsepositive == 0) {
       service.falsepositive = 1
-      this.data.UpdateService(service).subscribe(data => service = data)
+      this.data.EditService(service).subscribe(data => service = data)
     } else if (service.falsepositive == 1) {
       service.falsepositive = 0
-      this.data.UpdateService(service).subscribe(data => service = data)
+      this.data.EditService(service).subscribe(data => service = data)
     }
   }
 
@@ -199,26 +187,4 @@ export class FindingsComponent implements OnInit {
       this.getFindings();
     })
   }
-
-  addService() {
-    this.new_host = new Object()
-    this.new_host.ip = this.newHostIP
-    this.new_host.fqdn = this.newHostFQDN
-    this.new_host.mac = this.newHostMAC
-    this.new_host.os = this.newHostOS
-
-    this.new_service = new Object();
-    this.new_service.name = this.newServiceName
-    this.new_service.port = this.newServicePort
-    this.new_service.protocol = this.newServiceProtocol
-    this.new_service.host = this.new_host
-
-    this.data.AddService(this.new_service).subscribe()
-    this.getFindingServices(this.selected_finding)
-  }
-
-  clearServices(){
-    this.finding_services = null
-  }
-
 }

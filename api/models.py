@@ -5,7 +5,7 @@ class Host(models.Model):
     __tablename__ = 'hosts'
     ip = models.CharField(max_length=30)
     fqdn = models.CharField(max_length=255, null=True)
-    mac = models.CharField(max_length=30, null=True)
+    mac = models.CharField(max_length=30, null=True, blank=True)
     os = models.CharField(max_length=100, null=True)
 
 

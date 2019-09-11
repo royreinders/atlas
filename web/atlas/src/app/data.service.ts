@@ -12,6 +12,9 @@ export class DataService {
   // Trailing slash is necessary!
   private backend_url = 'http://127.0.0.1:8000/'
 
+  
+  // Hosts
+
   getHosts() {
     return this.http.get(this.backend_url + 'api/hosts/');
   }
@@ -28,9 +31,8 @@ export class DataService {
     return this.http.put(this.backend_url + 'api/hosts/' + host.id + "/", host)
   }
 
-  GetHostServices(host_id) {
-    return this.http.get(this.backend_url + 'api/services/?host=' + host_id)
-  }
+
+  //Findings
 
   GetFindings() {
     return this.http.get(this.backend_url + 'api/findings/')
@@ -48,8 +50,15 @@ export class DataService {
     return this.http.put(this.backend_url + 'api/findings/' + finding.id + "/", finding)
   }
 
+
+  // Services
+
   GetFindingServices(finding_id) {
-    return this.http.get(this.backend_url + 'api/services/?findings=' + finding_id)
+    return this.http.get(this.backend_url + 'api/servicehosts/?findings=' + finding_id)
+  }
+
+  GetHostServices(host_id) {
+    return this.http.get(this.backend_url + 'api/services/?host=' + host_id)
   }
 
   DeleteService(service):Observable<any>{
@@ -68,9 +77,8 @@ export class DataService {
     return this.http.get(this.backend_url + 'api/pocs/?service=' + service_id + "&" + "finding=" + finding_id)
   }
 
-  UpdateService(service):Observable<any>{
-    return this.http.put(this.backend_url + 'api/services/' + service.id + "/", service)
-  }
+  
+  // Imports
 
   GetImports() {
     return this.http.get(this.backend_url + 'api/imports/')
@@ -79,6 +87,23 @@ export class DataService {
   AddImport(import_obj):Observable<any>{
     return this.http.post(this.backend_url + 'api/import/', import_obj)
   }
+
+  UploadNessus(file): Observable<HttpEvent<{}>> {
+
+    const formdata: FormData = new FormData();
+
+    formdata.append('file', file);
+
+    const req = new HttpRequest('POST', this.backend_url + 'api/importnessus/', formdata, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
+  }
+
+
+  //Tools
 
   GetTools() {
     return this.http.get(this.backend_url + 'api/tools/')
@@ -109,6 +134,9 @@ export class DataService {
     return this.http.post(this.backend_url + 'api/execute/', commandstring, httpOptions)
   }
 
+
+  //Tasks
+
   GetTasks():Observable<any>{
     return this.http.get(this.backend_url + 'api/tasks/')
   }
@@ -129,20 +157,6 @@ export class DataService {
 
   StartTask(task_id):Observable<any>{
     return this.http.get(this.backend_url + 'api/tasks/' + task_id + "/start/")
-  }
-
-  UploadNessus(file): Observable<HttpEvent<{}>> {
-
-    const formdata: FormData = new FormData();
-
-    formdata.append('file', file);
-
-    const req = new HttpRequest('POST', this.backend_url + 'api/importnessus/', formdata, {
-      reportProgress: true,
-      responseType: 'text'
-    });
-
-    return this.http.request(req);
   }
 
 }

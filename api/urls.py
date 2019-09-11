@@ -5,13 +5,14 @@ from rest_framework import routers
 # Register URLS with router for viewsets
 router = routers.DefaultRouter()
 router.register('findings', views.FindingViewSet)
-router.register('services', views.ServiceViewSet)
+router.register('servicehosts', views.ServiceHostViewSet)
 router.register('tools', views.ToolViewSet)
 router.register('tasks', views.TaskViewSet)
 router.register('pocs', views.ProofOfConceptViewSet)
 router.register('imports', views.ImportViewSet)
 router.register('hosts', views.HostViewSet)
 router.register('pocservices', views.ProofOfConceptServiceViewSet)
+router.register('services', views.ServiceViewSet)
 
 # Add custom URL patterns for generic views and append DRF router
 urlpatterns = [

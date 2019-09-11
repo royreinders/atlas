@@ -228,61 +228,7 @@
         <button type="button" class="btn btn-outline" (click)="editFindingModal = false">Cancel</button>
         <button *ngIf="selected_finding" type="button" [disabled]="!selected_finding.name" class="btn btn-primary"
             (click)="editFindingModal = false; editFinding(selected_finding)">Edit</button>
-    </div>
-</clr-modal>
-
-<clr-modal [(clrModalOpen)]="addServiceModal" [clrModalStaticBackdrop]="false" [clrModalSize]="'lg'">
-    <h3 class="modal-title">Add service</h3>
-    <div class="modal-body" height="600px" id="pocmodal">
-        <h5 class="modal-title">Host</h5>
-        <form clrForm>
-            <clr-input-container>
-                <label>IP address</label>
-                <input clrInput placeholder="e.g. 192.168.0.1" name="ip" [(ngModel)]="newHostIP" required />
-                <clr-control-error>This field is required!</clr-control-error>
-            </clr-input-container>
-            <clr-input-container>
-                <label>FQDN</label>
-                <input clrInput placeholder="e.g. example.com" name="fqdn" [(ngModel)]="newHostFQDN" />
-            </clr-input-container>
-            <clr-input-container>
-                <label>MAC address</label>
-                <input clrInput placeholder="e.g. 00:0a:95:9d:68:16" name="mac" [(ngModel)]="newHostMAC" />
-            </clr-input-container>
-            <clr-input-container>
-                <label>Operating System</label>
-                <input clrInput placeholder="e.g. Windows Server 2012" name="os" [(ngModel)]="newHostOS" />
-            </clr-input-container>
-        </form>
-        <h5 class="modal-title">Service</h5>
-        <form clrForm>
-            <clr-input-container>
-                <label>Service name</label>
-                <input clrInput placeholder="e.g. www or rdp" name="servicename" [(ngModel)]="newServiceName"
-                    required />
-                <clr-control-error>This field is required!</clr-control-error>
-            </clr-input-container>
-            <clr-input-container>
-                <label>Port</label>
-                <input clrInput placeholder="Enter finding name..." name="serviceport" [(ngModel)]="newServicePort"
-                    required />
-                <clr-control-error>This field is required!</clr-control-error>
-            </clr-input-container>
-            <clr-select-container>
-                <label>Protocol</label>
-                <select clrSelect name="serviceprotocol" [(ngModel)]="newServiceProtocol" required>
-                    <option value="tcp">tcp</option>
-                    <option value="udp">udp</option>
-                </select>
-                <clr-control-error>This field is required!</clr-control-error>
-            </clr-select-container>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline" (click)="addServiceModal = false">Cancel</button>
-        <button type="button" [disabled]="!newServiceName" class="btn btn-primary"
-            (click)="addServiceModal = false; addService(newFindingName)">Add</button>
-    </div>
+        </div>
 </clr-modal>
 
 

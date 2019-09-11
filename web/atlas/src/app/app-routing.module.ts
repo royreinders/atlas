@@ -8,6 +8,7 @@ import { ImportComponent } from './import/import.component';
 import { TestComponent } from './test/test.component';
 import { ToolsComponent } from './tools/tools.component';
 import { TasksComponent } from './tasks/tasks.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'tasks',
     component: TasksComponent
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent
   },
   {
     path: 'test',

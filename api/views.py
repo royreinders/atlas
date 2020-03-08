@@ -3,8 +3,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
 from django_filters.rest_framework import DjangoFilterBackend
+from django.core.files.storage import FileSystemStorage
 from .datacontroller import Datacontroller
 from .executioncontroller import Executioncontroller
+from datetime import datetime
+
 
 from .serializers import *
 
@@ -76,11 +79,12 @@ class ImportNessus(views.APIView):
         # print(file.read())
         return Response({"success": True})
 
+
 class Execute(views.APIView):
 
     def post(self, request):
         commandstring = request.data["commandstring"]
-        output = Executioncontroller.execute_test(commandstring) #ToDo: Sanitize input
+        output = Executioncontroller.execute_test(commandstring)
         return Response({"output": output})
 
 
@@ -95,4 +99,38 @@ class TaskViewSet(viewsets.ModelViewSet):
         executioncontroller = Executioncontroller()
         task = self.get_object()
         executioncontroller.execute(task)
+        return Response({"success": True})
+
+
+class Settings_Save(views.APIView):
+    def get(self, request):
+        filename = request.query_params.get('filename')
+        datacontroller = Datacontroller()
+        response = datacontroller.save_project(filename)
+        return response
+
+
+class Settings_Clear(views.APIView):
+    def get(self, request):
+        datacontroller = Datacontroller()
+        datacontroller.clear_project()
+        return Response({"success": True})
+
+class Settings_Load(views.APIView):
+    parser_classes = (MultiPartParser,)
+
+    def post(self, request):
+        # files = request.FILES      # << Use this when handling multiple files...
+        projectfile = request.FILES['file']
+        filename = "upload/projectsave" + str(datetime.timestamp(datetime.now())) + ".xml"
+        with open(filename, 'a') as file:
+            file.write(str(projectfile.read(), 'utf-8'))
+
+        datacontroller = Datacontroller()
+        datacontroller.load_project(filename)
+        return Response({"success": True})
+
+    def get(self, request):
+        #datacontroller = Datacontroller()
+        #datacontroller.load_project("dummy")
         return Response({"success": True})

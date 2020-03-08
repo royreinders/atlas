@@ -2,16 +2,62 @@
     <div class="clr-col-4">
         <div class="card">
             <div class="card-block">
-                <h4 class="card-title">Settings</h4>
-                Jemoeder
+                <h4 class="card-title">Load saved project</h4>
+                <p class="card-text"><label class="btn btn-outline">
+                        <form #NessusForm="ngForm"> <input id="inputfile" type="file" class="button-input"
+                                (change)="selectFile($event); " accept=".xml" placeholder="Upload file"></form>
+                    </label></p>
 
             </div>
             <div class="card-footer">
+                <ng-container *ngIf="uploading; then progress; else noprogress"></ng-container>
 
-                <button class="btn btn-primary">OK</button>
+                <ng-template #progress>
+                    <ng-container *ngIf="success; then success; else nosuccess"></ng-container>
+                    <ng-template #success>
+                        <div class="progress success"><progress value="100" max="100"></progress>
+                        </div>
+                    </ng-template>
+                    <ng-template #nosuccess>
+                        <div class="progress loop"><progress></progress>
+                        </div>
+                    </ng-template>
+                </ng-template>
+
+                <ng-template #noprogress>
+                    <div class="progress static"><progress value="0" max="100"></progress>
+                    </div>
+                </ng-template>
+                <button class="btn btn-primary" [disabled]="uploading && !success" (click)="upload()">Upload</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Save project</h4>
+                <p class="card-text">
+                    <form clrForm>
+                        <clr-input-container>
+                            <label>Project name</label>
+                            <input clrInput placeholder="Projectname" name="projectname" [(ngModel)]="projectname"
+                                required />
+                        </clr-input-container>
+                    </form>
+
+            </div>
+            <div class="card-footer">
+                <ng-container *ngIf="saved; then saved; else notsaved"></ng-container>
+                <ng-template #saved>
+                    <div class="progress success"><progress value="0" max="100"></progress>
+                    </div>
+                </ng-template>
+                <ng-template #notsaved>
+                    <div class="progress success"><progress value="0" max="100"></progress>
+                    </div>
+                </ng-template>
+                <button class="btn btn-primary" [disabled]="!projectname"
+                    (click)="saveProject(projectname);">Save</button>
             </div>
         </div>
     </div>
-
-
 </div>

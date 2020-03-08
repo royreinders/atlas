@@ -1,5 +1,10 @@
 from .parsers.nessus import *
 from .models import *
+from django.core.management import call_command
+from django.http import HttpResponse
+
+import sys
+import os
 
 
 # Handles data that is not directly handled by viewsets and Django models
@@ -30,7 +35,28 @@ class Datacontroller():
 
         print("[+] Nessus findings succesfully imported to DB...")
 
+    def save_project(self, filename):
+        filename = filename + ".xml"
+        response = HttpResponse(content_type='application/xml')
+        response['Content-Disposition'] = 'attachment; filename=%s' % (filename)
+
+        sysout = sys.stdout
+        sys.stdout = response
+        # Dump database, leave Django auth and tool settings intact.
+        call_command('dumpdata', 'api', format="xml", exclude=["auth", "api.tool"])
+        sys.stdout = sysout
+        return response
 
 
+    def load_project(self, filename):
+        call_command('loaddata', filename, format="xml")
+        os.remove(filename)
 
+    def clear_project(self):
+        ProofOfConcept.objects.all().delete()
+        Finding.objects.all().delete()
+        Task.objects.all().delete()
+        Service.objects.all().delete()
+        Host.objects.all().delete()
+        Import.objects.all().delete()
 

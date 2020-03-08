@@ -17,6 +17,9 @@ router.register('services', views.ServiceViewSet)
 # Add custom URL patterns for generic views and append DRF router
 urlpatterns = [
     path('importnessus/', views.ImportNessus.as_view(), name='importnessus'),
+    path('settings/save/', views.Settings_Save.as_view(), name='settings'),
+    path('settings/clear/', views.Settings_Clear.as_view(), name='settings_clear'),
+    path('settings/load/', views.Settings_Load.as_view(), name='settings'),
     path('execute/', views.Execute.as_view(), name='execute'),
     path('', include(router.urls))
 ]

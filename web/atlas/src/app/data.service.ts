@@ -159,5 +159,25 @@ export class DataService {
     return this.http.get(this.backend_url + 'api/tasks/' + task_id + "/start/")
   }
 
+
+  // Settings
+
+  UploadProject(file): Observable<HttpEvent<{}>> {
+    const formdata: FormData = new FormData();
+
+    formdata.append('file', file);
+
+    const req = new HttpRequest('POST', this.backend_url + 'api/settings/load/', formdata, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
+  }
+
+  SaveProject(filename):Observable<any>{  
+    return this.http.get(this.backend_url + 'api/settings/save/?filename=' + filename, {responseType: 'blob'})
+  }
+
 }
 

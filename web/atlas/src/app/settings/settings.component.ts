@@ -46,10 +46,16 @@ export class SettingsComponent implements OnInit {
 
   saveProject(filename){
     this.data.SaveProject(filename).subscribe(response => {
-      const blob = new Blob([response.body], { type: 'application/xml' });
-      const url= window.URL.createObjectURL(blob);
-      window.open(url);
-      //window.location.href = response.url;}
+      const blob = new Blob([response], { type: 'application/xml' });
+      console.log(response)
+      const a = document.createElement('a');
+      a.setAttribute('style', 'display:none;');
+      document.body.appendChild(a);
+      a.download = filename + ".atlas";
+      a.href = URL.createObjectURL(blob);
+      a.target = '_blank';
+      a.click();
+      document.body.removeChild(a);
     })
     this.saved = true
   }

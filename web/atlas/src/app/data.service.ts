@@ -175,8 +175,12 @@ export class DataService {
     return this.http.request(req);
   }
 
-  SaveProject(filename):Observable<any>{  
+  SaveProject(filename):Observable<any>{
     return this.http.get(this.backend_url + 'api/settings/save/?filename=' + filename, {responseType: 'blob'})
+  }
+
+  ClearProject():Observable<any>{
+    return this.http.get(this.backend_url + 'api/settings/clear/')
   }
 
 }

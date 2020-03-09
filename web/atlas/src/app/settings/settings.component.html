@@ -32,20 +32,15 @@
         </div>
     </div>
 
-
-
     <div class="clr-col">
-        
         <div class="card">
             <div class="card-block">
-                
-               
                 <h4 class="card-title">Load saved project</h4>
                 <p class="card-text"><label class="btn btn-outline">
                         <form> <input id="inputfile" type="file" class="button-input" (change)="selectFile($event);"
                                 accept=".atlas" placeholder="Upload file"></form>
                     </label></p>
-                    <ng-container *ngIf="uploaded; then bgtaskstarted;"></ng-container>
+                <ng-container *ngIf="uploaded; then bgtaskstarted;"></ng-container>
                 <ng-template #bgtaskstarted>
                     <clr-alert [clrAlertSizeSmall]="true" [clrAlertType]="'warning'">
                         <clr-alert-item>
@@ -56,8 +51,7 @@
                     </clr-alert>
                 </ng-template>
             </div>
-            <div class="card-footer">      
-                
+            <div class="card-footer">
                 <ng-container *ngIf="!uploaded; then noupload; else uploadfinished"></ng-container>
                 <ng-template #noupload>
                     <div class="progress success"><progress value="0" max="100"></progress></div>
@@ -65,8 +59,6 @@
                 <ng-template #uploadfinished>
                     <div class="progress success"><progress value="100" max="100"></progress></div>
                 </ng-template>
-                
-
                 <button class="btn btn-primary" [disabled]="!fileselected" (click)="upload()">Upload</button>
             </div>
         </div>

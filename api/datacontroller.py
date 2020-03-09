@@ -50,7 +50,8 @@ class Datacontroller():
 
     def load_project(self, filename):
         call_command('loaddata', filename, format="xml")
-        os.remove(filename)
+        print(filename)
+        os.remove(os.getcwd() + "/" + filename)
 
     def clear_project(self):
         ProofOfConcept.objects.all().delete()

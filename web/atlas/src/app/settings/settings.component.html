@@ -1,37 +1,5 @@
 <div class="clr-row">
-    <div class="clr-col-4">
-        <div class="card">
-            <div class="card-block">
-                <h4 class="card-title">Load saved project</h4>
-                <p class="card-text"><label class="btn btn-outline">
-                        <form #NessusForm="ngForm"> <input id="inputfile" type="file" class="button-input"
-                                (change)="selectFile($event); " accept=".atlas" placeholder="Upload file"></form>
-                    </label></p>
-
-            </div>
-            <div class="card-footer">
-                <ng-container *ngIf="uploading; then progress; else noprogress"></ng-container>
-
-                <ng-template #progress>
-                    <ng-container *ngIf="success; then success; else nosuccess"></ng-container>
-                    <ng-template #success>
-                        <div class="progress success"><progress value="100" max="100"></progress>
-                        </div>
-                    </ng-template>
-                    <ng-template #nosuccess>
-                        <div class="progress loop"><progress></progress>
-                        </div>
-                    </ng-template>
-                </ng-template>
-
-                <ng-template #noprogress>
-                    <div class="progress static"><progress value="0" max="100"></progress>
-                    </div>
-                </ng-template>
-                <button class="btn btn-primary" [disabled]="uploading && !success" (click)="upload()">Upload</button>
-            </div>
-        </div>
-
+    <div class="clr-col">
         <div class="card">
             <div class="card-block">
                 <h4 class="card-title">Save project</h4>
@@ -43,21 +11,103 @@
                                 required />
                         </clr-input-container>
                     </form>
-
             </div>
             <div class="card-footer">
-                <ng-container *ngIf="saved; then saved; else notsaved"></ng-container>
-                <ng-template #saved>
-                    <div class="progress success"><progress value="0" max="100"></progress>
-                    </div>
+                <ng-container *ngIf="downloading; then download; else nodownload"></ng-container>
+                <ng-template #download>
+                    <div class="progress loop"><progress></progress></div>
                 </ng-template>
-                <ng-template #notsaved>
-                    <div class="progress success"><progress value="0" max="100"></progress>
-                    </div>
+                <ng-template #nodownload>
+                    <div class="progress success"><progress value="0" max="100"></progress></div>
+                    <ng-container *ngIf="downloaded; then downloadfinished;"></ng-container>
                 </ng-template>
-                <button class="btn btn-primary" [disabled]="!projectname"
+
+                <ng-template #downloadfinished>
+                    <div class="progress success"><progress value="100" max="100"></progress></div>
+                </ng-template>
+
+                <button class="btn btn-primary" [disabled]="!projectname || downloading"
                     (click)="saveProject(projectname);">Save</button>
             </div>
+        </div>
+    </div>
+
+
+
+    <div class="clr-col">
+        
+        <div class="card">
+            <div class="card-block">
+                
+               
+                <h4 class="card-title">Load saved project</h4>
+                <p class="card-text"><label class="btn btn-outline">
+                        <form> <input id="inputfile" type="file" class="button-input" (change)="selectFile($event);"
+                                accept=".atlas" placeholder="Upload file"></form>
+                    </label></p>
+                    <ng-container *ngIf="uploaded; then bgtaskstarted;"></ng-container>
+                <ng-template #bgtaskstarted>
+                    <clr-alert [clrAlertSizeSmall]="true" [clrAlertType]="'warning'">
+                        <clr-alert-item>
+                            <span class="alert-text">
+                                Project import started as background task. This might take a while...
+                            </span>
+                        </clr-alert-item>
+                    </clr-alert>
+                </ng-template>
+            </div>
+            <div class="card-footer">      
+                
+                <ng-container *ngIf="!uploaded; then noupload; else uploadfinished"></ng-container>
+                <ng-template #noupload>
+                    <div class="progress success"><progress value="0" max="100"></progress></div>
+                </ng-template>
+                <ng-template #uploadfinished>
+                    <div class="progress success"><progress value="100" max="100"></progress></div>
+                </ng-template>
+                
+
+                <button class="btn btn-primary" [disabled]="!fileselected" (click)="upload()">Upload</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div class="clr-col">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Clear project</h4>
+                <p class="card-text">
+                    Clear all project data...
+            </div>
+            <div class="card-footer">
+                <ng-container *ngIf="!cleared; then clear; else notcleared"></ng-container>
+                <ng-template #clear>
+                    <div class="progress success"><progress value="0" max="100"></progress>
+                    </div>
+                </ng-template>
+                <ng-template #notcleared>
+                    <div class="progress success"><progress value="100" max="100"></progress>
+                    </div>
+                </ng-template>
+                <button class="btn btn-danger" (click)="clearmodal = true;">Clear</button>
+            </div>
+
+            <clr-modal [(clrModalOpen)]="clearmodal">
+                <h3 class="modal-title">Are you sure?</h3>
+                <div class="modal-body">
+                    <p>Are you sure you want to clear all settings? Tool settings will be preserved...</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" (click)="clearmodal = false">Cancel</button>
+                    <button type="button" class="btn btn-danger"
+                        (click)="clearProject(); clearmodal = false">Clear</button>
+                </div>
+            </clr-modal>
         </div>
     </div>
 </div>

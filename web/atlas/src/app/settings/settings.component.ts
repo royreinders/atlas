@@ -11,9 +11,12 @@ export class SettingsComponent implements OnInit {
 
   selectedFiles: FileList;
   currentFileUpload: File;
-  success: boolean;
-  uploading: boolean;
-  saved: boolean;
+  uploaded: boolean;
+  downloading: boolean;
+  downloaded: boolean;
+  cleared: boolean;
+  fileselected: boolean;
+  projectname: any;
   progress: { percentage: number } = { percentage: 0 };
 
   imports: Object;
@@ -21,30 +24,27 @@ export class SettingsComponent implements OnInit {
   constructor(private data: DataService) { }
 
   ngOnInit() {
-    this.success = false;
+    this.uploaded = false;
+    this.fileselected = false;
+    this.downloading = false;
+    this.downloaded = false;
+    this.cleared = false;
   }
 
   selectFile(event) {
+    this.fileselected = true;
     this.selectedFiles = event.target.files;
   }
 
   upload() {
-    this.uploading = true;
-    this.success = false;
+    this.fileselected = false;
     this.currentFileUpload = this.selectedFiles.item(0);
-    this.data.UploadProject(this.currentFileUpload).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.progress.percentage = Math.round(100 * event.loaded / event.total);
-      } else if (event instanceof HttpResponse) {
-        this.success = true;
-        this.currentFileUpload = null
-      }
-    });
- 
-    this.selectedFiles = undefined;
+    this.data.UploadProject(this.currentFileUpload).subscribe();
+    this.uploaded = true;
   }
 
   saveProject(filename){
+    this.downloading = true;
     this.data.SaveProject(filename).subscribe(response => {
       const blob = new Blob([response], { type: 'application/xml' });
       console.log(response)
@@ -56,8 +56,15 @@ export class SettingsComponent implements OnInit {
       a.target = '_blank';
       a.click();
       document.body.removeChild(a);
+      this.downloading = false;
+      this.downloaded = true;
+      this.projectname = null;
     })
-    this.saved = true
+  }
+
+  clearProject(){
+    this.data.ClearProject().subscribe();
+    this.cleared = true;
   }
 
 }

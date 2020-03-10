@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-xs">
+      <clr-datagrid [(clrDgSingleSelected)]="selected_task" [clrDgRowSelection]="true">
+        <clr-dg-placeholder>No tasks found!</clr-dg-placeholder>
+        
+        <clr-dg-column [clrDgField]="'tool'">Tool <clr-dg-string-filter [clrDgStringFilter]="toolFilter">
+          </clr-dg-string-filter>
+        </clr-dg-column>
+        <clr-dg-row *clrDgItems="let task of tasks" [clrDgItem]="task">
+          <clr-dg-cell>NYI</clr-dg-cell>
+        </clr-dg-row>
+        <clr-dg-footer>
+          <clr-dg-pagination #task_pagination [clrDgPageSize]="20">
+            {{task_pagination.firstItem + 1}} - {{task_pagination.lastItem + 1}} of {{task_pagination.totalItems}} tasks
+          </clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </div>
+  </div>
+  
+
+  
+  <!--
+  <button type="button" class="btn btn-icon btn-primary" aria-label="settings" (click)="GetTasks()">
+    <clr-icon shape="refresh"></clr-icon> Refresh
+  </button>
+-->

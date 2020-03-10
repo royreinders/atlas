@@ -9,6 +9,7 @@ import { TestComponent } from './test/test.component';
 import { ToolsComponent } from './tools/tools.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { SettingsComponent } from './settings/settings.component';
+import { PocsComponent } from './pocs/pocs.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: 'tools',
     component: ToolsComponent
+  },
+  {
+    path: 'pocs',
+    component: PocsComponent
   },
   {
     path: 'tasks',

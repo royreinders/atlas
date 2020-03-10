@@ -25,6 +25,7 @@
     "@clr/ui": "^2.1.1",
     "@ng-bootstrap/ng-bootstrap": "^5.1.0",
     "@webcomponents/custom-elements": "^1.2.4",
+    "c": "^0.1.0",
     "core-js": "^3.2.1",
     "font-awesome": "^4.7.0",
     "node-sass": "^4.12.0",

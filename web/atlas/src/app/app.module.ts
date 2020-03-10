@@ -18,6 +18,7 @@ import { ClrFormsModule } from "@clr/angular";
 import { TasksComponent } from './tasks/tasks.component';
 import { HostsComponent } from './hosts/hosts.component';
 import { SettingsComponent } from './settings/settings.component';
+import { PocsComponent } from './pocs/pocs.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { SettingsComponent } from './settings/settings.component';
     ToolsComponent,
     TasksComponent,
     HostsComponent,
-    SettingsComponent
+    SettingsComponent,
+    PocsComponent
   ],
   imports: [
     BrowserModule,

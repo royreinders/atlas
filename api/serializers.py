@@ -73,9 +73,19 @@ class ToolSerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    tool = ToolSerializer(many=False, read_only=True)
+    finding = FindingListSerializer(many=False, read_only=True)
+
     class Meta:
         model = Task
         fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'services', 'finding', 'errormessage')
+
+class TaskServiceSerializer(serializers.ModelSerializer):
+    services = ServiceHostSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Task
+        fields = ('id', 'services')
 
 
 class ImportSerializer(serializers.ModelSerializer):

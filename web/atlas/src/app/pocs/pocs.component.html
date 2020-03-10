@@ -1,26 +1,92 @@
-<div class="row">
-    <div class="col-xs">
-      <clr-datagrid [(clrDgSingleSelected)]="selected_task" [clrDgRowSelection]="true">
-        <clr-dg-placeholder>No tasks found!</clr-dg-placeholder>
-        
-        <clr-dg-column [clrDgField]="'tool'">Tool <clr-dg-string-filter [clrDgStringFilter]="toolFilter">
-          </clr-dg-string-filter>
-        </clr-dg-column>
-        <clr-dg-row *clrDgItems="let task of tasks" [clrDgItem]="task">
-          <clr-dg-cell>NYI</clr-dg-cell>
-        </clr-dg-row>
-        <clr-dg-footer>
-          <clr-dg-pagination #task_pagination [clrDgPageSize]="20">
-            {{task_pagination.firstItem + 1}} - {{task_pagination.lastItem + 1}} of {{task_pagination.totalItems}} tasks
-          </clr-dg-pagination>
-        </clr-dg-footer>
-      </clr-datagrid>
-    </div>
-  </div>
-  
+<div class="clr-row">
+    <div class="clr-col-5">
+        <clr-datagrid [(clrDgSingleSelected)]="selected_task" (clrDgSingleSelectedChange)="selectedTaskChanged($event)"
+            [clrDgRowSelection]="true" class="datagrid-compact">
+            <clr-dg-placeholder>No tasks found!</clr-dg-placeholder>
 
-  
-  <!--
+            <clr-dg-column [clrDgField]="'tool'">Tool <clr-dg-string-filter [clrDgStringFilter]="toolFilter">
+                </clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-column [clrDgField]="'tool'">Finding </clr-dg-column>
+            <clr-dg-row *clrDgItems="let task of tasks" [clrDgItem]="task">
+                <clr-dg-cell>{{task.tool.name}}</clr-dg-cell>
+                <clr-dg-cell>{{task.finding.name}}</clr-dg-cell>
+            </clr-dg-row>
+            <clr-dg-footer>
+                <clr-dg-pagination #task_pagination [clrDgPageSize]="20">
+                    {{task_pagination.firstItem + 1}} - {{task_pagination.lastItem + 1}} of
+                    {{task_pagination.totalItems}} tasks
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
+    </div>
+
+    <div class="clr-col">
+        <clr-datagrid [(clrDgSingleSelected)]="selected_service" [clrDgRowSelection]="true" class="datagrid-compact">
+            <clr-dg-placeholder>No services found!</clr-dg-placeholder>
+            <clr-dg-column [clrDgField]="'type'">Host<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
+            </clr-dg-string-filter>
+        </clr-dg-column>
+            <clr-dg-column [clrDgField]="'port'">Port<clr-dg-string-filter [clrDgStringFilter]="portFilter">
+                </clr-dg-string-filter>
+            </clr-dg-column>
+            <clr-dg-column [clrDgField]="'protocol'">Protocol<clr-dg-string-filter [clrDgStringFilter]="protocolFilter">
+            </clr-dg-string-filter>
+        </clr-dg-column>
+            <clr-dg-column>PoC's</clr-dg-column>
+            <div *ngIf="selected_task">
+                <clr-dg-row *clrDgItems="let service of task_services" [clrDgItem]="service">
+                    <clr-dg-cell>{{service.host.ip}}</clr-dg-cell>
+                    <clr-dg-cell>{{service.port}}</clr-dg-cell>
+                    <clr-dg-cell>{{service.name}}</clr-dg-cell>
+                    <clr-dg-cell>
+                        <clr-icon shape="pop-out" (click)="viewPocs(service)"></clr-icon>
+                    </clr-dg-cell>
+                </clr-dg-row>
+            </div>
+            <clr-dg-footer>
+                <clr-dg-pagination #poc_pagination [clrDgPageSize]="25">
+                    {{poc_pagination.firstItem + 1}} - {{poc_pagination.lastItem + 1}} of
+                    {{poc_pagination.totalItems}} services
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
+    </div>
+
+
+</div>
+
+<clr-modal [(clrModalOpen)]="viewPocModal" [clrModalStaticBackdrop]="false" [clrModalSize]="'xl'">
+    <h3 class="modal-title" *ngIf="selected_host && selected_service">
+        {{selected_host.name}}
+        ({{selected_host.ip}}:{{selected_service.port}})</h3>
+    <div class="modal-body" height="600px" id="pocmodal">
+
+        <clr-accordion>
+            <clr-accordion-panel *ngFor="let poc of service_pocs">
+                <clr-accordion-title>
+                    {{poc.info}}
+                    <span style="float: right;">
+                        <button type="button" title="Copy To Clipboard" class="btn btn-icon btn-primary btn-sm"
+                            aria-label="settings" (click)="copyToClipboard(poc.poc)">
+                            <clr-icon shape="copy"></clr-icon>
+                        </button>
+                    </span>
+                </clr-accordion-title>
+                <clr-accordion-content *clrIfExpanded>
+                    <textarea name="description" rows="15" cols="100">{{poc.poc}}</textarea>
+                </clr-accordion-content>
+            </clr-accordion-panel>
+        </clr-accordion>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="viewPocModal = false">Ok</button>
+    </div>
+</clr-modal>
+
+<!--
   <button type="button" class="btn btn-icon btn-primary" aria-label="settings" (click)="GetTasks()">
     <clr-icon shape="refresh"></clr-icon> Refresh
   </button>

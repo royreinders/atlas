@@ -141,6 +141,10 @@ export class DataService {
     return this.http.get(this.backend_url + 'api/tasks/')
   }
 
+  GetTaskServices(task_id):Observable<any>{
+    return this.http.get(this.backend_url + 'api/taskservices/' + task_id + "/")
+  }
+
   GetRunningTasks():Observable<any>{
     return this.http.get(this.backend_url + 'api/tasks/?running=1')
   }

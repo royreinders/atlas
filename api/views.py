@@ -3,7 +3,6 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
 from django_filters.rest_framework import DjangoFilterBackend
-from django.core.files.storage import FileSystemStorage
 from .datacontroller import Datacontroller
 from .executioncontroller import Executioncontroller
 from datetime import datetime
@@ -66,6 +65,10 @@ class ToolViewSet(viewsets.ModelViewSet):
 class ImportViewSet(viewsets.ModelViewSet):
     serializer_class = ImportSerializer
     queryset = Import.objects.all()
+
+class TaskServiceViewSet(viewsets.ModelViewSet):
+    serializer_class = TaskServiceSerializer
+    queryset = Task.objects.all()
 
 
 class ImportNessus(views.APIView):

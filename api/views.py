@@ -119,6 +119,7 @@ class Settings_Clear(views.APIView):
         datacontroller.clear_project()
         return Response({"success": True})
 
+
 class Settings_Load(views.APIView):
     parser_classes = (MultiPartParser,)
 
@@ -137,3 +138,10 @@ class Settings_Load(views.APIView):
         #datacontroller = Datacontroller()
         #datacontroller.load_project("dummy")
         return Response({"success": True})
+
+
+class Settings_System_Info(views.APIView):
+
+    def get(self, request):
+        datacontroller = Datacontroller()
+        return Response(datacontroller.get_system_info())

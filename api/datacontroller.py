@@ -1,10 +1,13 @@
-from .parsers.nessus import *
-from .models import *
+import os
+import platform
+import socket
+import sys
+
 from django.core.management import call_command
 from django.http import HttpResponse
 
-import sys
-import os
+from .models import *
+from .parsers.nessus import *
 
 
 # Handles data that is not directly handled by viewsets and Django models
@@ -35,6 +38,7 @@ class Datacontroller():
 
         print("[+] Nessus findings succesfully imported to DB...")
 
+    # Export project settings to XML by dumping the Django database
     def save_project(self, filename):
         filename = filename + ".xml"
         response = HttpResponse(content_type='application/xml')
@@ -48,11 +52,13 @@ class Datacontroller():
         return response
 
 
+    # Import previously saved XML file by using Django's loaddata command
     def load_project(self, filename):
         call_command('loaddata', filename, format="xml")
         print(filename)
         os.remove(os.getcwd() + "/" + filename)
 
+    # Delete all data, except Tools and Auth models
     def clear_project(self):
         ProofOfConcept.objects.all().delete()
         Finding.objects.all().delete()
@@ -60,4 +66,19 @@ class Datacontroller():
         Service.objects.all().delete()
         Host.objects.all().delete()
         Import.objects.all().delete()
+
+    def get_system_info(self):
+        try:
+            info = {}
+            info['platform'] = platform.system()
+            info['release'] = platform.release()
+            info['version'] = platform.version()
+            info['architecture'] = platform.machine()
+            info['hostname'] = socket.gethostname()
+            info['ipaddress'] = socket.gethostbyname(socket.gethostname())
+            info['processor'] = platform.processor()
+            return info
+        except Exception as e:
+            print(e)
+
 

@@ -1,3 +1,44 @@
+<h2>System</h2>
+
+<div class="clr-row">
+    <div class="clr-col-4">
+        <div *ngIf="systeminfo" class="card">
+            <div class="card-block">
+                <h4 class="card-title">System Info</h4>
+                <p class="card-text">
+                    <p>
+                        <label><b>Platform: </b></label>{{systeminfo.platform}}<br />
+                        <label><b>Release: </b></label>{{systeminfo.release}}<br />
+                        <label><b>Version: </b></label>{{systeminfo.version}}<br />
+                        <label><b>Architecture: </b></label>{{systeminfo.architecture}}<br />
+                        <label><b>Hostname: </b></label>{{systeminfo.hostname}}<br />
+                        <label><b>IP Address: </b></label>{{systeminfo.ipaddress}}<br />
+                        <label><b>Processor: </b></label>{{systeminfo.processor}}<br />
+                    </p>
+            </div>
+        </div>
+    </div>
+        <div class="clr-col-4">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">System settings</h4>
+                    <p class="card-text">
+                        <form clrForm>
+                            <clr-input-container>
+                                <label>Backend URL</label>
+                                <input clrInput placeholder="https://127.0.0.1/" name="backend_url" size="25"
+                                    [(ngModel)]="backend_url" required />
+                            </clr-input-container>
+                        </form>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary" (click)="saveProject(projectname);">Save</button>
+                </div>
+            </div>
+        </div>
+</div>
+<h2>Project</h2>
+
 <div class="clr-row">
     <div class="clr-col">
         <div class="card">
@@ -64,11 +105,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
 
     <div class="clr-col">
         <div class="card">

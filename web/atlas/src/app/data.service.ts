@@ -187,5 +187,9 @@ export class DataService {
     return this.http.get(this.backend_url + 'api/settings/clear/')
   }
 
+  GetSystemInfo():Observable<any>{
+    return this.http.get(this.backend_url + 'api/systeminfo/')
+  }
+
 }
 

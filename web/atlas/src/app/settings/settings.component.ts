@@ -17,7 +17,8 @@ export class SettingsComponent implements OnInit {
   cleared: boolean;
   fileselected: boolean;
   projectname: any;
-  progress: { percentage: number } = { percentage: 0 };
+
+  systeminfo: any;
 
   imports: Object;
 
@@ -29,6 +30,7 @@ export class SettingsComponent implements OnInit {
     this.downloading = false;
     this.downloaded = false;
     this.cleared = false;
+    this.getSystemInfo()
   }
 
   selectFile(event) {
@@ -47,7 +49,6 @@ export class SettingsComponent implements OnInit {
     this.downloading = true;
     this.data.SaveProject(filename).subscribe(response => {
       const blob = new Blob([response], { type: 'application/xml' });
-      console.log(response)
       const a = document.createElement('a');
       a.setAttribute('style', 'display:none;');
       document.body.appendChild(a);
@@ -65,6 +66,13 @@ export class SettingsComponent implements OnInit {
   clearProject(){
     this.data.ClearProject().subscribe();
     this.cleared = true;
+  }
+
+  getSystemInfo(){
+    this.data.GetSystemInfo().subscribe(data => {
+      this.systeminfo = data
+      console.log(data)
+    })
   }
 
 }

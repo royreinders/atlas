@@ -92,7 +92,11 @@ class Execute(views.APIView):
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-    serializer_class = TaskSerializer
+    def get_serializer_class(self):
+        if self.action == 'create':
+            # Serializer for GET method
+            return TaskCreateSerializer
+        return TaskSerializer  # I dont' know what you want for create/destroy/update.
     queryset = Task.objects.all()
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('tool', 'running')

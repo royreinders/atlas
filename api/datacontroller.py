@@ -30,7 +30,7 @@ class Datacontroller():
                 service, service_created = Service.objects.get_or_create(name=reportitem.serviceName, port=reportitem.port, protocol=reportitem.protocol, host=host)
                 # ToDo: Check case when Nessus has no PoC (relation finding <-> serivce trough PoC will not be made?)
                 # If ProofOfConcept does not exist
-                ProofOfConcept.objects.get_or_create(service=service, finding=finding, info="Nessus import", poc=reportitem.plugin_output, imported=1)
+                ProofOfConcept.objects.get_or_create(service=service, finding=finding, info="Nessus import: " + finding.name, poc=reportitem.plugin_output, imported=1)
 
         import_job.running = 0
         import_job.completed = 1

@@ -44,7 +44,7 @@
         <clr-datagrid [(clrDgSelected)]="selected_services" [clrDgRowSelection]="true" class="datagrid-compact">
             <clr-dg-action-bar>
                 <div class="btn-group">
-                    <button [disabled]="!selected_services.length > 0" class="btn" (click)="generatePocModal = true">
+                    <button [disabled]="!selected_finding" class="btn" (click)="generatePocModal = true">
                         <clr-icon shape="play"></clr-icon> Generate PoC
                     </button>
                 </div>
@@ -110,6 +110,16 @@
 <clr-modal [(clrModalOpen)]="generatePocModal" [clrModalSize]="'lg'">
     <h3 class="modal-title">Generate PoC</h3>
     <div class="modal-body">
+        <ng-container *ngIf="selected_finding && !selected_services[0] && finding_services; then noservicesselected;"></ng-container>
+                <ng-template #noservicesselected>
+                    <clr-alert [clrAlertSizeSmall]="true" [clrAlertType]="'warning'">
+                        <clr-alert-item>
+                            <span class="alert-text">
+                                No specific services have been selected. All ({{finding_services.length}}) services within the finding will be used.
+                            </span>
+                        </clr-alert-item>
+                    </clr-alert>
+                </ng-template>
         <clr-datagrid [(clrDgSingleSelected)]="selected_tool"
             (clrDgSingleSelectedChange)="SetThreads(selected_tool.threads)" [clrDgRowSelection]="true">>
             <clr-dg-placeholder>No tools found!</clr-dg-placeholder>

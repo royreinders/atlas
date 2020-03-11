@@ -1,7 +1,7 @@
 <div class="clr-row">
     <div class="clr-col-5">
         <clr-datagrid [(clrDgSingleSelected)]="selected_task" (clrDgSingleSelectedChange)="selectedTaskChanged($event)"
-            [clrDgRowSelection]="true" class="datagrid-compact">
+            class="datagrid-compact">
             <clr-dg-placeholder>No tasks found!</clr-dg-placeholder>
 
             <clr-dg-column [clrDgField]="'tool'">Tool <clr-dg-string-filter [clrDgStringFilter]="toolFilter">
@@ -22,7 +22,7 @@
     </div>
 
     <div class="clr-col">
-        <clr-datagrid [(clrDgSingleSelected)]="selected_service" [clrDgRowSelection]="true" class="datagrid-compact">
+        <clr-datagrid [(clrDgSingleSelected)]="selected_service" class="datagrid-compact">
             <clr-dg-placeholder>No services found!</clr-dg-placeholder>
             <clr-dg-column [clrDgField]="'type'">Host<clr-dg-string-filter [clrDgStringFilter]="typeFilter">
             </clr-dg-string-filter>

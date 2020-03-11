@@ -32,7 +32,7 @@ export class DataService {
   }
 
 
-  //Findings
+  // Findings
 
   GetFindings() {
     return this.http.get(this.backend_url + 'api/findings/')
@@ -155,6 +155,7 @@ export class DataService {
         'Content-Type':  'application/json'
       })
     };
+    console.log(task)
     console.log(task)
     return this.http.post(this.backend_url + 'api/tasks/', task, httpOptions)
   }

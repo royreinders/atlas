@@ -80,6 +80,12 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Task
         fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'services', 'finding', 'errormessage')
 
+
+class TaskCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ('id', 'starttime', 'threads', 'running', 'completed', 'targets_completed', 'tool', 'services', 'finding', 'errormessage')
+
 class TaskServiceSerializer(serializers.ModelSerializer):
     services = ServiceHostSerializer(many=True, read_only=True)
 

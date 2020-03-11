@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../data.service';
 import { ClrDatagridStringFilterInterface } from "@clr/angular";
 import { ObjectUnsubscribedError } from 'rxjs';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 export class FindingFilter implements ClrDatagridStringFilterInterface<any> {
   accepts(finding: any, search: string): boolean {
@@ -43,10 +44,10 @@ export class FindingsComponent implements OnInit {
   //hosts: Object;
   selected_finding: any;
   findings: Object;
-  finding_services: Object;
+  finding_services: any;
   service_pocs: any;
   selected = [];
-  selected_services = [];
+  selected_services: any;
   tools: Object;
   new_task: any;
   new_finding: any;
@@ -63,6 +64,7 @@ export class FindingsComponent implements OnInit {
   private typeFilter = new TypeFilter();
 
   constructor(private data: DataService) {
+    this.selected_services = []
   }
 
   ngOnInit() {
@@ -122,7 +124,14 @@ export class FindingsComponent implements OnInit {
     this.new_task = new Object()
     this.new_task.services = new Array()
     this.new_task.tool = this.selected_tool.id
-    this.selected_services.forEach(poc => { this.new_task.services.push(poc.id) });
+    if (this.selected_finding && !this.selected_services[0] && this.finding_services ){
+      this.finding_services.forEach(poc => { this.new_task.services.push(poc.id) });
+    }
+    else{
+      this.selected_services.forEach(poc => { this.new_task.services.push(poc.id) });
+    }
+   
+
     this.new_task.finding = this.selected_finding.id
     this.new_task.threads = this.task_threads
     this.data.AddTask(this.new_task).subscribe()

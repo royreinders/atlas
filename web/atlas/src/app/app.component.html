@@ -6,6 +6,11 @@
             </a>
         </div>
         <div class="header-actions">
+            <p><a *ngIf="runningtasks !=0;" href="..." class="label label-warning clickable">
+                Running tasks
+                <span class="badge badge-info">{{runningtasks}}</span>
+                
+            </a></p>
             <clr-dropdown>
                 <button class="nav-icon" clrDropdownTrigger>
                     <clr-icon shape="user"></clr-icon>
@@ -43,7 +48,6 @@
             <a clrVerticalNavLink routerLink="tasks" routerLinkActive="active">
                 <clr-icon clrVerticalNavIcon shape="tasks"></clr-icon>
                 Tasks
-                <span *ngIf="runningtasks !=0;" class="badge badge-info">{{runningtasks}}</span>
             </a>
             <a clrVerticalNavLink routerLink="tools" routerLinkActive="active">
                 <clr-icon clrVerticalNavIcon shape="tools"></clr-icon>

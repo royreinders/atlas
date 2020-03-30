@@ -26,6 +26,7 @@ export class ToolsComponent implements OnInit {
   loading: boolean = false;
   test_output: any = {};
   testoutputModalOpen: boolean = false;
+  commandformat_error = false;
   
   test_target = ''
   test_port = ''
@@ -73,6 +74,15 @@ export class ToolsComponent implements OnInit {
 
   GetTools(){ 
     this.data.GetTools().subscribe(data => this.tools = data) 
+  }
+
+  CorrectCommandFormat(){
+    if (this.form_tool.commandstring){
+      if (this.form_tool.commandstring.indexOf("<host>") == -1 ){
+        console.log("JEPENIS")
+        return false
+      }
+      }
   }
 
   ParseCommand(){

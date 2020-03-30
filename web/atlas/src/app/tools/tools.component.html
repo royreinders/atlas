@@ -54,11 +54,17 @@
   <clr-wizard-button [type]="'finish'" (click)="FinishWizard(form_tool);">Finish</clr-wizard-button>
 
   <clr-wizard-page
-    [clrWizardPageNextDisabled]="(name.pristine || commandstring.pristine || !toolForm.valid) && new_tool">
+    [clrWizardPageNextDisabled]="(name.pristine || commandstring.pristine || !toolForm.valid || !CorrectCommandFormat()) && new_tool">
     <ng-template clrPageTitle>Tool settings</ng-template>
     <form clrForm #toolForm="ngForm">
       <section class="form-block">
-
+        <clr-alert *ngIf="!CorrectCommandFormat()" [clrAlertSizeSmall]="true" [clrAlertType]="'warning'">
+          <clr-alert-item>
+              <span class="alert-text">
+                  Project import started as background task. This might take a while...
+              </span>
+          </clr-alert-item>
+      </clr-alert>
         <clr-input-container>
           <label>Name</label>
           <input placeholder="Name" clrInput [(ngModel)]="form_tool.name" name="name" id="name" #name="ngModel"
@@ -115,7 +121,7 @@
 
         <clr-input-container>
           <label>Command to be executed</label>
-          <input clrInput [(ngModel)]="test_commandstring" name="test_commandstring" type="text" id="port"
+          <input clrInput [(ngModel)]="test_commandstring" name="test_commandstring" type="text" id="test_commandstring"
             placeholder="443" size="70">
         </clr-input-container>
 
